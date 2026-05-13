@@ -254,7 +254,7 @@
     ============================================= */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr); /* 4 columns for 24 items */
+      grid-template-columns: repeat(4, 1fr);
       gap: 8px;
     }
     .cat-thumb {
@@ -363,6 +363,39 @@
     }
     #man-placeholder span { color: #666; font-size: 10px; font-style: italic; text-align: center; padding: 0 8px; }
 
+    /* ── updated red puzzle reveal message & star ── */
+    .reveal-message {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ff2222;
+      text-shadow: 0 0 10px #ff0000, 0 0 20px #cc0000;
+      font-family: 'Times New Roman', serif;
+      animation: flash 0.6s step-end infinite;
+      margin-top: 12px;
+      padding: 4px 8px;
+      background: rgba(0,0,0,0.7);
+      display: inline-block;
+      border: 1px dashed #ff2222;
+      letter-spacing: 1px;
+    }
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .reveal-star {
+      font-size: 42px;
+      margin-top: 10px;
+      animation: spin 3s linear infinite;
+      display: inline-block;
+      color: #ff2222;
+      filter: drop-shadow(0 0 6px red);
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     /* =============================================
        ABOUT
     ============================================= */
@@ -448,7 +481,7 @@
     <div class="win-body">
       <div class="sunken">
         <div class="gallery-grid" id="gallery-grid">
-          <!-- Populated dynamically with 24 random cats -->
+          <!-- dynamically filled -->
         </div>
       </div>
     </div>
@@ -508,7 +541,7 @@
   <!-- ============================================================
        WINDOW: PUZZLES
   ============================================================ -->
-  <div class="win-window" id="win-puzzles" style="top:96px; left:200px; width:480px; height:460px; z-index:22;">
+  <div class="win-window" id="win-puzzles" style="top:96px; left:200px; width:480px; height:520px; z-index:22;">
     <div class="title-bar" id="win-puzzles-tb">
       <div class="tb-left">
         <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
@@ -548,6 +581,7 @@
             <input type="text" id="name-input" placeholder="...">
             <button id="name-arrow-btn" onclick="revealMan()">&#x2192;</button>
           </div>
+
           <div id="man-reveal">
             <img src="images/mystery-man.jpg" alt="a man"
                  onerror="this.style.display='none'; document.getElementById('man-placeholder').style.display='flex';">
@@ -555,6 +589,9 @@
               <div style="font-size:52px;">🧍</div>
               <span>upload images/<br>mystery-man.jpg</span>
             </div>
+            <!-- RED HOT TALMUDIC NETWORK -->
+            <div class="reveal-message">Shalom, goyim! The talmudic network sends it's regards!</div>
+            <div class="reveal-star">✡</div>
           </div>
         </div>
 
@@ -650,27 +687,33 @@
 
 <script>
 /* ================================================================
-   ARTICLES (unchanged)
+   ARTICLES
 ================================================================ */
 const ARTICLES = [
   {
     title: 'your first entry — give it a title',
     date: '2026',
-    content: `<p>This is where your full article goes. Replace this placeholder text with your actual writing.</p>
+    content: `
+      <p>This is where your full article goes. Replace this placeholder text with your actual writing.</p>
       <p>You can use basic HTML here: wrap paragraphs in &lt;p&gt; tags, use &lt;em&gt; for <em>italics</em> and &lt;strong&gt; for <strong>bold</strong>.</p>
-      <p>Each paragraph gets its own &lt;p&gt; tag.</p>`
+      <p>Each paragraph gets its own &lt;p&gt; tag.</p>
+    `
   },
   {
     title: 'another piece of writing goes here',
     date: '2026',
-    content: `<p>Replace this with your second article.</p>
-      <p>As many paragraphs as you like.</p>`
+    content: `
+      <p>Replace this with your second article.</p>
+      <p>As many paragraphs as you like.</p>
+    `
   },
   {
     title: 'a longer essay about something or other',
     date: '2025',
-    content: `<p>Replace this with your third article.</p>
-      <p>More text can go here. The window is scrollable for long pieces.</p>`
+    content: `
+      <p>Replace this with your third article.</p>
+      <p>More text can go here. The window is scrollable for long pieces.</p>
+    `
   }
 ];
 
@@ -814,7 +857,6 @@ function openWin(id) {
   setActive(id);
   rebuildTaskbar();
 
-  // Lazy-load cats when gallery opens the first time
   if (id === 'win-gallery' && !galleryLoaded) {
     loadCatGallery();
     galleryLoaded = true;
@@ -940,7 +982,6 @@ async function loadCatGallery() {
         <div class="cat-filename">cat_${cat.id}.jpg</div>
       `;
       thumb.onclick = () => {
-        // Open a larger version in a simple win98 viewer? For now, just a new window
         window.open(`https://cataas.com/cat/${cat.id}`, '_blank');
       };
       grid.appendChild(thumb);
@@ -949,7 +990,6 @@ async function loadCatGallery() {
     statusEl.textContent = '24 objects';
     hintEl.textContent = 'click a cat to view full size';
   } catch (e) {
-    // Fallback: 24 placeholder emoji cats
     grid.innerHTML = '';
     const emojis = ['🐱','🐈','😺','🐾','😸','🐱‍👤','🐱‍🐉','🐱‍🚀','🐱‍💻','🐱','😼','😻'];
     for (let i = 0; i < 24; i++) {
