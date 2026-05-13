@@ -1,885 +1,1081 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>michaels cat inquiry</title>
-<meta name="description" content="a cozy corner of the internet for cats">
-<meta name="theme-color" content="#C1DBE3">
-<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="description" content="michaels cat inquiry">
+  <title>michaels cat inquiry</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #000; }
 
-:root{
-  --win-bg:#c0c0c0;
-  --win-light:#fff;
-  --win-dark:#404040;
-  --win-mid:#808080;
-  --title-active:linear-gradient(to right,#000080,#1084d0);
-  --title-inactive:linear-gradient(to right,#7b7b7b,#a0a0a0);
-  --inset:#fff;
-  --accent:#c1dbe3;
-  --font:'VT323',monospace;
-  --desktop:#008080;
-}
+    /* =============================================
+       BOOT SCREEN
+    ============================================= */
+    #boot {
+      position: fixed; inset: 0;
+      background: #000;
+      color: #00e676;
+      font-family: 'VT323', 'Courier New', monospace;
+      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 24px;
+    }
+    #boot-content { max-width: 600px; width: 100%; }
+    .boot-title { font-size: 32px; color: #fff; margin-bottom: 24px; letter-spacing: 3px; }
+    .boot-title span { color: #00e676; }
+    .boot-line { line-height: 1.65; opacity: 0; animation: bappear 0.05s forwards; }
+    @keyframes bappear { to { opacity: 1; } }
+    #continue-btn {
+      display: none;
+      margin-top: 30px;
+      padding: 6px 24px;
+      background: transparent;
+      border: 1px solid #00e676;
+      color: #00e676;
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      cursor: pointer;
+      letter-spacing: 3px;
+      animation: cblink 1s step-end infinite;
+    }
+    @keyframes cblink { 0%,100%{opacity:1} 50%{opacity:0.15} }
+    #continue-btn:hover { background: #00e676; color: #000; animation: none; }
 
-body{
-  font-family:var(--font);
-  background:#000;
-  overflow:hidden;
-  height:100vh;
-  width:100vw;
-  cursor:default;
-  -webkit-user-select:none;
-  user-select:none;
-}
+    /* =============================================
+       DESKTOP
+       ─────────────────────────────────────────
+       BACKGROUND IMAGE:
+         1. Upload your image to GitHub
+            (e.g. put it in an "images/" folder)
+         2. Uncomment the background-image line below
+            and update the filename to match yours
+    ============================================= */
+    #desktop {
+      display: none;
+      position: fixed; inset: 0;
+      background-color: #008080;
+      /* background-image: url('images/background.jpg'); */
+      background-size: cover;
+      background-position: center;
+      font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
+      font-size: 11px;
+      overflow: hidden;
+    }
 
-/* ─── BOOT ─────────────────────────────────────────── */
-#boot{
-  position:fixed;inset:0;
-  background:#000;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  z-index:9999;
-  transition:opacity .5s;
-}
-#boot.fade{opacity:0;pointer-events:none}
+    /* Star canvas sits behind everything */
+    #stars {
+      position: absolute; inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-.boot-cat{
-  font-size:14px;white-space:pre;line-height:1.25;
-  color:#5ab8d4;margin-bottom:1.6rem;
-  font-family:var(--font);
-}
-.boot-label{
-  font-size:30px;letter-spacing:5px;
-  color:var(--accent);margin-bottom:.3rem;
-}
-.boot-sub{
-  font-size:17px;color:#3a7a8f;margin-bottom:1.8rem;
-}
-.boot-track{
-  width:280px;height:10px;
-  border:1px solid #1a5a6a;
-  margin-bottom:1.8rem;overflow:hidden;
-}
-.boot-fill{
-  height:100%;background:var(--accent);
-  width:0%;transition:width 1.6s ease-in-out;
-}
-#cont-btn{
-  font-family:var(--font);font-size:22px;
-  color:var(--accent);background:transparent;
-  border:1px solid var(--accent);
-  padding:5px 22px;cursor:pointer;letter-spacing:2px;
-  opacity:0;transition:opacity .4s,background .2s,color .2s;
-}
-#cont-btn.show{opacity:1}
-#cont-btn:hover{background:var(--accent);color:#000}
+    /* =============================================
+       DESKTOP ICONS
+    ============================================= */
+    #desktop-icons {
+      position: absolute;
+      top: 12px; left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 10;
+    }
+    .d-icon {
+      display: flex; flex-direction: column; align-items: center;
+      width: 74px; cursor: pointer; padding: 4px;
+      border: 1px solid transparent;
+    }
+    .d-icon:hover  { border-color: #ffffff88; background: rgba(255,255,255,0.15); }
+    .d-icon:active { border-style: dashed; }
+    .d-icon img {
+      width: 32px; height: 32px;
+      image-rendering: pixelated;
+      pointer-events: none;
+    }
+    .d-icon-label {
+      margin-top: 3px; color: #fff; font-size: 11px;
+      text-align: center; line-height: 1.3;
+      text-shadow: 1px 1px 2px #000, -1px -1px 2px #000;
+      pointer-events: none;
+    }
 
-/* ─── DESKTOP ───────────────────────────────────────── */
-#desktop{
-  position:fixed;inset:0;bottom:28px;
-  background:var(--desktop);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Crect width='1' height='1' fill='%23007777'/%3E%3Crect x='1' y='1' width='1' height='1' fill='%23007777'/%3E%3C/svg%3E");
-  display:none;
-}
-#desktop.show{display:block}
+    /* =============================================
+       WIN98 WINDOW CHROME
+    ============================================= */
+    .win-window {
+      position: absolute;
+      background: #d4d0c8;
+      border: 2px solid;
+      border-color: #fff #404040 #404040 #fff;
+      box-shadow: 2px 2px 0 #808080;
+      display: none; flex-direction: column;
+      min-width: 220px; min-height: 120px;
+    }
+    .win-window.open { display: flex; }
 
-/* ─── DESK ICONS ────────────────────────────────────── */
-.icon-col{
-  position:absolute;top:10px;left:10px;
-  display:flex;flex-direction:column;gap:6px;
-}
-.dicon{
-  display:flex;flex-direction:column;align-items:center;
-  width:68px;padding:3px;
-  border:1px solid transparent;cursor:pointer;
-}
-.dicon:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.08)}
-.dicon.sel{border:1px dotted #fff;background:rgba(0,0,128,.45)}
-.dicon img{width:32px;height:32px;image-rendering:pixelated}
-.dicon span{
-  font-size:13px;color:#fff;text-align:center;
-  margin-top:2px;text-shadow:1px 1px #000;word-break:break-word;
-  line-height:1.2;
-}
+    .title-bar {
+      background: linear-gradient(to right, #000080, #1084d0);
+      color: #fff;
+      padding: 3px 4px 3px 5px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: move; user-select: none; flex-shrink: 0;
+    }
+    .title-bar.inactive { background: #808080; }
+    .tb-left {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: bold;
+      overflow: hidden; white-space: nowrap;
+    }
+    .tb-icon { width: 15px; height: 15px; image-rendering: pixelated; }
+    .tb-controls { display: flex; gap: 2px; flex-shrink: 0; }
+    .tb-btn {
+      width: 16px; height: 14px;
+      background: #d4d0c8;
+      border: 2px solid; border-color: #fff #404040 #404040 #fff;
+      font-size: 10px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #000; line-height: 1; padding: 0; font-family: inherit;
+    }
+    .tb-btn:active { border-color: #404040 #fff #fff #404040; }
 
-/* ─── WIN98 WINDOW ──────────────────────────────────── */
-.w98{
-  position:absolute;display:none;flex-direction:column;
-  background:var(--win-bg);min-width:180px;
-  border-top:2px solid var(--win-light);
-  border-left:2px solid var(--win-light);
-  border-right:2px solid var(--win-dark);
-  border-bottom:2px solid var(--win-dark);
-  box-shadow:2px 2px 0 #000;
-}
-.w98.open{display:flex}
+    .win-menubar {
+      background: #d4d0c8;
+      border-bottom: 1px solid #808080;
+      padding: 2px 2px 1px;
+      display: flex; flex-shrink: 0;
+    }
+    .win-menu-item {
+      padding: 2px 8px; cursor: default; font-size: 11px;
+    }
+    .win-menu-item:hover { background: #000080; color: #fff; }
 
-.tbar{
-  background:var(--title-active);
-  color:#fff;height:22px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 3px;cursor:move;flex-shrink:0;
-  font-size:16px;
-}
-.tbar.inactive{background:var(--title-inactive)}
-.tbar-left{display:flex;align-items:center;gap:3px}
-.tbar-left img{width:14px;height:14px;image-rendering:pixelated}
+    .win-body { flex: 1; overflow: auto; padding: 6px; }
 
-.wbtns{display:flex;gap:2px}
-.wbtn{
-  width:16px;height:14px;
-  font-size:9px;font-family:sans-serif;
-  background:var(--win-bg);cursor:pointer;
-  border-top:1.5px solid var(--win-light);
-  border-left:1.5px solid var(--win-light);
-  border-right:1.5px solid var(--win-dark);
-  border-bottom:1.5px solid var(--win-dark);
-  display:flex;align-items:center;justify-content:center;
-  padding:0;line-height:1;
-}
-.wbtn:active{
-  border-top:1.5px solid var(--win-dark);
-  border-left:1.5px solid var(--win-dark);
-  border-right:1.5px solid var(--win-light);
-  border-bottom:1.5px solid var(--win-light);
-}
+    .sunken {
+      background: #fff;
+      border: 2px solid; border-color: #808080 #dfdfdf #dfdfdf #808080;
+      padding: 8px; height: 100%; overflow: auto;
+    }
 
-/* menu bar */
-.mbar{
-  display:flex;background:var(--win-bg);
-  border-bottom:1px solid var(--win-mid);
-  font-size:15px;flex-shrink:0;
-}
-.mi{padding:1px 8px;cursor:pointer}
-.mi:hover{background:#000080;color:#fff}
+    .win-statusbar {
+      height: 20px; border-top: 1px solid #808080;
+      display: flex; align-items: center; gap: 4px;
+      padding: 0 4px; flex-shrink: 0;
+    }
+    .status-cell {
+      border: 2px solid; border-color: #808080 #fff #fff #808080;
+      height: 14px; padding: 0 4px;
+      display: flex; align-items: center;
+      font-size: 10px;
+    }
 
-/* tabs */
-.tabbar{
-  display:flex;gap:2px;padding:4px 4px 0;
-  background:var(--win-bg);
-  border-bottom:1px solid var(--win-dark);
-  flex-shrink:0;
-}
-.tab{
-  font-family:var(--font);font-size:16px;
-  background:var(--win-bg);padding:2px 12px;
-  border-top:2px solid var(--win-light);
-  border-left:2px solid var(--win-light);
-  border-right:2px solid var(--win-dark);
-  border-bottom:none;cursor:pointer;
-  position:relative;bottom:-1px;
-}
-.tab.on{
-  border-bottom:1px solid var(--win-bg);
-  z-index:1;padding-top:3px;font-weight:bold;
-}
+    .btn98 {
+      background: #d4d0c8;
+      border: 2px solid; border-color: #fff #404040 #404040 #fff;
+      padding: 4px 18px;
+      font-family: 'Tahoma', sans-serif; font-size: 11px; cursor: pointer;
+    }
+    .btn98:active { border-color: #404040 #fff #fff #404040; }
 
-/* window body */
-.wbody{flex:1;overflow:auto}
-.inset{
-  border-top:1px solid var(--win-dark);
-  border-left:1px solid var(--win-dark);
-  border-right:1px solid var(--win-light);
-  border-bottom:1px solid var(--win-light);
-  background:var(--inset);
-}
+    /* =============================================
+       TASKBAR
+    ============================================= */
+    #taskbar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 28px; background: #d4d0c8;
+      border-top: 2px solid #fff;
+      display: flex; align-items: center; padding: 2px 4px; gap: 4px;
+      z-index: 5000;
+    }
+    #start-btn {
+      height: 22px; padding: 0 8px;
+      background: #d4d0c8;
+      border: 2px solid; border-color: #fff #404040 #404040 #fff;
+      font-size: 11px; font-weight: bold;
+      font-family: 'Tahoma', sans-serif; cursor: pointer;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap; flex-shrink: 0;
+    }
+    #start-btn.pressed { border-color: #404040 #fff #fff #404040; }
+    #start-btn img { width: 16px; height: 16px; image-rendering: pixelated; }
+    .tb-divider {
+      width: 2px; height: 20px;
+      border-left: 1px solid #808080; border-right: 1px solid #fff; flex-shrink: 0;
+    }
+    #tb-windows { display: flex; gap: 3px; flex: 1; overflow: hidden; }
+    .tb-win-btn {
+      height: 22px; padding: 0 8px;
+      background: #d4d0c8;
+      border: 2px solid; border-color: #fff #404040 #404040 #fff;
+      font-size: 11px; font-family: 'Tahoma', sans-serif; cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
+      max-width: 160px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    }
+    .tb-win-btn img { width: 14px; height: 14px; image-rendering: pixelated; flex-shrink: 0; }
+    .tb-win-btn.focused { border-color: #404040 #fff #fff #404040; background: #c0bdb4; }
+    #tray {
+      border: 2px solid; border-color: #808080 #fff #fff #808080;
+      height: 22px; padding: 0 8px;
+      display: flex; align-items: center;
+      font-size: 11px; min-width: 65px; justify-content: center; flex-shrink: 0;
+    }
 
-/* tab panes */
-.pane{display:none;padding:8px;height:100%}
-.pane.on{display:block}
+    /* =============================================
+       START MENU
+    ============================================= */
+    #start-menu {
+      display: none; position: absolute; bottom: 28px; left: 0;
+      width: 220px; background: #d4d0c8;
+      border: 2px solid; border-color: #fff #404040 #404040 #fff;
+      z-index: 9000; flex-direction: row;
+    }
+    #start-menu.open { display: flex; }
+    #sm-banner {
+      width: 28px; flex-shrink: 0;
+      background: linear-gradient(to top, #000080, #1084d0);
+      color: #fff; writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 18px; font-weight: bold; letter-spacing: 3px;
+      padding: 8px 4px;
+      display: flex; align-items: center; justify-content: flex-end;
+      font-family: 'Tahoma', sans-serif;
+    }
+    #sm-items { flex: 1; padding: 4px 0; }
+    .sm-item {
+      padding: 5px 10px; font-size: 11px; cursor: default;
+      display: flex; align-items: center; gap: 8px;
+      color: #000; white-space: nowrap;
+    }
+    .sm-item img { width: 20px; height: 20px; image-rendering: pixelated; }
+    .sm-item:hover { background: #000080; color: #fff; }
+    .sm-sep { border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 3px 0; }
 
-/* status bar */
-.sbar{
-  display:flex;gap:2px;padding:2px;flex-shrink:0;
-  border-top:1px solid var(--win-dark);background:var(--win-bg);
-}
-.sp{
-  border-top:1px solid var(--win-dark);
-  border-left:1px solid var(--win-dark);
-  border-right:1px solid var(--win-light);
-  border-bottom:1px solid var(--win-light);
-  padding:0 6px;font-size:13px;flex:1;
-}
+    /* =============================================
+       GALLERY
+    ============================================= */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    .cat-thumb {
+      border: 2px solid; border-color: #808080 #fff #fff #808080;
+      overflow: hidden; cursor: pointer; background: #1a1a1a;
+    }
+    .cat-thumb:hover { border-color: #000080 #8888ff #8888ff #000080; }
+    .cat-thumb img { width: 100%; height: 110px; object-fit: cover; display: block; }
+    .cat-placeholder {
+      width: 100%; height: 110px;
+      background: #1e1e1e;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+    }
+    .cat-filename {
+      text-align: center; font-size: 10px; padding: 2px 3px;
+      background: #d4d0c8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
 
-/* ─── ABOUT PANE ────────────────────────────────────── */
-.ascii-cat{
-  font-size:13px;white-space:pre;line-height:1.2;
-  color:#000080;margin-bottom:6px;
-}
-.about-body{font-size:17px;line-height:1.65;color:#000}
+    /* =============================================
+       WRITING LIST
+    ============================================= */
+    .writing-entry {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 4px; border-bottom: 1px solid #d0ccc4; cursor: pointer;
+    }
+    .writing-entry:hover { background: #000080; color: #fff; }
+    .writing-entry:hover .entry-date { color: #aaccff; }
+    .writing-entry img { width: 18px; height: 18px; image-rendering: pixelated; flex-shrink: 0; }
+    .entry-title { flex: 1; font-size: 11px; }
+    .entry-date { font-size: 10px; color: #666; flex-shrink: 0; }
 
-/* ─── GALLERY ───────────────────────────────────────── */
-.gal-hdr{
-  font-size:14px;color:var(--win-mid);
-  padding:4px 6px 2px;border-bottom:1px solid #dfdfdf;
-}
-.gal-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:4px;padding:6px;
-}
-.gal-cell{
-  border-top:1px solid var(--win-dark);
-  border-left:1px solid var(--win-dark);
-  border-right:1px solid var(--win-light);
-  border-bottom:1px solid var(--win-light);
-  overflow:hidden;aspect-ratio:1;
-  background:var(--win-mid);cursor:zoom-in;
-}
-.gal-cell img{width:100%;height:100%;object-fit:cover;display:block}
+    /* =============================================
+       ARTICLE VIEWER (dynamically created)
+    ============================================= */
+    .article-body {
+      height: 100%; background: #fff; padding: 20px 18px;
+      overflow: auto; font-family: 'Courier New', monospace;
+      font-size: 12px; line-height: 1.8; color: #111;
+    }
+    .article-title-header {
+      font-size: 16px; font-weight: bold; margin-bottom: 4px;
+      font-family: 'Tahoma', sans-serif;
+    }
+    .article-date-header {
+      color: #888; font-size: 10px; margin-bottom: 14px;
+      font-family: 'Tahoma', sans-serif;
+    }
+    .article-body hr { border: none; border-top: 1px solid #ddd; margin-bottom: 14px; }
+    .article-body p { margin-bottom: 12px; }
 
-/* lightbox */
-#lbox{
-  display:none;position:fixed;inset:0;z-index:8000;
-  background:rgba(0,0,0,.75);
-  align-items:center;justify-content:center;
-}
-#lbox.show{display:flex}
-#lbox img{max-width:90vw;max-height:85vh;border:2px solid #fff;box-shadow:0 0 24px #000}
+    /* =============================================
+       PUZZLES
+    ============================================= */
+    .puzzle-entry {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 4px; border-bottom: 1px solid #d0ccc4; cursor: pointer;
+    }
+    .puzzle-entry:hover { background: #000080; color: #fff; }
+    .puzzle-entry img { width: 18px; height: 18px; image-rendering: pixelated; flex-shrink: 0; }
+    .puzzle-badge {
+      margin-left: auto; font-size: 9px;
+      background: #000080; color: #fff; padding: 1px 5px;
+    }
+    .puzzle-entry:hover .puzzle-badge { background: #fff; color: #000080; }
 
-/* ─── WRITING PANE ──────────────────────────────────── */
-.phile-hdr{
-  font-size:17px;color:#000080;
-  border-bottom:1px solid var(--win-mid);
-  margin-bottom:6px;padding-bottom:3px;
-}
-.phile-list{list-style:none}
-.phile-row{
-  display:flex;align-items:center;gap:8px;
-  padding:3px 4px;border-bottom:1px solid #e0e0e0;
-  cursor:pointer;font-size:17px;
-}
-.phile-row:hover{background:#000080;color:#fff}
-.phile-row:hover .phile-date{color:#adf}
-.phile-row img{width:16px;height:16px;image-rendering:pixelated;flex-shrink:0}
-.phile-date{color:var(--win-mid);font-size:14px;white-space:nowrap}
+    /* Name puzzle form */
+    #name-form-wrap {
+      margin-top: 14px; padding-top: 12px;
+      border-top: 1px solid #c8c4bc;
+    }
+    #name-form-label { font-size: 11px; margin-bottom: 6px; }
+    #name-form-row { display: flex; gap: 4px; align-items: center; }
+    #name-input {
+      border: 2px solid; border-color: #808080 #dfdfdf #dfdfdf #808080;
+      padding: 3px 6px; font-family: 'Tahoma', sans-serif;
+      font-size: 11px; width: 170px; outline: none;
+    }
+    #name-input:focus { outline: 1px dotted #000080; }
+    #name-arrow-btn {
+      background: #d4d0c8;
+      border: 2px solid; border-color: #fff #404040 #404040 #fff;
+      padding: 3px 10px; cursor: pointer;
+      font-size: 14px; line-height: 1;
+    }
+    #name-arrow-btn:active { border-color: #404040 #fff #fff #404040; }
+    #man-reveal { display: none; margin-top: 14px; text-align: center; }
+    #man-reveal img {
+      max-width: 100%; max-height: 200px;
+      border: 2px solid; border-color: #808080 #fff #fff #808080;
+    }
+    /*
+      MYSTERY MAN IMAGE PLACEHOLDER:
+      ──────────────────────────────
+      1. Add your image to your GitHub repo, e.g. images/mystery-man.jpg
+      2. The <img> tag in the puzzle section already points to images/mystery-man.jpg
+         — just upload your file there and it will work.
+    */
+    #man-placeholder {
+      display: none; width: 160px; height: 200px;
+      background: #1e1e1e; margin: 0 auto;
+      border: 2px solid; border-color: #808080 #fff #fff #808080;
+      flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    }
+    #man-placeholder span { color: #666; font-size: 10px; font-style: italic; text-align: center; padding: 0 8px; }
 
-/* ─── PUZZLES PANE ──────────────────────────────────── */
-.puzz-hdr{
-  font-size:17px;color:#000080;
-  border-bottom:1px solid var(--win-mid);
-  margin-bottom:8px;padding-bottom:3px;
-}
-.puzz-body{font-size:17px;line-height:1.8;color:#000}
+    /* =============================================
+       ABOUT
+    ============================================= */
+    .about-body {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 24px 18px; gap: 10px;
+    }
+    .about-icon { font-size: 52px; line-height: 1; }
+    .about-name { font-size: 14px; font-weight: bold; }
+    .about-tagline { font-size: 11px; color: #444; line-height: 1.8; }
 
-/* ─── LINKS WINDOW ──────────────────────────────────── */
-.lsect{font-size:15px;padding:4px 0}
-.lsect-hd{
-  color:#000080;font-size:15px;
-  border-bottom:1px solid var(--win-mid);
-  padding-bottom:2px;margin-bottom:3px;
-}
-.lsect a{
-  display:flex;align-items:center;gap:4px;
-  color:#000;text-decoration:none;padding:1px 0;
-}
-.lsect a:hover{text-decoration:underline;color:#000080}
-
-/* ─── TASKBAR ───────────────────────────────────────── */
-#taskbar{
-  position:fixed;bottom:0;left:0;right:0;height:28px;
-  background:var(--win-bg);
-  border-top:2px solid var(--win-light);
-  display:flex;align-items:center;gap:2px;
-  padding:0 2px;z-index:9000;
-}
-.tsep{
-  width:2px;height:20px;
-  border-left:1px solid var(--win-dark);
-  border-right:1px solid var(--win-light);
-  margin:0 2px;
-}
-#start-btn{
-  font-family:var(--font);font-size:16px;font-weight:bold;
-  background:var(--win-bg);height:22px;
-  border-top:2px solid var(--win-light);
-  border-left:2px solid var(--win-light);
-  border-right:2px solid var(--win-dark);
-  border-bottom:2px solid var(--win-dark);
-  padding:0 10px;cursor:pointer;
-  display:flex;align-items:center;gap:4px;
-}
-#start-btn img{width:16px;height:16px;image-rendering:pixelated}
-#start-btn:active,#start-btn.on{
-  border-top:2px solid var(--win-dark);
-  border-left:2px solid var(--win-dark);
-  border-right:2px solid var(--win-light);
-  border-bottom:2px solid var(--win-light);
-}
-#tbwins{flex:1;display:flex;gap:2px;overflow:hidden}
-.tbwin{
-  font-family:var(--font);font-size:14px;
-  background:var(--win-bg);height:22px;
-  min-width:70px;max-width:150px;
-  border-top:2px solid var(--win-light);
-  border-left:2px solid var(--win-light);
-  border-right:2px solid var(--win-dark);
-  border-bottom:2px solid var(--win-dark);
-  padding:0 8px;cursor:pointer;
-  display:flex;align-items:center;gap:4px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.tbwin img{width:14px;height:14px;image-rendering:pixelated;flex-shrink:0}
-.tbwin.on{
-  border-top:2px solid var(--win-dark);
-  border-left:2px solid var(--win-dark);
-  border-right:2px solid var(--win-light);
-  border-bottom:2px solid var(--win-light);
-  background:#b4b4b4;
-}
-#clock{
-  border-top:1px solid var(--win-dark);
-  border-left:1px solid var(--win-dark);
-  border-right:1px solid var(--win-light);
-  border-bottom:1px solid var(--win-light);
-  padding:0 8px;height:22px;
-  display:flex;align-items:center;
-  font-size:15px;white-space:nowrap;
-}
-
-/* ─── START MENU ────────────────────────────────────── */
-#smenu{
-  position:fixed;bottom:28px;left:0;
-  width:210px;
-  background:var(--win-bg);
-  border-top:2px solid var(--win-light);
-  border-left:2px solid var(--win-light);
-  border-right:2px solid var(--win-dark);
-  border-bottom:2px solid var(--win-dark);
-  box-shadow:3px 3px 4px rgba(0,0,0,.5);
-  display:none;flex-direction:row;z-index:9001;
-}
-#smenu.open{display:flex}
-.sbar-side{
-  width:26px;
-  background:linear-gradient(to top,#000080,#1084d0);
-  display:flex;align-items:flex-end;justify-content:center;
-  padding-bottom:6px;
-}
-.sbar-side span{
-  font-size:16px;color:rgba(255,255,255,.65);
-  writing-mode:vertical-lr;transform:rotate(180deg);
-  letter-spacing:3px;
-}
-.sbar-items{flex:1}
-.si{
-  display:flex;align-items:center;gap:8px;
-  padding:4px 8px;font-size:17px;cursor:pointer;
-}
-.si:hover{background:#000080;color:#fff}
-.si img{width:20px;height:20px;image-rendering:pixelated}
-.ssep{height:1px;background:var(--win-dark);margin:2px 4px}
-
-/* ─── SCROLLBARS ────────────────────────────────────── */
-::-webkit-scrollbar{width:16px;height:16px}
-::-webkit-scrollbar-track{background:var(--win-bg)}
-::-webkit-scrollbar-thumb{
-  background:var(--win-bg);
-  border-top:2px solid var(--win-light);
-  border-left:2px solid var(--win-light);
-  border-right:2px solid var(--win-dark);
-  border-bottom:2px solid var(--win-dark);
-}
-::-webkit-scrollbar-button{
-  background:var(--win-bg);height:16px;
-  border-top:2px solid var(--win-light);
-  border-left:2px solid var(--win-light);
-  border-right:2px solid var(--win-dark);
-  border-bottom:2px solid var(--win-dark);
-}
-</style>
+    @media (max-width: 540px) {
+      .win-window { width: 96vw !important; left: 2vw !important; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ════════════════════ BOOT ════════════════════ -->
+<!-- ============================================================
+     BOOT SCREEN
+============================================================ -->
 <div id="boot">
-  <div class="boot-cat">    /\_____/\
-   /  o   o  \
-  ( ==  ^  == )
-   )  ~   ~  (
-  (           )
- ( (  )   (  ) )
-(__(__)___(__)__)</div>
-  <div class="boot-label">sys/init</div>
-  <div class="boot-sub">michaels cat inquiry // loading...</div>
-  <div class="boot-track"><div class="boot-fill" id="bfill"></div></div>
-  <button id="cont-btn">[ continue ]</button>
+  <div id="boot-content">
+    <div class="boot-title">michaels <span>cat inquiry</span></div>
+    <div id="boot-lines"></div>
+    <button id="continue-btn" onclick="enterDesktop()">[ continue ]</button>
+  </div>
 </div>
 
-<!-- ════════════════════ DESKTOP ════════════════════ -->
+<!-- ============================================================
+     DESKTOP
+============================================================ -->
 <div id="desktop">
 
-  <!-- ICONS -->
-  <div class="icon-col">
-    <div class="dicon" ondblclick="openTab('About')" onclick="selIcon(this)">
-      <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
-      <span>about.txt</span>
+  <!-- Star background canvas -->
+  <canvas id="stars"></canvas>
+
+  <!-- ── DESKTOP ICONS ── -->
+  <div id="desktop-icons">
+    <div class="d-icon" ondblclick="openWin('win-gallery')">
+      <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="">
+      <div class="d-icon-label">Cat Gallery</div>
     </div>
-    <div class="dicon" ondblclick="openTab('Gallery')" onclick="selIcon(this)">
-      <img src="https://win98icons.alexmeub.com/icons/png/image_file-0.png" alt="">
-      <span>cat gallery</span>
-    </div>
-    <div class="dicon" ondblclick="openTab('Writing')" onclick="selIcon(this)">
+    <div class="d-icon" ondblclick="openWin('win-writing')">
       <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
-      <span>writings</span>
+      <div class="d-icon-label">Writing</div>
     </div>
-    <div class="dicon" ondblclick="openTab('Puzzles')" onclick="selIcon(this)">
+    <div class="d-icon" ondblclick="openWin('win-puzzles')">
       <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
-      <span>puzzles</span>
+      <div class="d-icon-label">Puzzles</div>
     </div>
-    <div class="dicon" style="margin-top:16px" ondblclick="openWin('win-rb')" onclick="selIcon(this)">
-      <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-0.png" alt="">
-      <span>Recycle Bin</span>
+    <div class="d-icon" ondblclick="openWin('win-about')">
+      <img src="https://win98icons.alexmeub.com/icons/png/info_bubble-0.png" alt="">
+      <div class="d-icon-label">About</div>
     </div>
-  </div>
-
-  <!-- ──── MAIN WINDOW ──── -->
-  <div class="w98 open" id="win-main" style="left:90px;top:30px;width:530px;height:440px;">
-    <div class="tbar" id="tb-main" ondragstart="return false">
-      <div class="tbar-left">
-        <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" alt="">
-        <span id="main-title">michaels cat inquiry</span>
-      </div>
-      <div class="wbtns">
-        <button class="wbtn" onclick="minWin('win-main','michaels cat inquiry','https://win98icons.alexmeub.com/icons/png/windows-0.png')" title="Minimize">_</button>
-        <button class="wbtn" title="Maximize">□</button>
-        <button class="wbtn" onclick="closeWin('win-main')" title="Close">✕</button>
-      </div>
-    </div>
-    <div class="mbar">
-      <span class="mi">File</span>
-      <span class="mi">Edit</span>
-      <span class="mi">View</span>
-      <span class="mi">Help</span>
-    </div>
-    <div class="tabbar" id="main-tabbar">
-      <div class="tab on" onclick="switchTab('About')">About</div>
-      <div class="tab" onclick="switchTab('Gallery')">Gallery</div>
-      <div class="tab" onclick="switchTab('Writing')">Writing</div>
-      <div class="tab" onclick="switchTab('Puzzles')">Puzzles</div>
-    </div>
-    <div class="wbody inset" style="height:100%;overflow:auto;">
-
-      <!-- ABOUT -->
-      <div class="pane on" id="pane-About" style="background:#fff;">
-        <div class="ascii-cat">    /\_____/\
-   /  o   o  \
-  ( ==  ^  == )
-   )  ~   ~  (
-  (           )
- ( (  )   (  ) )
-(__(__)___(__)__)</div>
-        <div class="about-body">
-          <strong>michaels cat inquiry</strong><br>
-          <span style="color:var(--win-mid)">— a personal site, made with care —</span><br><br>
-          welcome to my small corner of the internet.<br>
-          this is a place for cats, words, puzzles,<br>
-          and whatever else feels worth sharing.<br><br>
-          feel free to poke around. the cat gallery<br>
-          is particularly recommended.<br><br>
-          <span style="color:#000080">[ based in the White Mountains, NH ]</span>
-        </div>
-      </div>
-
-      <!-- GALLERY -->
-      <div class="pane" id="pane-Gallery" style="padding:0;">
-        <div class="gal-hdr">★ cat gallery — click a photo to view larger ★</div>
-        <div class="gal-grid" id="gal-grid">
-          <!-- populated by JS -->
-        </div>
-      </div>
-
-      <!-- WRITING -->
-      <div class="pane" id="pane-Writing">
-        <div class="phile-hdr">
-          <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="" style="width:16px;height:16px;vertical-align:middle;image-rendering:pixelated"> philes &amp; writings
-        </div>
-        <ul class="phile-list">
-          <li class="phile-row">
-            <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
-            <span style="flex:1">[coming soon] first entry</span>
-            <span class="phile-date">2025</span>
-          </li>
-          <li class="phile-row">
-            <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
-            <span style="flex:1">[coming soon] something from the mountains</span>
-            <span class="phile-date">2025</span>
-          </li>
-          <li class="phile-row" style="color:var(--win-mid);cursor:default;border:none">
-            <img src="https://win98icons.alexmeub.com/icons/png/msie1-2.png" alt="">
-            <span style="flex:1">more entries coming soon...</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- PUZZLES -->
-      <div class="pane" id="pane-Puzzles">
-        <div class="puzz-hdr">
-          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="" style="width:16px;height:16px;vertical-align:middle;image-rendering:pixelated"> puzzles &amp; diversions
-        </div>
-        <div class="puzz-body">
-          coming soon — puzzles, riddles,<br>
-          and other fun things will live here.<br><br>
-          check back later!
-        </div>
-      </div>
-
-    </div>
-    <div class="sbar">
-      <div class="sp" id="statustext">Ready</div>
-      <div class="sp" style="flex:0;white-space:nowrap">michaels cat inquiry</div>
+    <div class="d-icon" ondblclick="openWin('win-recycle')">
+      <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="">
+      <div class="d-icon-label">Recycle Bin</div>
     </div>
   </div>
 
-  <!-- ──── LINKS WINDOW ──── -->
-  <div class="w98 open" id="win-links" style="left:640px;top:30px;width:175px;">
-    <div class="tbar" id="tb-links">
-      <div class="tbar-left">
-        <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="">
-        <span>Links</span>
+  <!-- ============================================================
+       WINDOW: CAT GALLERY
+  ============================================================ -->
+  <div class="win-window" id="win-gallery" style="top:44px; left:130px; width:620px; height:480px; z-index:20;">
+    <div class="title-bar" id="win-gallery-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="">
+        Cat Gallery — michaels cat inquiry
       </div>
-      <div class="wbtns">
-        <button class="wbtn" onclick="minWin('win-links','Links','https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png')">_</button>
-        <button class="wbtn" onclick="closeWin('win-links')">✕</button>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="minWin('win-gallery')">&#x2014;</button>
+        <button class="tb-btn" onclick="maxWin('win-gallery')">&#9633;</button>
+        <button class="tb-btn" onclick="closeWin('win-gallery')">&#x2715;</button>
       </div>
     </div>
-    <div class="wbody inset" style="background:#fff;padding:6px;">
-      <div class="lsect">
-        <div class="lsect-hd">-- navigate --</div>
-        <a href="#" onclick="openTab('About');return false">[-] about</a>
-        <a href="#" onclick="openTab('Gallery');return false">[-] cat gallery</a>
-        <a href="#" onclick="openTab('Writing');return false">[-] writings</a>
-        <a href="#" onclick="openTab('Puzzles');return false">[-] puzzles</a>
+    <div class="win-menubar">
+      <div class="win-menu-item">File</div>
+      <div class="win-menu-item">View</div>
+      <div class="win-menu-item">Help</div>
+    </div>
+    <div class="win-body">
+      <div class="sunken">
+        <!--
+          CAT GALLERY — HOW TO ADD YOUR PHOTOS:
+          1. Create an "images/" folder in your GitHub repo
+          2. Upload your cat photos there (e.g. cat1.jpg, cat2.jpg …)
+          3. Replace each <div class="cat-placeholder"> block with:
+               <img src="images/your-photo.jpg" alt="cat">
+             inside the .cat-thumb div, above the .cat-filename div.
+          4. Update the filename label to match.
+        -->
+        <div class="gallery-grid">
+
+          <div class="cat-thumb">
+            <div class="cat-placeholder">🐱</div>
+            <div class="cat-filename">cat_001.jpg</div>
+          </div>
+
+          <div class="cat-thumb">
+            <div class="cat-placeholder">🐈</div>
+            <div class="cat-filename">cat_002.jpg</div>
+          </div>
+
+          <div class="cat-thumb">
+            <div class="cat-placeholder">😺</div>
+            <div class="cat-filename">cat_003.jpg</div>
+          </div>
+
+          <div class="cat-thumb">
+            <div class="cat-placeholder">🐾</div>
+            <div class="cat-filename">cat_004.jpg</div>
+          </div>
+
+          <div class="cat-thumb">
+            <div class="cat-placeholder">🐱</div>
+            <div class="cat-filename">cat_005.jpg</div>
+          </div>
+
+          <div class="cat-thumb">
+            <div class="cat-placeholder">😸</div>
+            <div class="cat-filename">cat_006.jpg</div>
+          </div>
+
+        </div>
       </div>
-      <div class="lsect" style="margin-top:8px">
-        <div class="lsect-hd">-- other --</div>
-        <a href="#" onclick="return false">[-] rss (soon)</a>
+    </div>
+    <div class="win-statusbar">
+      <div class="status-cell">6 objects</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WINDOW: WRITING
+  ============================================================ -->
+  <div class="win-window" id="win-writing" style="top:70px; left:160px; width:560px; height:420px; z-index:21;">
+    <div class="title-bar" id="win-writing-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
+        Writing — michaels cat inquiry
+      </div>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="minWin('win-writing')">&#x2014;</button>
+        <button class="tb-btn" onclick="maxWin('win-writing')">&#9633;</button>
+        <button class="tb-btn" onclick="closeWin('win-writing')">&#x2715;</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <div class="win-menu-item">File</div>
+      <div class="win-menu-item">View</div>
+      <div class="win-menu-item">Help</div>
+    </div>
+    <div class="win-body">
+      <div class="sunken">
+        <!--
+          WRITING ENTRIES:
+          Each .writing-entry opens a full article window when clicked.
+          Edit the ARTICLES object in the <script> section below
+          to change article titles, dates, and body text.
+          Add more entries by copying a .writing-entry block here
+          AND adding a matching entry in the ARTICLES array.
+        -->
+
+        <div class="writing-entry" onclick="openArticle(0)">
+          <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
+          <span class="entry-title">your first entry — give it a title</span>
+          <span class="entry-date">2026</span>
+        </div>
+
+        <div class="writing-entry" onclick="openArticle(1)">
+          <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
+          <span class="entry-title">another piece of writing goes here</span>
+          <span class="entry-date">2026</span>
+        </div>
+
+        <div class="writing-entry" onclick="openArticle(2)">
+          <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
+          <span class="entry-title">a longer essay about something or other</span>
+          <span class="entry-date">2025</span>
+        </div>
+
+        <div style="margin-top:14px; font-size:10px; color:#999; font-style:italic;">
+          [ click any entry to read the full piece ]
+        </div>
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <div class="status-cell">3 documents</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WINDOW: PUZZLES
+  ============================================================ -->
+  <div class="win-window" id="win-puzzles" style="top:96px; left:200px; width:480px; height:460px; z-index:22;">
+    <div class="title-bar" id="win-puzzles-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
+        Puzzles — michaels cat inquiry
+      </div>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="minWin('win-puzzles')">&#x2014;</button>
+        <button class="tb-btn" onclick="maxWin('win-puzzles')">&#9633;</button>
+        <button class="tb-btn" onclick="closeWin('win-puzzles')">&#x2715;</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <div class="win-menu-item">File</div>
+      <div class="win-menu-item">View</div>
+      <div class="win-menu-item">Help</div>
+    </div>
+    <div class="win-body">
+      <div class="sunken">
+
+        <div class="puzzle-entry">
+          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
+          <span>puzzle name here</span>
+          <span class="puzzle-badge">NEW</span>
+        </div>
+        <div class="puzzle-entry">
+          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
+          <span>crossword #1</span>
+        </div>
+        <div class="puzzle-entry">
+          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
+          <span>another puzzle of your choosing</span>
+        </div>
+
+        <!-- ── NAME PUZZLE ── -->
+        <div id="name-form-wrap">
+          <div id="name-form-label">enter name:</div>
+          <div id="name-form-row">
+            <input type="text" id="name-input" placeholder="...">
+            <button id="name-arrow-btn" onclick="revealMan()">&#x2192;</button>
+          </div>
+
+          <div id="man-reveal">
+            <!--
+              MYSTERY MAN IMAGE:
+              ──────────────────
+              1. Upload your image to your GitHub repo.
+                 Suggested path: images/mystery-man.jpg
+              2. That path is already set in the src below — just
+                 upload the file and it will appear automatically.
+              3. The image shows up when someone types a name and
+                 presses Enter or clicks the arrow.
+            -->
+            <img src="images/mystery-man.jpg" alt="a man"
+                 onerror="this.style.display='none'; document.getElementById('man-placeholder').style.display='flex';">
+            <div id="man-placeholder">
+              <div style="font-size:52px;">🧍</div>
+              <span>upload images/<br>mystery-man.jpg</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <div class="status-cell">3 puzzles</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WINDOW: ABOUT
+  ============================================================ -->
+  <div class="win-window" id="win-about" style="top:120px; left:300px; width:380px; height:300px; z-index:23;">
+    <div class="title-bar" id="win-about-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/info_bubble-0.png" alt="">
+        About — michaels cat inquiry
+      </div>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="closeWin('win-about')">&#x2715;</button>
+      </div>
+    </div>
+    <div class="win-body">
+      <div class="about-body">
+        <div class="about-icon">🐱</div>
+        <div class="about-name">michaels cat inquiry</div>
+        <!--
+          ABOUT TEXT: Edit the lines below to describe yourself or your site.
+        -->
+        <div class="about-tagline">
+          a small corner of the internet.<br>
+          cats. writing. puzzles. whatever else.<br>
+          welcome.
+        </div>
+        <br>
+        <button class="btn98" onclick="closeWin('win-about')">OK</button>
       </div>
     </div>
   </div>
 
-  <!-- ──── RECYCLE BIN WINDOW ──── -->
-  <div class="w98" id="win-rb" style="left:160px;top:100px;width:270px;height:160px;">
-    <div class="tbar" id="tb-rb">
-      <div class="tbar-left">
-        <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-0.png" alt="">
-        <span>Recycle Bin</span>
+  <!-- ============================================================
+       WINDOW: RECYCLE BIN
+  ============================================================ -->
+  <div class="win-window" id="win-recycle" style="top:150px; left:340px; width:360px; height:200px; z-index:24;">
+    <div class="title-bar" id="win-recycle-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="">
+        Recycle Bin
       </div>
-      <div class="wbtns">
-        <button class="wbtn" onclick="minWin('win-rb','Recycle Bin','https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-0.png')">_</button>
-        <button class="wbtn" onclick="closeWin('win-rb')">✕</button>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="closeWin('win-recycle')">&#x2715;</button>
       </div>
     </div>
-    <div class="wbody inset" style="background:#fff;display:flex;align-items:center;justify-content:center;color:var(--win-mid);font-size:16px;">
-      The Recycle Bin is empty.
+    <div class="win-body">
+      <div class="sunken" style="display:flex; align-items:center; justify-content:center; color:#888; font-style:italic;">
+        The Recycle Bin is empty.
+      </div>
     </div>
   </div>
 
-  <!-- ──── LIGHTBOX ──── -->
-  <div id="lbox" onclick="closeLbox()">
-    <img id="lbox-img" src="" alt="cat photo">
+  <!-- ── TASKBAR ── -->
+  <div id="taskbar">
+    <button id="start-btn" onclick="toggleStart()">
+      <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" alt=""> Start
+    </button>
+    <div class="tb-divider"></div>
+    <div id="tb-windows"></div>
+    <div id="tray"><span id="clock">12:00 PM</span></div>
+  </div>
+
+  <!-- ── START MENU ── -->
+  <div id="start-menu">
+    <div id="sm-banner">cat inquiry</div>
+    <div id="sm-items">
+      <div class="sm-item" onclick="openWin('win-gallery'); closeStart();">
+        <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt=""> Cat Gallery
+      </div>
+      <div class="sm-item" onclick="openWin('win-writing'); closeStart();">
+        <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt=""> Writing
+      </div>
+      <div class="sm-item" onclick="openWin('win-puzzles'); closeStart();">
+        <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt=""> Puzzles
+      </div>
+      <div class="sm-item" onclick="openWin('win-about'); closeStart();">
+        <img src="https://win98icons.alexmeub.com/icons/png/info_bubble-0.png" alt=""> About
+      </div>
+      <div class="sm-sep"></div>
+      <div class="sm-item" id="sm-shutdown">
+        <img src="https://win98icons.alexmeub.com/icons/png/shut_down_normal-1.png" alt=""> Shut Down...
+      </div>
+    </div>
   </div>
 
 </div><!-- /desktop -->
 
-<!-- ════════════════════ TASKBAR ════════════════════ -->
-<div id="taskbar">
-  <button id="start-btn" onclick="toggleStart()">
-    <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" alt=""> <strong>Start</strong>
-  </button>
-  <div class="tsep"></div>
-  <div id="tbwins"></div>
-  <div class="tsep"></div>
-  <div id="clock"></div>
-</div>
-
-<!-- ════════════════════ START MENU ════════════════════ -->
-<div id="smenu">
-  <div class="sbar-side"><span>Windows 98</span></div>
-  <div class="sbar-items">
-    <div class="si" onclick="openTab('About');toggleStart()">
-      <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt=""> About
-    </div>
-    <div class="si" onclick="openTab('Gallery');toggleStart()">
-      <img src="https://win98icons.alexmeub.com/icons/png/image_file-0.png" alt=""> Cat Gallery
-    </div>
-    <div class="si" onclick="openTab('Writing');toggleStart()">
-      <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt=""> Writings
-    </div>
-    <div class="si" onclick="openTab('Puzzles');toggleStart()">
-      <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt=""> Puzzles
-    </div>
-    <div class="ssep"></div>
-    <div class="si" onclick="openWin('win-links');toggleStart()">
-      <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt=""> Links
-    </div>
-    <div class="ssep"></div>
-    <div class="si" onclick="toggleStart()">
-      <img src="https://win98icons.alexmeub.com/icons/png/shut_down_normal-1.png" alt=""> Shut Down...
-    </div>
-  </div>
-</div>
-
 <script>
-// ── BOOT ─────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    document.getElementById('bfill').style.width = '100%';
-    setTimeout(() => document.getElementById('cont-btn').classList.add('show'), 1700);
-  }, 300);
-});
+/* ================================================================
+   ARTICLES
+   ────────────────────────────────────────────────────────────────
+   Edit title, date, and content here.
+   content can contain basic HTML: <p>, <em>, <strong>, <br> etc.
+   Add more entries by:
+     1. Adding an object to this array
+     2. Adding a matching .writing-entry div in the Writing window above
+        with onclick="openArticle(N)" where N is its index in this array
+================================================================ */
+const ARTICLES = [
+  {
+    title: 'your first entry — give it a title',
+    date: '2026',
+    content: `
+      <p>This is where your full article goes. Replace this placeholder text with your actual writing.</p>
+      <p>You can use basic HTML here: wrap paragraphs in &lt;p&gt; tags, use &lt;em&gt; for <em>italics</em> and &lt;strong&gt; for <strong>bold</strong>.</p>
+      <p>Each paragraph gets its own &lt;p&gt; tag.</p>
+    `
+  },
+  {
+    title: 'another piece of writing goes here',
+    date: '2026',
+    content: `
+      <p>Replace this with your second article.</p>
+      <p>As many paragraphs as you like.</p>
+    `
+  },
+  {
+    title: 'a longer essay about something or other',
+    date: '2025',
+    content: `
+      <p>Replace this with your third article.</p>
+      <p>More text can go here. The window is scrollable for long pieces.</p>
+    `
+  }
+];
 
-document.getElementById('cont-btn').addEventListener('click', () => {
-  const boot = document.getElementById('boot');
-  boot.classList.add('fade');
-  setTimeout(() => {
-    boot.style.display = 'none';
-    const desk = document.getElementById('desktop');
-    desk.classList.add('show');
-    initDesktop();
-  }, 520);
-});
+/* ================================================================
+   BOOT SEQUENCE
+================================================================ */
+const BOOT_LINES = [
+  'sys/init v0.1',
+  '',
+  'loading kernel ................ OK',
+  'mounting filesystem ........... OK',
+  'initializing cat subsystem .... OK',
+  'checking fur integrity ........ OK',
+  'starting purr daemon .......... OK',
+  'whisker protocol .............. ONLINE',
+  'loading image stash ........... OK',
+  'mounting /dev/cozy ............ OK',
+  '',
+  'all systems nominal.',
+  'welcome to michaels cat inquiry.',
+  '',
+];
+const BOOT_DELAYS = [600,700,380,140,130,140,130,140,130,140,280,300,280,200];
+let bootIdx = 0;
+const bootLinesEl = document.getElementById('boot-lines');
+const continueBtnEl = document.getElementById('continue-btn');
 
-// ── INIT ─────────────────────────────────────────────
-function initDesktop() {
-  // Position links window based on actual viewport
-  const lw = document.getElementById('win-links');
-  lw.style.left = (window.innerWidth - lw.offsetWidth - 14) + 'px';
+function nextBootLine() {
+  if (bootIdx >= BOOT_LINES.length) { continueBtnEl.style.display = 'inline-block'; return; }
+  const div = document.createElement('div');
+  div.className = 'boot-line';
+  div.textContent = BOOT_LINES[bootIdx] || '\u00a0';
+  bootLinesEl.appendChild(div);
+  const delay = BOOT_DELAYS[bootIdx] ?? 130;
+  bootIdx++;
+  setTimeout(nextBootLine, delay);
+}
+setTimeout(nextBootLine, 400);
 
-  // Make windows draggable
-  ['main','links','rb'].forEach(id => {
-    makeDrag(document.getElementById('win-'+id), document.getElementById('tb-'+id));
-  });
-
-  // Taskbar buttons for initially-open windows
-  tbAdd('win-main','michaels cat inquiry','https://win98icons.alexmeub.com/icons/png/windows-0.png');
-  tbAdd('win-links','Links','https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png');
-
-  // Clock
-  updateClock();
-  setInterval(updateClock, 1000);
-
-  // Gallery
-  buildGallery();
-
-  // Click desktop to deselect icons
-  document.getElementById('desktop').addEventListener('mousedown', e => {
-    if (!e.target.closest('.dicon')) selIcon(null);
-    if (!e.target.closest('.w98')) {
-      document.querySelectorAll('.tbar').forEach(t => t.classList.add('inactive'));
-    }
-  });
+/* ================================================================
+   ENTER DESKTOP
+================================================================ */
+function enterDesktop() {
+  document.getElementById('boot').style.display = 'none';
+  document.getElementById('desktop').style.display = 'block';
+  tickClock();
+  setInterval(tickClock, 10000);
+  initStars();
 }
 
-// ── CLOCK ─────────────────────────────────────────────
-function updateClock() {
+/* ================================================================
+   CLOCK
+================================================================ */
+function tickClock() {
   const now = new Date();
   let h = now.getHours(), m = now.getMinutes();
-  const ap = h >= 12 ? 'PM' : 'AM';
+  const ampm = h >= 12 ? 'PM' : 'AM';
   h = h % 12 || 12;
-  document.getElementById('clock').textContent = `${h}:${String(m).padStart(2,'0')} ${ap}`;
+  document.getElementById('clock').textContent = `${h}:${String(m).padStart(2,'0')} ${ampm}`;
 }
 
-// ── GALLERY ───────────────────────────────────────────
-function buildGallery() {
-  const grid = document.getElementById('gal-grid');
-  // cataas.com: add cache-busting seeds so each slot fetches a different cat
-  const seeds = [Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random()];
-  seeds.forEach(s => {
-    const cell = document.createElement('div');
-    cell.className = 'gal-cell';
-    const img = document.createElement('img');
-    const url = `https://cataas.com/cat?${s}`;
-    img.src = url;
-    img.alt = 'cat';
-    img.loading = 'lazy';
-    img.onerror = () => { cell.style.background = '#999'; };
-    img.onclick = () => openLbox(url);
-    cell.appendChild(img);
-    grid.appendChild(cell);
-  });
+/* ================================================================
+   STAR BACKGROUND
+================================================================ */
+function initStars() {
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function makeStars() {
+    stars = [];
+    for (let i = 0; i < 200; i++) {
+      stars.push({
+        x:    Math.random() * canvas.width,
+        y:    Math.random() * canvas.height,
+        r:    Math.random() * 1.2 + 0.3,
+        speed: Math.random() * 0.25 + 0.05,
+        alpha: Math.random() * 0.7 + 0.3,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+      ctx.fill();
+      s.y += s.speed;
+      if (s.y > canvas.height) {
+        s.y = 0;
+        s.x = Math.random() * canvas.width;
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  makeStars();
+  draw();
+  window.addEventListener('resize', () => { resize(); makeStars(); });
 }
 
-function openLbox(src) {
-  document.getElementById('lbox-img').src = src;
-  document.getElementById('lbox').classList.add('show');
-}
-function closeLbox() { document.getElementById('lbox').classList.remove('show'); }
-
-// ── TABS ─────────────────────────────────────────────
-const tabMeta = {
-  About: 'michaels cat inquiry',
-  Gallery: 'cat gallery — michaels cat inquiry',
-  Writing: 'writings — michaels cat inquiry',
-  Puzzles: 'puzzles — michaels cat inquiry'
+/* ================================================================
+   WINDOW MANAGEMENT
+================================================================ */
+let zTop = 100;
+const winState  = {};  // id -> { open, minimized, maximized, prev }
+const WIN_META  = {
+  'win-gallery': { label: 'Cat Gallery', icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
+  'win-writing': { label: 'Writing',     icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
+  'win-puzzles': { label: 'Puzzles',     icon: 'https://win98icons.alexmeub.com/icons/png/joystick-2.png' },
+  'win-about':   { label: 'About',       icon: 'https://win98icons.alexmeub.com/icons/png/info_bubble-0.png' },
+  'win-recycle': { label: 'Recycle Bin', icon: 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png' },
 };
 
-function switchTab(name) {
-  document.querySelectorAll('#main-tabbar .tab').forEach(t => {
-    t.classList.toggle('on', t.textContent.trim() === name);
-  });
-  document.querySelectorAll('.pane').forEach(p => {
-    p.classList.toggle('on', p.id === 'pane-'+name);
-  });
-  document.getElementById('main-title').textContent = name === 'About' ? 'michaels cat inquiry' : name;
-  document.getElementById('statustext').textContent = name;
-}
+function getEl(id) { return document.getElementById(id); }
 
-function openTab(name) {
-  openWin('win-main');
-  switchTab(name);
+function setActive(id) {
+  document.querySelectorAll('.win-window').forEach(w => {
+    const tb = w.querySelector('.title-bar');
+    if (tb) tb.classList.toggle('inactive', w.id !== id);
+  });
 }
-
-// ── WINDOW MANAGEMENT ────────────────────────────────
-let zTop = 100;
-const wstate = {};   // { id: 'open'|'min'|'closed' }
 
 function openWin(id) {
-  const w = document.getElementById(id);
-  w.classList.add('open');
-  w.style.display = 'flex';
-  bringFront(id);
-  if (!wstate[id] || wstate[id] === 'closed') {
-    const meta = winMeta(id);
-    tbAdd(id, meta.title, meta.icon);
-  }
-  wstate[id] = 'open';
-  tbActivate(id);
+  if (!winState[id]) winState[id] = {};
+  winState[id].open = true;
+  winState[id].minimized = false;
+  const el = getEl(id);
+  el.classList.add('open');
+  el.style.zIndex = ++zTop;
+  setActive(id);
+  rebuildTaskbar();
 }
 
 function closeWin(id) {
-  const w = document.getElementById(id);
-  w.classList.remove('open');
-  w.style.display = 'none';
-  tbRemove(id);
-  wstate[id] = 'closed';
+  getEl(id).classList.remove('open');
+  if (winState[id]) { winState[id].open = false; winState[id].minimized = false; }
+  rebuildTaskbar();
 }
 
-function minWin(id, title, icon) {
-  const w = document.getElementById(id);
-  w.style.display = 'none';
-  wstate[id] = 'min';
-  tbDeactivate(id);
+function minWin(id) {
+  getEl(id).classList.remove('open');
+  if (!winState[id]) winState[id] = {};
+  winState[id].open = true;
+  winState[id].minimized = true;
+  rebuildTaskbar();
 }
 
-function bringFront(id) {
-  zTop++;
-  document.getElementById(id).style.zIndex = zTop;
-  document.querySelectorAll('.tbar').forEach(t => t.classList.add('inactive'));
-  const tb = document.getElementById('tb-'+id.replace('win-',''));
-  if (tb) tb.classList.remove('inactive');
-  document.querySelectorAll('.tbwin').forEach(b => b.classList.toggle('on', b.dataset.id === id));
-}
-
-function winMeta(id) {
-  const map = {
-    'win-main':  { title:'michaels cat inquiry', icon:'https://win98icons.alexmeub.com/icons/png/windows-0.png' },
-    'win-links': { title:'Links', icon:'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
-    'win-rb':    { title:'Recycle Bin', icon:'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-0.png' }
-  };
-  return map[id] || { title:id, icon:'' };
-}
-
-// Bring window to front when clicked
-document.addEventListener('mousedown', e => {
-  const w = e.target.closest('.w98');
-  if (w) bringFront(w.id);
-});
-
-// ── TASKBAR ───────────────────────────────────────────
-function tbAdd(id, title, icon) {
-  if (document.querySelector(`.tbwin[data-id="${id}"]`)) return;
-  const btn = document.createElement('button');
-  btn.className = 'tbwin on';
-  btn.dataset.id = id;
-  btn.innerHTML = `<img src="${icon}" alt=""> ${title}`;
-  btn.onclick = () => {
-    const w = document.getElementById(id);
-    const st = wstate[id];
-    if (!st || st === 'closed') { openWin(id); return; }
-    if (st === 'min') { openWin(id); return; }
-    if (parseInt(w.style.zIndex) === zTop) { minWin(id, title, icon); }
-    else bringFront(id);
-  };
-  document.getElementById('tbwins').appendChild(btn);
-}
-
-function tbRemove(id) {
-  const b = document.querySelector(`.tbwin[data-id="${id}"]`);
-  if (b) b.remove();
-}
-
-function tbActivate(id) {
-  document.querySelectorAll('.tbwin').forEach(b => b.classList.toggle('on', b.dataset.id === id));
-}
-function tbDeactivate(id) {
-  const b = document.querySelector(`.tbwin[data-id="${id}"]`);
-  if (b) b.classList.remove('on');
-}
-
-// ── START MENU ────────────────────────────────────────
-function toggleStart() {
-  document.getElementById('smenu').classList.toggle('open');
-  document.getElementById('start-btn').classList.toggle('on');
-}
-document.addEventListener('mousedown', e => {
-  if (!e.target.closest('#smenu') && !e.target.closest('#start-btn')) {
-    document.getElementById('smenu').classList.remove('open');
-    document.getElementById('start-btn').classList.remove('on');
+function maxWin(id) {
+  const el = getEl(id);
+  if (!winState[id]) winState[id] = {};
+  if (winState[id].maximized) {
+    const p = winState[id].prev;
+    el.style.top = p.top; el.style.left = p.left;
+    el.style.width = p.width; el.style.height = p.height;
+    winState[id].maximized = false;
+  } else {
+    winState[id].prev = { top: el.style.top, left: el.style.left, width: el.style.width, height: el.style.height };
+    el.style.top = '0'; el.style.left = '0';
+    el.style.width = '100vw'; el.style.height = 'calc(100vh - 28px)';
+    winState[id].maximized = true;
   }
-});
+}
 
-// ── DRAGGABLE ─────────────────────────────────────────
-function makeDrag(win, handle) {
-  let ox=0, oy=0, dragging=false;
+function focusWin(id) {
+  const el = getEl(id);
+  if (!el) return;
+  if (!winState[id]) winState[id] = {};
+  if (winState[id].minimized) {
+    winState[id].minimized = false;
+    el.classList.add('open');
+  }
+  el.style.zIndex = ++zTop;
+  setActive(id);
+  rebuildTaskbar();
+}
 
-  function startDrag(cx, cy) {
+/* dynamic window: destroyable article windows */
+function destroyWin(id) {
+  const el = getEl(id);
+  if (el) el.remove();
+  delete winState[id];
+  delete WIN_META[id];
+  rebuildTaskbar();
+}
+
+function rebuildTaskbar() {
+  const bar = getEl('tb-windows');
+  bar.innerHTML = '';
+  Object.entries(winState).forEach(([id, st]) => {
+    if (!st.open) return;
+    const meta = WIN_META[id] || { label: id, icon: '' };
+    const btn = document.createElement('button');
+    btn.className = 'tb-win-btn' + (st.minimized ? '' : ' focused');
+    btn.innerHTML = `<img src="${meta.icon}" alt=""> ${meta.label}`;
+    btn.onclick = () => focusWin(id);
+    bar.appendChild(btn);
+  });
+}
+
+/* ================================================================
+   DRAG — works for both static and dynamic windows
+================================================================ */
+function makeDraggable(win) {
+  const tb = win.querySelector('.title-bar');
+  let dragging = false, ox = 0, oy = 0;
+  tb.addEventListener('mousedown', e => {
+    if (e.target.classList.contains('tb-btn')) return;
     dragging = true;
-    // Ensure left/top are set (in case window was right-positioned)
-    const rect = win.getBoundingClientRect();
-    win.style.left = rect.left + 'px';
-    win.style.top  = rect.top  + 'px';
-    win.style.right = 'auto';
-    ox = cx - rect.left;
-    oy = cy - rect.top;
-  }
-  function moveDrag(cx, cy) {
-    if (!dragging) return;
-    let nx = cx - ox, ny = cy - oy;
-    nx = Math.max(0, Math.min(nx, window.innerWidth  - win.offsetWidth));
-    ny = Math.max(0, Math.min(ny, window.innerHeight - 28 - win.offsetHeight));
-    win.style.left = nx + 'px';
-    win.style.top  = ny + 'px';
-  }
-  function endDrag() { dragging = false; }
-
-  handle.addEventListener('mousedown', e => {
-    if (e.target.closest('.wbtn')) return;
-    startDrag(e.clientX, e.clientY);
+    ox = e.clientX - win.offsetLeft;
+    oy = e.clientY - win.offsetTop;
+    win.style.zIndex = ++zTop;
+    setActive(win.id);
     e.preventDefault();
   });
-  document.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
-  document.addEventListener('mouseup', endDrag);
-
-  // touch support
-  handle.addEventListener('touchstart', e => {
-    if (e.target.closest('.wbtn')) return;
-    const t = e.touches[0];
-    startDrag(t.clientX, t.clientY);
-  }, {passive:true});
-  document.addEventListener('touchmove', e => {
-    const t = e.touches[0];
-    moveDrag(t.clientX, t.clientY);
-  }, {passive:true});
-  document.addEventListener('touchend', endDrag);
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const desk = getEl('desktop');
+    let nx = Math.max(0, Math.min(e.clientX - ox, desk.offsetWidth  - win.offsetWidth));
+    let ny = Math.max(0, Math.min(e.clientY - oy, desk.offsetHeight - 28 - win.offsetHeight));
+    win.style.left = nx + 'px';
+    win.style.top  = ny + 'px';
+  });
+  window.addEventListener('mouseup', () => { dragging = false; });
+  win.addEventListener('mousedown', () => { win.style.zIndex = ++zTop; setActive(win.id); });
 }
 
-// ── ICONS ─────────────────────────────────────────────
-function selIcon(el) {
-  document.querySelectorAll('.dicon').forEach(i => i.classList.remove('sel'));
-  if (el) el.classList.add('sel');
+/* attach drag to all static windows */
+document.querySelectorAll('.win-window').forEach(makeDraggable);
+
+/* ================================================================
+   ARTICLE VIEWER
+================================================================ */
+function openArticle(idx) {
+  const art = ARTICLES[idx];
+  if (!art) return;
+  const id = 'article-' + idx;
+
+  /* if already open, just bring it forward */
+  if (winState[id]?.open) { focusWin(id); return; }
+
+  /* calculate a slight cascade offset */
+  const offset = 60 + idx * 24;
+  const win = document.createElement('div');
+  win.className = 'win-window open';
+  win.id = id;
+  win.style.cssText = `top:${offset}px; left:${offset + 80}px; width:560px; height:460px; z-index:${++zTop};`;
+  win.innerHTML = `
+    <div class="title-bar" id="${id}-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
+        ${art.title} — Notepad
+      </div>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="minWin('${id}')">&#x2014;</button>
+        <button class="tb-btn" onclick="maxWin('${id}')">&#9633;</button>
+        <button class="tb-btn" onclick="destroyWin('${id}')">&#x2715;</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <div class="win-menu-item">File</div>
+      <div class="win-menu-item">Edit</div>
+      <div class="win-menu-item">Help</div>
+    </div>
+    <div class="win-body" style="padding:0;">
+      <div class="article-body">
+        <div class="article-title-header">${art.title}</div>
+        <div class="article-date-header">${art.date}</div>
+        <hr>
+        ${art.content}
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <div class="status-cell">${art.date}</div>
+    </div>
+  `;
+
+  getEl('desktop').appendChild(win);
+  makeDraggable(win);
+  winState[id] = { open: true };
+  WIN_META[id] = { label: art.title.slice(0, 20), icon: 'https://win98icons.alexmeub.com/icons/png/notepad_file-0.png' };
+  setActive(id);
+  rebuildTaskbar();
 }
+
+/* ================================================================
+   NAME PUZZLE
+================================================================ */
+function revealMan() {
+  const val = getEl('name-input').value.trim();
+  if (!val) return;
+  getEl('man-reveal').style.display = 'block';
+}
+getEl('name-input').addEventListener('keydown', e => { if (e.key === 'Enter') revealMan(); });
+
+/* ================================================================
+   START MENU
+================================================================ */
+function toggleStart() {
+  const sm  = getEl('start-menu');
+  const btn = getEl('start-btn');
+  const open = sm.classList.contains('open');
+  sm.classList.toggle('open', !open);
+  btn.classList.toggle('pressed', !open);
+}
+function closeStart() {
+  getEl('start-menu').classList.remove('open');
+  getEl('start-btn').classList.remove('pressed');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#start-menu') && !e.target.closest('#start-btn')) closeStart();
+});
+getEl('sm-shutdown').onclick = () => {
+  closeStart();
+  getEl('desktop').style.display = 'none';
+  getEl('boot').style.display = 'flex';
+};
 </script>
 </body>
 </html>
