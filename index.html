@@ -54,7 +54,6 @@
       display: none;
       position: fixed; inset: 0;
       background-color: #000;
-      /* background-image: url('images/background.jpg'); */
       background-size: cover;
       background-position: center;
       font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
@@ -320,7 +319,8 @@
     ============================================= */
     .puzzle-entry {
       display: flex; align-items: center; gap: 8px;
-      padding: 6px 4px; border-bottom: 1px solid #d0ccc4; cursor: pointer;
+      padding: 6px 4px; border-bottom: 1px solid #d0ccc4;
+      cursor: pointer;
     }
     .puzzle-entry:hover { background: #000080; color: #fff; }
     .puzzle-entry img { width: 18px; height: 18px; image-rendering: pixelated; flex-shrink: 0; }
@@ -363,7 +363,7 @@
     }
     #man-placeholder span { color: #666; font-size: 10px; font-style: italic; text-align: center; padding: 0 8px; }
 
-    /* ── updated red puzzle reveal message & star ── */
+    /* updated red puzzle reveal message & star */
     .reveal-message {
       font-size: 18px;
       font-weight: bold;
@@ -449,7 +449,7 @@
       <div class="d-icon-label">Puzzles</div>
     </div>
     <div class="d-icon" ondblclick="openWin('win-about')">
-      <img src="https://win98icons.alexmeub.com/icons/png/info_bubble-0.png" alt="">
+      <img src="https://win98icons.alexmeub.com/icons/png/question_mark-2.png" alt="">
       <div class="d-icon-label">About</div>
     </div>
     <div class="d-icon" ondblclick="openWin('win-recycle')">
@@ -560,21 +560,7 @@
     </div>
     <div class="win-body">
       <div class="sunken">
-        <div class="puzzle-entry">
-          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
-          <span>puzzle name here</span>
-          <span class="puzzle-badge">NEW</span>
-        </div>
-        <div class="puzzle-entry">
-          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
-          <span>crossword #1</span>
-        </div>
-        <div class="puzzle-entry">
-          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
-          <span>another puzzle of your choosing</span>
-        </div>
-
-        <!-- ── NAME PUZZLE ── -->
+        <!-- Name puzzle form (always visible) -->
         <div id="name-form-wrap">
           <div id="name-form-label">enter name:</div>
           <div id="name-form-row">
@@ -589,16 +575,31 @@
               <div style="font-size:52px;">🧍</div>
               <span>upload images/<br>mystery-man.jpg</span>
             </div>
-            <!-- RED HOT TALMUDIC NETWORK -->
             <div class="reveal-message">Shalom, goyim! The talmudic network sends it's regards!</div>
             <div class="reveal-star">✡</div>
           </div>
         </div>
 
+        <!-- Puzzle list (hidden until name entered) -->
+        <div id="puzzle-list" style="display:none; margin-top:16px; border-top:1px solid #c8c4bc; padding-top:12px;">
+          <div class="puzzle-entry" onclick="openPuzzle('puzzle-cryptogram')">
+            <img src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt="">
+            <span>Cat Cryptogram</span>
+            <span class="puzzle-badge">NEW</span>
+          </div>
+          <div class="puzzle-entry" onclick="openPuzzle('puzzle-logic')">
+            <img src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">
+            <span>Talmudic Logic Grid</span>
+          </div>
+          <div class="puzzle-entry" onclick="openPuzzle('puzzle-morse')">
+            <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
+            <span>Morse Code Meow</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="win-statusbar">
-      <div class="status-cell">3 puzzles</div>
+      <div class="status-cell" id="puzzle-status">3 puzzles</div>
     </div>
   </div>
 
@@ -608,7 +609,7 @@
   <div class="win-window" id="win-about" style="top:120px; left:300px; width:380px; height:300px; z-index:23;">
     <div class="title-bar" id="win-about-tb">
       <div class="tb-left">
-        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/info_bubble-0.png" alt="">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/question_mark-2.png" alt="">
         About — michaels cat inquiry
       </div>
       <div class="tb-controls">
@@ -674,7 +675,7 @@
         <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt=""> Puzzles
       </div>
       <div class="sm-item" onclick="openWin('win-about'); closeStart();">
-        <img src="https://win98icons.alexmeub.com/icons/png/info_bubble-0.png" alt=""> About
+        <img src="https://win98icons.alexmeub.com/icons/png/question_mark-2.png" alt=""> About
       </div>
       <div class="sm-sep"></div>
       <div class="sm-item" id="sm-shutdown">
@@ -832,7 +833,7 @@ const WIN_META  = {
   'win-gallery': { label: 'Cat Gallery', icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
   'win-writing': { label: 'Writing',     icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
   'win-puzzles': { label: 'Puzzles',     icon: 'https://win98icons.alexmeub.com/icons/png/joystick-2.png' },
-  'win-about':   { label: 'About',       icon: 'https://win98icons.alexmeub.com/icons/png/info_bubble-0.png' },
+  'win-about':   { label: 'About',       icon: 'https://win98icons.alexmeub.com/icons/png/question_mark-2.png' },
   'win-recycle': { label: 'Recycle Bin', icon: 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png' },
 };
 
@@ -958,7 +959,7 @@ function makeDraggable(win) {
 document.querySelectorAll('.win-window').forEach(makeDraggable);
 
 /* ================================================================
-   CAT GALLERY LOADER
+   CAT GALLERY LOADER – different cats each page load
 ================================================================ */
 async function loadCatGallery() {
   const grid = getEl('gallery-grid');
@@ -968,8 +969,10 @@ async function loadCatGallery() {
   grid.innerHTML = '<div class="gallery-loading">🐾 fetching cats...</div>';
   statusEl.textContent = 'loading...';
 
+  const randomSkip = Math.floor(Math.random() * 300);  // varied start each visit
+
   try {
-    const resp = await fetch('https://cataas.com/api/cats?limit=24&skip=0');
+    const resp = await fetch(`https://cataas.com/api/cats?limit=24&skip=${randomSkip}`);
     if (!resp.ok) throw new Error('API down');
     const cats = await resp.json();
 
@@ -1060,14 +1063,365 @@ function openArticle(idx) {
 }
 
 /* ================================================================
-   NAME PUZZLE
+   NAME PUZZLE (reveals puzzles below)
 ================================================================ */
 function revealMan() {
   const val = getEl('name-input').value.trim();
   if (!val) return;
   getEl('man-reveal').style.display = 'block';
+  getEl('puzzle-list').style.display = 'block';
+  getEl('puzzle-status').textContent = '4 puzzles';
 }
 getEl('name-input').addEventListener('keydown', e => { if (e.key === 'Enter') revealMan(); });
+
+/* ================================================================
+   COMPLEX PUZZLE WINDOWS
+================================================================ */
+function openPuzzle(puzzleId) {
+  if (winState[puzzleId]?.open) destroyWin(puzzleId);
+  switch (puzzleId) {
+    case 'puzzle-cryptogram': buildCatCryptogram(); break;
+    case 'puzzle-logic':      buildLogicGrid(); break;
+    case 'puzzle-morse':      buildMorsePuzzle(); break;
+  }
+}
+
+/* ---------- 1. CAT CRYPTOGRAM (substitution cipher) ---------- */
+function buildCatCryptogram() {
+  const winId = 'puzzle-cryptogram';
+  // The plaintext message (all lowercase, no spaces)
+  const plaintext = 'in ancient egypt cats were worshipped as gods and killing one was a capital offense';
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  // Generate a random substitution cipher (shuffle alphabet)
+  const cipherAlphabet = alphabet.split('').sort(() => Math.random() - 0.5).join('');
+  // Build cipher map
+  const cipherMap = {};
+  for (let i = 0; i < alphabet.length; i++) {
+    cipherMap[alphabet[i]] = cipherAlphabet[i];
+  }
+  // Cipher text
+  const cipherText = plaintext.split('').map(ch => {
+    if (alphabet.includes(ch)) return cipherMap[ch];
+    return ch; // keep spaces etc.
+  }).join('');
+
+  // Win98 window
+  const win = document.createElement('div');
+  win.className = 'win-window open';
+  win.id = winId;
+  win.style.cssText = `top:120px; left:180px; width:640px; height:500px; z-index:${++zTop};`;
+  win.innerHTML = `
+    <div class="title-bar">
+      <div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt="">Cat Cryptogram</div>
+      <div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div>
+    </div>
+    <div class="win-body"><div class="sunken" id="${winId}-content"></div></div>
+    <div class="win-statusbar"><div class="status-cell" id="${winId}-status">Decode the message</div></div>
+  `;
+  getEl('desktop').appendChild(win);
+  makeDraggable(win);
+  winState[winId] = { open: true };
+  WIN_META[winId] = { label: 'Cryptogram', icon: 'https://win98icons.alexmeub.com/icons/png/key-2.png' };
+  setActive(winId);
+  rebuildTaskbar();
+
+  const content = win.querySelector(`#${winId}-content`);
+  // State: user's current guess mapping (cipher letter -> plain letter)
+  const guessMap = {}; // cipher -> plain (or '')
+  // Reverse map for checking
+  const plainToCipher = {};
+  for (let i = 0; i < alphabet.length; i++) {
+    plainToCipher[alphabet[i]] = cipherAlphabet[i];
+  }
+
+  function render() {
+    // Build cipher text display with clickable spans
+    let cipherHtml = '<div style="font-family:monospace; font-size:18px; letter-spacing:2px; line-height:2.2; margin-bottom:16px;">';
+    for (let i = 0; i < cipherText.length; i++) {
+      const ch = cipherText[i];
+      if (ch === ' ') {
+        cipherHtml += '&nbsp;&nbsp;';
+      } else if (alphabet.includes(ch)) {
+        const guessed = guessMap[ch] || '';
+        cipherHtml += `<span class="cipher-char" data-cipher="${ch}" style="border-bottom:2px solid #000080; cursor:pointer; padding:0 2px; display:inline-block; min-width:20px; text-align:center;">${guessed || ch}</span>`;
+      } else {
+        cipherHtml += ch;
+      }
+    }
+    cipherHtml += '</div>';
+
+    // Alphabet substitution table
+    let tableHtml = '<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;">';
+    for (let c of alphabet) {
+      const g = guessMap[c] || '';
+      tableHtml += `
+        <div style="border:1px solid #888; padding:4px 6px; text-align:center; min-width:36px;">
+          <div style="font-size:14px; font-weight:bold;">${c}</div>
+          <input class="cipher-input" data-cipher="${c}" style="width:28px; text-align:center; font-size:14px;" maxlength="1" value="${g}">
+        </div>`;
+    }
+    tableHtml += '</div>';
+    tableHtml += '<button class="btn98 check-crypto-btn">Check Answer</button>';
+    tableHtml += '<div class="crypto-feedback" style="margin-top:10px; font-weight:bold;"></div>';
+
+    content.innerHTML = cipherHtml + tableHtml;
+
+    // Attach events
+    content.querySelectorAll('.cipher-char').forEach(span => {
+      span.addEventListener('click', (e) => {
+        const cipher = e.currentTarget.dataset.cipher;
+        const current = guessMap[cipher] || '';
+        const plain = prompt(`Enter the plaintext letter for '${cipher}':`, current);
+        if (plain !== null) {
+          const letter = plain.trim().toLowerCase();
+          if (letter.length === 1 && alphabet.includes(letter)) {
+            guessMap[cipher] = letter;
+          } else if (letter === '') {
+            delete guessMap[cipher];
+          }
+          render();
+        }
+      });
+    });
+
+    content.querySelectorAll('.cipher-input').forEach(input => {
+      input.addEventListener('input', (e) => {
+        const cipher = e.target.dataset.cipher;
+        const val = e.target.value.trim().toLowerCase();
+        if (val.length === 1 && alphabet.includes(val)) {
+          guessMap[cipher] = val;
+        } else {
+          delete guessMap[cipher];
+        }
+        render();
+      });
+    });
+
+    content.querySelector('.check-crypto-btn').onclick = () => {
+      let correct = 0, total = 0;
+      for (let ch of cipherText) {
+        if (alphabet.includes(ch)) {
+          total++;
+          if (guessMap[ch] === plainToCipher[ch] ? false : false) { /* check reversed: guess should map cipher to plain. Expected plain letter is the original. So we need the plain letter for this cipher position. Actually plaintext is known. For each cipher letter, the correct plain is the one that decrypts to the original. So correct if guessMap[ch] === originalPlainLetter. We need original mapping. We'll build a decryption map: cipher -> plain. */ }
+        }
+      }
+      // Let's compute correct count properly:
+      let correctCount = 0;
+      let totalCount = 0;
+      for (let i = 0; i < cipherText.length; i++) {
+        const c = cipherText[i];
+        if (!alphabet.includes(c)) continue;
+        totalCount++;
+        const expectedPlain = plaintext[i];
+        if (guessMap[c] === expectedPlain) correctCount++;
+      }
+      const fb = content.querySelector('.crypto-feedback');
+      if (correctCount === totalCount && totalCount > 0) {
+        fb.textContent = '🎉 Perfect! You cracked the cipher!';
+        fb.style.color = 'green';
+      } else {
+        fb.textContent = `Only ${correctCount}/${totalCount} letters correct. Keep trying.`;
+        fb.style.color = 'red';
+      }
+    };
+  }
+
+  render();
+}
+
+/* ---------- 2. TALMUDIC LOGIC GRID ---------- */
+function buildLogicGrid() {
+  const winId = 'puzzle-logic';
+  // Four rabbis, four cat breeds, four favorite talmudic tractates
+  const rabbis = ['Rabbi Meir', 'Rabbi Akiva', 'Rabbi Shimon', 'Rabbi Yehuda'];
+  const breeds = ['Persian', 'Siamese', 'Maine Coon', 'Sphynx'];
+  const tractates = ['Berakhot', 'Shabbat', 'Pesachim', 'Yoma'];
+  // Fixed solution (row index -> breed/tractate)
+  const solution = [
+    { breed: 'Persian',   tractate: 'Berakhot' },
+    { breed: 'Siamese',   tractate: 'Shabbat' },
+    { breed: 'Maine Coon',tractate: 'Pesachim' },
+    { breed: 'Sphynx',    tractate: 'Yoma' }
+  ];
+  // Clues
+  const clues = [
+    "1. Rabbi Meir's cat is not the Sphynx.",
+    "2. The Rabbi who studies Shabbat owns the Siamese.",
+    "3. Rabbi Shimon's cat is the Maine Coon.",
+    "4. Rabbi Akiva does not study Berakhot or Yoma.",
+    "5. The Sphynx's owner studies Pesachim.",
+  ];
+
+  const win = document.createElement('div');
+  win.className = 'win-window open';
+  win.id = winId;
+  win.style.cssText = `top:130px; left:200px; width:600px; height:520px; z-index:${++zTop};`;
+  win.innerHTML = `
+    <div class="title-bar">
+      <div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">Talmudic Logic Grid</div>
+      <div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div>
+    </div>
+    <div class="win-body"><div class="sunken" id="${winId}-content"></div></div>
+    <div class="win-statusbar"><div class="status-cell" id="${winId}-status">Match each rabbi to a cat breed and tractate.</div></div>
+  `;
+  getEl('desktop').appendChild(win);
+  makeDraggable(win);
+  winState[winId] = { open: true };
+  WIN_META[winId] = { label: 'Logic Grid', icon: 'https://win98icons.alexmeub.com/icons/png/book-2.png' };
+  setActive(winId);
+  rebuildTaskbar();
+
+  const content = win.querySelector(`#${winId}-content`);
+  // State: user selections (index -> {breed, tractate})
+  const userSelection = rabbis.map(() => ({ breed: null, tractate: null }));
+
+  function render() {
+    let html = '<div style="font-size:10px; margin-bottom:12px;">';
+    clues.forEach(c => html += `<div>${c}</div>`);
+    html += '</div>';
+
+    // Build grid: rabbis as rows, two columns (breed, tractate) with dropdowns
+    html += '<table style="width:100%; border-collapse:collapse;">';
+    html += '<tr style="background:#c0c0c0;"><td></td><td><b>Cat Breed</b></td><td><b>Tractate</b></td></tr>';
+    rabbis.forEach((rabbi, idx) => {
+      const breedOptions = breeds.map(b => `<option value="${b}" ${userSelection[idx].breed === b ? 'selected' : ''}>${b}</option>`).join('');
+      const tractOptions = tractates.map(t => `<option value="${t}" ${userSelection[idx].tractate === t ? 'selected' : ''}>${t}</option>`).join('');
+      html += `<tr>
+        <td style="padding:4px;">${rabbi}</td>
+        <td><select class="breed-sel" data-idx="${idx}" style="width:100%;">${breedOptions}</select></td>
+        <td><select class="tract-sel" data-idx="${idx}" style="width:100%;">${tractOptions}</select></td>
+      </tr>`;
+    });
+    html += '</table>';
+    html += '<button class="btn98 check-logic-btn" style="margin-top:12px;">Check Solution</button>';
+    html += '<div class="logic-feedback" style="margin-top:8px; font-weight:bold;"></div>';
+
+    content.innerHTML = html;
+
+    content.querySelectorAll('.breed-sel').forEach(sel => {
+      sel.addEventListener('change', e => {
+        userSelection[e.target.dataset.idx].breed = e.target.value;
+      });
+    });
+    content.querySelectorAll('.tract-sel').forEach(sel => {
+      sel.addEventListener('change', e => {
+        userSelection[e.target.dataset.idx].tractate = e.target.value;
+      });
+    });
+
+    content.querySelector('.check-logic-btn').onclick = () => {
+      let correct = true;
+      for (let i = 0; i < rabbis.length; i++) {
+        if (userSelection[i].breed !== solution[i].breed || userSelection[i].tractate !== solution[i].tractate) {
+          correct = false;
+          break;
+        }
+      }
+      const fb = content.querySelector('.logic-feedback');
+      if (correct) {
+        fb.textContent = 'Perfect! You solved the logic puzzle.';
+        fb.style.color = 'green';
+      } else {
+        fb.textContent = 'Not quite right yet. Check the clues again.';
+        fb.style.color = 'red';
+      }
+    };
+  }
+
+  render();
+}
+
+/* ---------- 3. MORSE CODE MEOW ---------- */
+function buildMorsePuzzle() {
+  const winId = 'puzzle-morse';
+  const message = 'meow means hello in cat language';
+  const morseMap = {
+    a: '.-', b: '-...', c: '-.-.', d: '-..', e: '.', f: '..-.', g: '--.', h: '....', i: '..', j: '.---',
+    k: '-.-', l: '.-..', m: '--', n: '-.', o: '---', p: '.--.', q: '--.-', r: '.-.', s: '...', t: '-',
+    u: '..-', v: '...-', w: '.--', x: '-..-', y: '-.--', z: '--..', ' ': '/'
+  };
+  const morseCode = message.split('').map(ch => morseMap[ch] || ch).join(' ');
+
+  const win = document.createElement('div');
+  win.className = 'win-window open';
+  win.id = winId;
+  win.style.cssText = `top:140px; left:220px; width:520px; height:440px; z-index:${++zTop};`;
+  win.innerHTML = `
+    <div class="title-bar">
+      <div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">Morse Code Meow</div>
+      <div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div>
+    </div>
+    <div class="win-body"><div class="sunken" id="${winId}-content"></div></div>
+    <div class="win-statusbar"><div class="status-cell">Translate the blinking message</div></div>
+  `;
+  getEl('desktop').appendChild(win);
+  makeDraggable(win);
+  winState[winId] = { open: true };
+  WIN_META[winId] = { label: 'Morse', icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' };
+  setActive(winId);
+  rebuildTaskbar();
+
+  const content = win.querySelector(`#${winId}-content`);
+  // Display the morse code with a blinking dot/dash effect
+  function render() {
+    content.innerHTML = `
+      <div style="margin-bottom:16px;">
+        <div id="morse-display" style="background:#000; color:#0f0; padding:12px; font-family:monospace; font-size:20px; text-align:center; letter-spacing:4px; border:inset 2px #888;">
+          ${morseCode}
+        </div>
+        <div style="text-align:center; margin-top:6px;">
+          <button class="btn98" id="play-morse-btn">▶ Replay Blink</button>
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <input type="text" id="morse-input" style="width:100%; font-size:14px; padding:4px;" placeholder="Type the decoded message">
+      </div>
+      <button class="btn98" id="check-morse-btn">Check</button>
+      <div class="morse-feedback" style="margin-top:8px; font-weight:bold;"></div>
+      <details style="margin-top:12px; font-size:10px;">
+        <summary>International Morse Code</summary>
+        <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:2px; background:#f0f0f0; padding:4px;">
+          ${Object.entries(morseMap).filter(([k]) => k !== ' ').map(([k,v]) => `<span>${k}: ${v}</span>`).join('')}
+        </div>
+      </details>
+    `;
+
+    const morseDisplay = content.querySelector('#morse-display');
+    const playBtn = content.querySelector('#play-morse-btn');
+    let blinkInterval;
+
+    function startBlink() {
+      if (blinkInterval) clearInterval(blinkInterval);
+      let visible = true;
+      morseDisplay.style.visibility = 'visible';
+      blinkInterval = setInterval(() => {
+        visible = !visible;
+        morseDisplay.style.visibility = visible ? 'visible' : 'hidden';
+      }, 500);
+    }
+
+    startBlink();
+    playBtn.onclick = () => {
+      startBlink();
+    };
+
+    content.querySelector('#check-morse-btn').onclick = () => {
+      const userAnswer = content.querySelector('#morse-input').value.trim().toLowerCase();
+      const fb = content.querySelector('.morse-feedback');
+      if (userAnswer === message) {
+        fb.textContent = 'Correct! You speak fluent meow.';
+        fb.style.color = 'green';
+        if (blinkInterval) clearInterval(blinkInterval);
+        morseDisplay.style.visibility = 'visible';
+      } else {
+        fb.textContent = 'Not quite, try again.';
+        fb.style.color = 'red';
+      }
+    };
+  }
+
+  render();
+}
 
 /* ================================================================
    START MENU
