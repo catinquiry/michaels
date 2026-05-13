@@ -12,7 +12,7 @@
 
 :root{
   --win-bg:#c0c0c0;
-  --win-light:#ffffff;
+  --win-light:#fff;
   --win-dark:#404040;
   --win-mid:#808080;
   --title-active:linear-gradient(to right,#000080,#1084d0);
@@ -27,32 +27,45 @@ body{
   font-family:var(--font);
   background:#000;
   overflow:hidden;
-  height:100vh;width:100vw;
+  height:100vh;
+  width:100vw;
   cursor:default;
-  -webkit-user-select:none;user-select:none;
+  -webkit-user-select:none;
+  user-select:none;
 }
 
-/* ─── BOOT ─── */
+/* ─── BOOT ─────────────────────────────────────────── */
 #boot{
-  position:fixed;inset:0;background:#000;
+  position:fixed;inset:0;
+  background:#000;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  z-index:9999;transition:opacity .5s;
+  z-index:9999;
+  transition:opacity .5s;
 }
 #boot.fade{opacity:0;pointer-events:none}
 
 .boot-cat{
   font-size:14px;white-space:pre;line-height:1.25;
-  color:#5ab8d4;margin-bottom:1.6rem;font-family:var(--font);
+  color:#5ab8d4;margin-bottom:1.6rem;
+  font-family:var(--font);
 }
-.boot-label{font-size:30px;letter-spacing:5px;color:var(--accent);margin-bottom:.3rem}
-.boot-sub{font-size:17px;color:#3a7a8f;margin-bottom:1.8rem}
+.boot-label{
+  font-size:30px;letter-spacing:5px;
+  color:var(--accent);margin-bottom:.3rem;
+}
+.boot-sub{
+  font-size:17px;color:#3a7a8f;margin-bottom:1.8rem;
+}
 .boot-track{
-  width:280px;height:10px;border:1px solid #1a5a6a;
+  width:280px;height:10px;
+  border:1px solid #1a5a6a;
   margin-bottom:1.8rem;overflow:hidden;
 }
-.boot-fill{height:100%;background:var(--accent);width:0%;transition:width 1.6s ease-in-out}
-
+.boot-fill{
+  height:100%;background:var(--accent);
+  width:0%;transition:width 1.6s ease-in-out;
+}
 #cont-btn{
   font-family:var(--font);font-size:22px;
   color:var(--accent);background:transparent;
@@ -63,46 +76,35 @@ body{
 #cont-btn.show{opacity:1}
 #cont-btn:hover{background:var(--accent);color:#000}
 
-/* ─── SCANLINES overlay on boot ─── */
-#boot::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,
-    transparent,transparent 2px,
-    rgba(0,0,0,.18) 2px,rgba(0,0,0,.18) 4px
-  );
-}
-
-/* ─── DESKTOP ─── */
+/* ─── DESKTOP ───────────────────────────────────────── */
 #desktop{
   position:fixed;inset:0;bottom:28px;
   background:var(--desktop);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' fill='%23007070' opacity='.6'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Crect width='1' height='1' fill='%23007777'/%3E%3Crect x='1' y='1' width='1' height='1' fill='%23007777'/%3E%3C/svg%3E");
   display:none;
 }
 #desktop.show{display:block}
 
-/* ─── DESKTOP ICONS ─── */
+/* ─── DESK ICONS ────────────────────────────────────── */
 .icon-col{
   position:absolute;top:10px;left:10px;
   display:flex;flex-direction:column;gap:6px;
 }
 .dicon{
   display:flex;flex-direction:column;align-items:center;
-  width:72px;padding:4px;
+  width:68px;padding:3px;
   border:1px solid transparent;cursor:pointer;
-  transition:background .1s;
 }
-.dicon:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.08)}
-.dicon.sel{border:1px dotted #fff;background:rgba(0,0,128,.4)}
+.dicon:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.08)}
+.dicon.sel{border:1px dotted #fff;background:rgba(0,0,128,.45)}
 .dicon img{width:32px;height:32px;image-rendering:pixelated}
 .dicon span{
   font-size:13px;color:#fff;text-align:center;
-  margin-top:3px;text-shadow:1px 1px #000;
-  word-break:break-word;line-height:1.2;
+  margin-top:2px;text-shadow:1px 1px #000;word-break:break-word;
+  line-height:1.2;
 }
 
-/* ─── WIN98 WINDOW ─── */
+/* ─── WIN98 WINDOW ──────────────────────────────────── */
 .w98{
   position:absolute;display:none;flex-direction:column;
   background:var(--win-bg);min-width:180px;
@@ -118,7 +120,8 @@ body{
   background:var(--title-active);
   color:#fff;height:22px;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 3px;cursor:move;flex-shrink:0;font-size:16px;
+  padding:0 3px;cursor:move;flex-shrink:0;
+  font-size:16px;
 }
 .tbar.inactive{background:var(--title-inactive)}
 .tbar-left{display:flex;align-items:center;gap:3px}
@@ -126,7 +129,8 @@ body{
 
 .wbtns{display:flex;gap:2px}
 .wbtn{
-  width:16px;height:14px;font-size:9px;font-family:sans-serif;
+  width:16px;height:14px;
+  font-size:9px;font-family:sans-serif;
   background:var(--win-bg);cursor:pointer;
   border-top:1.5px solid var(--win-light);
   border-left:1.5px solid var(--win-light);
@@ -156,7 +160,7 @@ body{
   display:flex;gap:2px;padding:4px 4px 0;
   background:var(--win-bg);
   border-bottom:1px solid var(--win-dark);
-  flex-shrink:0;overflow-x:auto;
+  flex-shrink:0;
 }
 .tab{
   font-family:var(--font);font-size:16px;
@@ -165,7 +169,7 @@ body{
   border-left:2px solid var(--win-light);
   border-right:2px solid var(--win-dark);
   border-bottom:none;cursor:pointer;
-  position:relative;bottom:-1px;white-space:nowrap;
+  position:relative;bottom:-1px;
 }
 .tab.on{
   border-bottom:1px solid var(--win-bg);
@@ -183,7 +187,7 @@ body{
 }
 
 /* tab panes */
-.pane{display:none;padding:10px;height:100%}
+.pane{display:none;padding:8px;height:100%}
 .pane.on{display:block}
 
 /* status bar */
@@ -199,24 +203,21 @@ body{
   padding:0 6px;font-size:13px;flex:1;
 }
 
-/* ─── ABOUT PANE ─── */
+/* ─── ABOUT PANE ────────────────────────────────────── */
 .ascii-cat{
   font-size:13px;white-space:pre;line-height:1.2;
-  color:#000080;margin-bottom:8px;
+  color:#000080;margin-bottom:6px;
 }
-.about-body{font-size:17px;line-height:1.75;color:#000}
-.about-body a{color:#000080}
-.about-body a:hover{text-decoration:underline}
+.about-body{font-size:17px;line-height:1.65;color:#000}
 
-/* ─── GALLERY ─── */
+/* ─── GALLERY ───────────────────────────────────────── */
 .gal-hdr{
-  font-size:15px;color:var(--win-mid);
-  padding:4px 8px 4px;border-bottom:1px solid #dfdfdf;
-  background:#f0f0f0;
+  font-size:14px;color:var(--win-mid);
+  padding:4px 6px 2px;border-bottom:1px solid #dfdfdf;
 }
 .gal-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:5px;padding:8px;
+  gap:4px;padding:6px;
 }
 .gal-cell{
   border-top:1px solid var(--win-dark);
@@ -224,89 +225,58 @@ body{
   border-right:1px solid var(--win-light);
   border-bottom:1px solid var(--win-light);
   overflow:hidden;aspect-ratio:1;
-  background:#b0b0b0;cursor:zoom-in;
-  position:relative;
+  background:var(--win-mid);cursor:zoom-in;
 }
 .gal-cell img{width:100%;height:100%;object-fit:cover;display:block}
-.gal-cell .gal-placeholder{
-  width:100%;height:100%;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  color:#707070;font-size:13px;gap:4px;
-}
-.gal-cell .gal-placeholder img{width:24px;height:24px;opacity:.5}
 
 /* lightbox */
 #lbox{
   display:none;position:fixed;inset:0;z-index:8000;
-  background:rgba(0,0,0,.78);
+  background:rgba(0,0,0,.75);
   align-items:center;justify-content:center;
-  cursor:zoom-out;
 }
 #lbox.show{display:flex}
-#lbox-inner{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-}
-#lbox img{
-  max-width:88vw;max-height:78vh;
-  border:2px solid var(--win-light);
-  border-right-color:var(--win-dark);
-  border-bottom-color:var(--win-dark);
-  box-shadow:4px 4px 0 #000;
-  image-rendering:auto;
-}
-#lbox-caption{
-  font-size:18px;color:#fff;
-  text-shadow:1px 1px #000;letter-spacing:1px;
-}
+#lbox img{max-width:90vw;max-height:85vh;border:2px solid #fff;box-shadow:0 0 24px #000}
 
-/* ─── WRITING PANE ─── */
+/* ─── WRITING PANE ──────────────────────────────────── */
 .phile-hdr{
-  display:flex;align-items:center;gap:6px;
-  font-size:18px;color:#000080;
+  font-size:17px;color:#000080;
   border-bottom:1px solid var(--win-mid);
-  margin-bottom:6px;padding-bottom:4px;
+  margin-bottom:6px;padding-bottom:3px;
 }
-.phile-hdr img{width:16px;height:16px;image-rendering:pixelated}
 .phile-list{list-style:none}
 .phile-row{
   display:flex;align-items:center;gap:8px;
-  padding:4px 4px;border-bottom:1px solid #e8e8e8;
+  padding:3px 4px;border-bottom:1px solid #e0e0e0;
   cursor:pointer;font-size:17px;
 }
 .phile-row:hover{background:#000080;color:#fff}
 .phile-row:hover .phile-date{color:#adf}
-.phile-row:hover img{filter:brightness(10)}
 .phile-row img{width:16px;height:16px;image-rendering:pixelated;flex-shrink:0}
-.phile-date{color:var(--win-mid);font-size:14px;white-space:nowrap;margin-left:auto}
-.phile-soon{opacity:.55;cursor:default}
-.phile-soon:hover{background:transparent!important;color:inherit!important}
-.phile-soon:hover img{filter:none!important}
+.phile-date{color:var(--win-mid);font-size:14px;white-space:nowrap}
 
-/* ─── PUZZLES PANE ─── */
+/* ─── PUZZLES PANE ──────────────────────────────────── */
 .puzz-hdr{
-  display:flex;align-items:center;gap:6px;
-  font-size:18px;color:#000080;
+  font-size:17px;color:#000080;
   border-bottom:1px solid var(--win-mid);
-  margin-bottom:10px;padding-bottom:4px;
+  margin-bottom:8px;padding-bottom:3px;
 }
-.puzz-hdr img{width:16px;height:16px;image-rendering:pixelated}
-.puzz-body{font-size:17px;line-height:1.85;color:#000}
+.puzz-body{font-size:17px;line-height:1.8;color:#000}
 
-/* ─── LINKS WINDOW ─── */
+/* ─── LINKS WINDOW ──────────────────────────────────── */
 .lsect{font-size:15px;padding:4px 0}
 .lsect-hd{
   color:#000080;font-size:15px;
   border-bottom:1px solid var(--win-mid);
-  padding-bottom:2px;margin-bottom:4px;
+  padding-bottom:2px;margin-bottom:3px;
 }
 .lsect a{
   display:flex;align-items:center;gap:4px;
-  color:#000;text-decoration:none;padding:2px 0;font-size:16px;
+  color:#000;text-decoration:none;padding:1px 0;
 }
 .lsect a:hover{text-decoration:underline;color:#000080}
 
-/* ─── TASKBAR ─── */
+/* ─── TASKBAR ───────────────────────────────────────── */
 #taskbar{
   position:fixed;bottom:0;left:0;right:0;height:28px;
   background:var(--win-bg);
@@ -341,7 +311,7 @@ body{
 .tbwin{
   font-family:var(--font);font-size:14px;
   background:var(--win-bg);height:22px;
-  min-width:80px;max-width:160px;
+  min-width:70px;max-width:150px;
   border-top:2px solid var(--win-light);
   border-left:2px solid var(--win-light);
   border-right:2px solid var(--win-dark);
@@ -368,15 +338,16 @@ body{
   font-size:15px;white-space:nowrap;
 }
 
-/* ─── START MENU ─── */
+/* ─── START MENU ────────────────────────────────────── */
 #smenu{
   position:fixed;bottom:28px;left:0;
-  width:210px;background:var(--win-bg);
+  width:210px;
+  background:var(--win-bg);
   border-top:2px solid var(--win-light);
   border-left:2px solid var(--win-light);
   border-right:2px solid var(--win-dark);
   border-bottom:2px solid var(--win-dark);
-  box-shadow:3px 3px 4px rgba(0,0,0,.4);
+  box-shadow:3px 3px 4px rgba(0,0,0,.5);
   display:none;flex-direction:row;z-index:9001;
 }
 #smenu.open{display:flex}
@@ -387,20 +358,20 @@ body{
   padding-bottom:6px;
 }
 .sbar-side span{
-  font-size:16px;color:rgba(255,255,255,.6);
+  font-size:16px;color:rgba(255,255,255,.65);
   writing-mode:vertical-lr;transform:rotate(180deg);
   letter-spacing:3px;
 }
 .sbar-items{flex:1}
 .si{
   display:flex;align-items:center;gap:8px;
-  padding:4px 10px;font-size:17px;cursor:pointer;
+  padding:4px 8px;font-size:17px;cursor:pointer;
 }
 .si:hover{background:#000080;color:#fff}
 .si img{width:20px;height:20px;image-rendering:pixelated}
 .ssep{height:1px;background:var(--win-dark);margin:2px 4px}
 
-/* ─── SCROLLBARS ─── */
+/* ─── SCROLLBARS ────────────────────────────────────── */
 ::-webkit-scrollbar{width:16px;height:16px}
 ::-webkit-scrollbar-track{background:var(--win-bg)}
 ::-webkit-scrollbar-thumb{
@@ -421,7 +392,7 @@ body{
 </head>
 <body>
 
-<!-- ══════════ BOOT ══════════ -->
+<!-- ════════════════════ BOOT ════════════════════ -->
 <div id="boot">
   <div class="boot-cat">    /\_____/\
    /  o   o  \
@@ -436,7 +407,7 @@ body{
   <button id="cont-btn">[ continue ]</button>
 </div>
 
-<!-- ══════════ DESKTOP ══════════ -->
+<!-- ════════════════════ DESKTOP ════════════════════ -->
 <div id="desktop">
 
   <!-- ICONS -->
@@ -449,7 +420,7 @@ body{
       <img src="https://win98icons.alexmeub.com/icons/png/image_file-0.png" alt="">
       <span>cat gallery</span>
     </div>
-    <div class="dicon" ondblclick="goWritings()" onclick="selIcon(this)">
+    <div class="dicon" ondblclick="openTab('Writing')" onclick="selIcon(this)">
       <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
       <span>writings</span>
     </div>
@@ -464,8 +435,8 @@ body{
   </div>
 
   <!-- ──── MAIN WINDOW ──── -->
-  <div class="w98 open" id="win-main" style="left:90px;top:30px;width:540px;height:450px;">
-    <div class="tbar" id="tb-main">
+  <div class="w98 open" id="win-main" style="left:90px;top:30px;width:530px;height:440px;">
+    <div class="tbar" id="tb-main" ondragstart="return false">
       <div class="tbar-left">
         <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" alt="">
         <span id="main-title">michaels cat inquiry</span>
@@ -483,10 +454,10 @@ body{
       <span class="mi">Help</span>
     </div>
     <div class="tabbar" id="main-tabbar">
-      <div class="tab on"  onclick="switchTab('About')">About</div>
-      <div class="tab"     onclick="switchTab('Gallery')">Gallery</div>
-      <div class="tab"     onclick="goWritings()">Writing</div>
-      <div class="tab"     onclick="switchTab('Puzzles')">Puzzles</div>
+      <div class="tab on" onclick="switchTab('About')">About</div>
+      <div class="tab" onclick="switchTab('Gallery')">Gallery</div>
+      <div class="tab" onclick="switchTab('Writing')">Writing</div>
+      <div class="tab" onclick="switchTab('Puzzles')">Puzzles</div>
     </div>
     <div class="wbody inset" style="height:100%;overflow:auto;">
 
@@ -512,31 +483,40 @@ body{
       </div>
 
       <!-- GALLERY -->
-      <div class="pane" id="pane-Gallery" style="padding:0;background:#fff;">
-        <div class="gal-hdr">
-          <img src="https://win98icons.alexmeub.com/icons/png/image_file-0.png" alt="" style="width:14px;height:14px;vertical-align:middle;image-rendering:pixelated">
-          ★ cat gallery — click a photo to view larger ★
-        </div>
-        <div class="gal-grid" id="gal-grid"></div>
-        <div style="font-size:14px;color:var(--win-mid);padding:0 8px 8px;text-align:center;">
-          add your own photos by editing the <code>CAT_PHOTOS</code> array in the script
+      <div class="pane" id="pane-Gallery" style="padding:0;">
+        <div class="gal-hdr">★ cat gallery — click a photo to view larger ★</div>
+        <div class="gal-grid" id="gal-grid">
+          <!-- populated by JS -->
         </div>
       </div>
 
-      <!-- WRITING (redirects, but tab stays as nav) -->
-      <div class="pane" id="pane-Writing" style="background:#fff;">
+      <!-- WRITING -->
+      <div class="pane" id="pane-Writing">
         <div class="phile-hdr">
-          <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt=""> philes &amp; writings
+          <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="" style="width:16px;height:16px;vertical-align:middle;image-rendering:pixelated"> philes &amp; writings
         </div>
-        <ul class="phile-list" id="writing-list">
-          <!-- populated by WRITINGS array below -->
+        <ul class="phile-list">
+          <li class="phile-row">
+            <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
+            <span style="flex:1">[coming soon] first entry</span>
+            <span class="phile-date">2025</span>
+          </li>
+          <li class="phile-row">
+            <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
+            <span style="flex:1">[coming soon] something from the mountains</span>
+            <span class="phile-date">2025</span>
+          </li>
+          <li class="phile-row" style="color:var(--win-mid);cursor:default;border:none">
+            <img src="https://win98icons.alexmeub.com/icons/png/msie1-2.png" alt="">
+            <span style="flex:1">more entries coming soon...</span>
+          </li>
         </ul>
       </div>
 
       <!-- PUZZLES -->
-      <div class="pane" id="pane-Puzzles" style="background:#fff;">
+      <div class="pane" id="pane-Puzzles">
         <div class="puzz-hdr">
-          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt=""> puzzles &amp; diversions
+          <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="" style="width:16px;height:16px;vertical-align:middle;image-rendering:pixelated"> puzzles &amp; diversions
         </div>
         <div class="puzz-body">
           coming soon — puzzles, riddles,<br>
@@ -553,7 +533,7 @@ body{
   </div>
 
   <!-- ──── LINKS WINDOW ──── -->
-  <div class="w98 open" id="win-links" style="right:14px;top:30px;width:175px;">
+  <div class="w98 open" id="win-links" style="left:640px;top:30px;width:175px;">
     <div class="tbar" id="tb-links">
       <div class="tbar-left">
         <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="">
@@ -569,7 +549,7 @@ body{
         <div class="lsect-hd">-- navigate --</div>
         <a href="#" onclick="openTab('About');return false">[-] about</a>
         <a href="#" onclick="openTab('Gallery');return false">[-] cat gallery</a>
-        <a href="writing.html">[-] writings</a>
+        <a href="#" onclick="openTab('Writing');return false">[-] writings</a>
         <a href="#" onclick="openTab('Puzzles');return false">[-] puzzles</a>
       </div>
       <div class="lsect" style="margin-top:8px">
@@ -579,8 +559,8 @@ body{
     </div>
   </div>
 
-  <!-- ──── RECYCLE BIN ──── -->
-  <div class="w98" id="win-rb" style="left:160px;top:120px;width:270px;height:160px;">
+  <!-- ──── RECYCLE BIN WINDOW ──── -->
+  <div class="w98" id="win-rb" style="left:160px;top:100px;width:270px;height:160px;">
     <div class="tbar" id="tb-rb">
       <div class="tbar-left">
         <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-0.png" alt="">
@@ -598,15 +578,12 @@ body{
 
   <!-- ──── LIGHTBOX ──── -->
   <div id="lbox" onclick="closeLbox()">
-    <div id="lbox-inner">
-      <img id="lbox-img" src="" alt="cat photo">
-      <div id="lbox-caption"></div>
-    </div>
+    <img id="lbox-img" src="" alt="cat photo">
   </div>
 
 </div><!-- /desktop -->
 
-<!-- ══════════ TASKBAR ══════════ -->
+<!-- ════════════════════ TASKBAR ════════════════════ -->
 <div id="taskbar">
   <button id="start-btn" onclick="toggleStart()">
     <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" alt=""> <strong>Start</strong>
@@ -617,7 +594,7 @@ body{
   <div id="clock"></div>
 </div>
 
-<!-- ══════════ START MENU ══════════ -->
+<!-- ════════════════════ START MENU ════════════════════ -->
 <div id="smenu">
   <div class="sbar-side"><span>Windows 98</span></div>
   <div class="sbar-items">
@@ -627,7 +604,7 @@ body{
     <div class="si" onclick="openTab('Gallery');toggleStart()">
       <img src="https://win98icons.alexmeub.com/icons/png/image_file-0.png" alt=""> Cat Gallery
     </div>
-    <div class="si" onclick="goWritings();toggleStart()">
+    <div class="si" onclick="openTab('Writing');toggleStart()">
       <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt=""> Writings
     </div>
     <div class="si" onclick="openTab('Puzzles');toggleStart()">
@@ -645,28 +622,6 @@ body{
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// ★  EDIT YOUR CAT PHOTOS HERE  ★
-// Replace the placeholder objects with your own images.
-// Each entry: { src: "path/to/image.jpg", caption: "optional label" }
-// Use relative paths (e.g. "photos/tabby.jpg") or full URLs.
-// ══════════════════════════════════════════════════════
-const CAT_PHOTOS = [
-  // { src: "photos/mochi.jpg",   caption: "mochi, mid-yawn" },
-  // { src: "photos/biscuit.jpg", caption: "biscuit on the radiator" },
-  // Add more entries here — the grid expands automatically.
-];
-
-// ══════════════════════════════════════════════════════
-// ★  EDIT YOUR WRITINGS HERE  ★
-// Each entry: { title, date, file (relative URL), icon (optional) }
-// Set file: null for "coming soon" entries.
-// ══════════════════════════════════════════════════════
-const WRITINGS = [
-  // { title: "first entry", date: "2025", file: "writing.html#first-entry", icon: "notepad_file-0" },
-  // { title: "something from the mountains", date: "2025", file: null, icon: "write_wordpad-0" },
-];
-
 // ── BOOT ─────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
@@ -680,28 +635,35 @@ document.getElementById('cont-btn').addEventListener('click', () => {
   boot.classList.add('fade');
   setTimeout(() => {
     boot.style.display = 'none';
-    document.getElementById('desktop').classList.add('show');
+    const desk = document.getElementById('desktop');
+    desk.classList.add('show');
     initDesktop();
   }, 520);
 });
 
 // ── INIT ─────────────────────────────────────────────
 function initDesktop() {
+  // Position links window based on actual viewport
+  const lw = document.getElementById('win-links');
+  lw.style.left = (window.innerWidth - lw.offsetWidth - 14) + 'px';
+
   // Make windows draggable
   ['main','links','rb'].forEach(id => {
     makeDrag(document.getElementById('win-'+id), document.getElementById('tb-'+id));
   });
 
-  // Taskbar entries for initially-open windows
+  // Taskbar buttons for initially-open windows
   tbAdd('win-main','michaels cat inquiry','https://win98icons.alexmeub.com/icons/png/windows-0.png');
   tbAdd('win-links','Links','https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png');
 
+  // Clock
   updateClock();
   setInterval(updateClock, 1000);
 
+  // Gallery
   buildGallery();
-  buildWritingList();
 
+  // Click desktop to deselect icons
   document.getElementById('desktop').addEventListener('mousedown', e => {
     if (!e.target.closest('.dicon')) selIcon(null);
     if (!e.target.closest('.w98')) {
@@ -722,77 +684,37 @@ function updateClock() {
 // ── GALLERY ───────────────────────────────────────────
 function buildGallery() {
   const grid = document.getElementById('gal-grid');
-  grid.innerHTML = '';
-
-  if (CAT_PHOTOS.length === 0) {
-    // Show 6 placeholder slots
-    for (let i = 0; i < 6; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'gal-cell';
-      cell.innerHTML = `<div class="gal-placeholder">
-        <img src="https://win98icons.alexmeub.com/icons/png/image_file-0.png" alt="">
-        <span>photo ${i+1}</span>
-      </div>`;
-      grid.appendChild(cell);
-    }
-  } else {
-    CAT_PHOTOS.forEach((photo, i) => {
-      const cell = document.createElement('div');
-      cell.className = 'gal-cell';
-      const img = document.createElement('img');
-      img.src = photo.src;
-      img.alt = photo.caption || `cat photo ${i+1}`;
-      img.loading = 'lazy';
-      img.onerror = () => {
-        cell.innerHTML = `<div class="gal-placeholder">
-          <img src="https://win98icons.alexmeub.com/icons/png/image_file-0.png" alt="">
-          <span>not found</span>
-        </div>`;
-      };
-      cell.onclick = () => openLbox(photo.src, photo.caption || '');
-      cell.appendChild(img);
-      grid.appendChild(cell);
-    });
-  }
+  // cataas.com: add cache-busting seeds so each slot fetches a different cat
+  const seeds = [Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random()];
+  seeds.forEach(s => {
+    const cell = document.createElement('div');
+    cell.className = 'gal-cell';
+    const img = document.createElement('img');
+    const url = `https://cataas.com/cat?${s}`;
+    img.src = url;
+    img.alt = 'cat';
+    img.loading = 'lazy';
+    img.onerror = () => { cell.style.background = '#999'; };
+    img.onclick = () => openLbox(url);
+    cell.appendChild(img);
+    grid.appendChild(cell);
+  });
 }
 
-function openLbox(src, caption) {
+function openLbox(src) {
   document.getElementById('lbox-img').src = src;
-  document.getElementById('lbox-caption').textContent = caption;
   document.getElementById('lbox').classList.add('show');
 }
 function closeLbox() { document.getElementById('lbox').classList.remove('show'); }
 
-// ── WRITINGS LIST ─────────────────────────────────────
-function buildWritingList() {
-  const ul = document.getElementById('writing-list');
-  ul.innerHTML = '';
-
-  if (WRITINGS.length === 0) {
-    ul.innerHTML = `<li class="phile-row phile-soon">
-      <img src="https://win98icons.alexmeub.com/icons/png/msie1-2.png" alt="">
-      <span style="flex:1">writings coming soon...</span>
-    </li>`;
-    return;
-  }
-
-  WRITINGS.forEach(w => {
-    const icon = w.icon || 'notepad_file-0';
-    const li = document.createElement('li');
-    li.className = 'phile-row' + (w.file ? '' : ' phile-soon');
-    li.innerHTML = `
-      <img src="https://win98icons.alexmeub.com/icons/png/${icon}.png" alt="">
-      <span style="flex:1">${w.title}</span>
-      <span class="phile-date">${w.date}</span>`;
-    if (w.file) li.onclick = () => { window.location.href = w.file; };
-    ul.appendChild(li);
-  });
-}
-
-// ── NAVIGATION ────────────────────────────────────────
-function goWritings() { window.location.href = 'writing.html'; }
-
 // ── TABS ─────────────────────────────────────────────
+const tabMeta = {
+  About: 'michaels cat inquiry',
+  Gallery: 'cat gallery — michaels cat inquiry',
+  Writing: 'writings — michaels cat inquiry',
+  Puzzles: 'puzzles — michaels cat inquiry'
+};
+
 function switchTab(name) {
   document.querySelectorAll('#main-tabbar .tab').forEach(t => {
     t.classList.toggle('on', t.textContent.trim() === name);
@@ -800,8 +722,7 @@ function switchTab(name) {
   document.querySelectorAll('.pane').forEach(p => {
     p.classList.toggle('on', p.id === 'pane-'+name);
   });
-  document.getElementById('main-title').textContent =
-    name === 'About' ? 'michaels cat inquiry' : name.toLowerCase();
+  document.getElementById('main-title').textContent = name === 'About' ? 'michaels cat inquiry' : name;
   document.getElementById('statustext').textContent = name;
 }
 
@@ -812,11 +733,10 @@ function openTab(name) {
 
 // ── WINDOW MANAGEMENT ────────────────────────────────
 let zTop = 100;
-const wstate = {};
+const wstate = {};   // { id: 'open'|'min'|'closed' }
 
 function openWin(id) {
   const w = document.getElementById(id);
-  if (!w) return;
   w.classList.add('open');
   w.style.display = 'flex';
   bringFront(id);
@@ -836,7 +756,7 @@ function closeWin(id) {
   wstate[id] = 'closed';
 }
 
-function minWin(id) {
+function minWin(id, title, icon) {
   const w = document.getElementById(id);
   w.style.display = 'none';
   wstate[id] = 'min';
@@ -847,21 +767,21 @@ function bringFront(id) {
   zTop++;
   document.getElementById(id).style.zIndex = zTop;
   document.querySelectorAll('.tbar').forEach(t => t.classList.add('inactive'));
-  const tbid = 'tb-' + id.replace('win-','');
-  const tb = document.getElementById(tbid);
+  const tb = document.getElementById('tb-'+id.replace('win-',''));
   if (tb) tb.classList.remove('inactive');
-  document.querySelectorAll('.tbwin').forEach(b =>
-    b.classList.toggle('on', b.dataset.id === id));
+  document.querySelectorAll('.tbwin').forEach(b => b.classList.toggle('on', b.dataset.id === id));
 }
 
 function winMeta(id) {
-  return {
+  const map = {
     'win-main':  { title:'michaels cat inquiry', icon:'https://win98icons.alexmeub.com/icons/png/windows-0.png' },
     'win-links': { title:'Links', icon:'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
     'win-rb':    { title:'Recycle Bin', icon:'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-0.png' }
-  }[id] || { title:id, icon:'' };
+  };
+  return map[id] || { title:id, icon:'' };
 }
 
+// Bring window to front when clicked
 document.addEventListener('mousedown', e => {
   const w = e.target.closest('.w98');
   if (w) bringFront(w.id);
@@ -875,10 +795,11 @@ function tbAdd(id, title, icon) {
   btn.dataset.id = id;
   btn.innerHTML = `<img src="${icon}" alt=""> ${title}`;
   btn.onclick = () => {
-    const st = wstate[id];
-    if (!st || st === 'closed' || st === 'min') { openWin(id); return; }
     const w = document.getElementById(id);
-    if (parseInt(w.style.zIndex) === zTop) minWin(id);
+    const st = wstate[id];
+    if (!st || st === 'closed') { openWin(id); return; }
+    if (st === 'min') { openWin(id); return; }
+    if (parseInt(w.style.zIndex) === zTop) { minWin(id, title, icon); }
     else bringFront(id);
   };
   document.getElementById('tbwins').appendChild(btn);
@@ -888,9 +809,9 @@ function tbRemove(id) {
   const b = document.querySelector(`.tbwin[data-id="${id}"]`);
   if (b) b.remove();
 }
+
 function tbActivate(id) {
-  document.querySelectorAll('.tbwin').forEach(b =>
-    b.classList.toggle('on', b.dataset.id === id));
+  document.querySelectorAll('.tbwin').forEach(b => b.classList.toggle('on', b.dataset.id === id));
 }
 function tbDeactivate(id) {
   const b = document.querySelector(`.tbwin[data-id="${id}"]`);
@@ -911,14 +832,14 @@ document.addEventListener('mousedown', e => {
 
 // ── DRAGGABLE ─────────────────────────────────────────
 function makeDrag(win, handle) {
-  if (!win || !handle) return;
   let ox=0, oy=0, dragging=false;
 
   function startDrag(cx, cy) {
     dragging = true;
+    // Ensure left/top are set (in case window was right-positioned)
     const rect = win.getBoundingClientRect();
-    win.style.left  = rect.left + 'px';
-    win.style.top   = rect.top  + 'px';
+    win.style.left = rect.left + 'px';
+    win.style.top  = rect.top  + 'px';
     win.style.right = 'auto';
     ox = cx - rect.left;
     oy = cy - rect.top;
@@ -935,17 +856,21 @@ function makeDrag(win, handle) {
 
   handle.addEventListener('mousedown', e => {
     if (e.target.closest('.wbtn')) return;
-    startDrag(e.clientX, e.clientY); e.preventDefault();
+    startDrag(e.clientX, e.clientY);
+    e.preventDefault();
   });
   document.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
   document.addEventListener('mouseup', endDrag);
 
+  // touch support
   handle.addEventListener('touchstart', e => {
     if (e.target.closest('.wbtn')) return;
-    const t = e.touches[0]; startDrag(t.clientX, t.clientY);
+    const t = e.touches[0];
+    startDrag(t.clientX, t.clientY);
   }, {passive:true});
   document.addEventListener('touchmove', e => {
-    const t = e.touches[0]; moveDrag(t.clientX, t.clientY);
+    const t = e.touches[0];
+    moveDrag(t.clientX, t.clientY);
   }, {passive:true});
   document.addEventListener('touchend', endDrag);
 }
