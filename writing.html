@@ -37,7 +37,9 @@ body{
   position:fixed;inset:0;bottom:28px;
   background:var(--desktop);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' fill='%23007070' opacity='.6'/%3E%3C/svg%3E");
+  display:none;
 }
+#desktop.show{display:block}
 
 /* ─── DESKTOP ICONS ─── */
 .icon-col{
@@ -48,6 +50,7 @@ body{
   display:flex;flex-direction:column;align-items:center;
   width:72px;padding:4px;
   border:1px solid transparent;cursor:pointer;
+  transition:background .1s;
 }
 .dicon:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.08)}
 .dicon.sel{border:1px dotted #fff;background:rgba(0,0,128,.4)}
@@ -118,7 +121,7 @@ body{
 }
 
 /* status bar */
-.sbar-strip{
+.sbar{
   display:flex;gap:2px;padding:2px;flex-shrink:0;
   border-top:1px solid var(--win-dark);background:var(--win-bg);
 }
@@ -129,97 +132,6 @@ body{
   border-bottom:1px solid var(--win-light);
   padding:0 6px;font-size:13px;flex:1;
 }
-
-/* ─── INDEX PANE ─── */
-.phile-hdr{
-  display:flex;align-items:center;gap:6px;
-  font-size:18px;color:#000080;
-  border-bottom:1px solid var(--win-mid);
-  padding:8px 10px 6px;background:#f5f5f5;
-  flex-shrink:0;
-}
-.phile-hdr img{width:16px;height:16px;image-rendering:pixelated}
-
-.phile-list{list-style:none;overflow:auto;flex:1}
-.phile-row{
-  display:flex;align-items:center;gap:8px;
-  padding:5px 10px;border-bottom:1px solid #e8e8e8;
-  cursor:pointer;font-size:17px;user-select:none;
-}
-.phile-row:hover{background:#000080;color:#fff}
-.phile-row:hover .phile-date{color:#adf}
-.phile-row:hover img{filter:brightness(10)}
-.phile-row img{width:16px;height:16px;image-rendering:pixelated;flex-shrink:0}
-.phile-date{
-  color:var(--win-mid);font-size:14px;
-  white-space:nowrap;margin-left:auto;padding-left:12px;
-}
-.phile-desc{
-  font-size:14px;color:var(--win-mid);
-  padding-left:34px;padding-bottom:3px;
-  border-bottom:1px solid #e8e8e8;
-}
-.no-entries{
-  padding:20px;font-size:17px;
-  color:var(--win-mid);text-align:center;
-  line-height:1.8;
-}
-
-/* ─── READER WINDOW ─── */
-#win-reader{
-  left:120px;top:20px;
-  width:560px;height:500px;
-  display:none;
-}
-#win-reader.open{display:flex}
-
-.reader-toolbar{
-  display:flex;align-items:center;gap:6px;
-  padding:3px 6px;background:var(--win-bg);
-  border-bottom:1px solid var(--win-mid);
-  flex-shrink:0;
-}
-.rtbtn{
-  font-family:var(--font);font-size:15px;
-  background:var(--win-bg);cursor:pointer;
-  border-top:1.5px solid var(--win-light);
-  border-left:1.5px solid var(--win-light);
-  border-right:1.5px solid var(--win-dark);
-  border-bottom:1.5px solid var(--win-dark);
-  padding:1px 8px;
-}
-.rtbtn:active{
-  border-top:1.5px solid var(--win-dark);
-  border-left:1.5px solid var(--win-dark);
-  border-right:1.5px solid var(--win-light);
-  border-bottom:1.5px solid var(--win-light);
-}
-.rtbtn:hover{background:#e0e0e0}
-
-/* ─── ENTRY BODY ─── */
-.entry-body{
-  padding:14px 18px;
-  background:#fff;
-  font-family:var(--font);
-  user-select:text;
-  -webkit-user-select:text;
-}
-.entry-title{
-  font-size:28px;color:#000080;
-  margin-bottom:2px;line-height:1.1;
-}
-.entry-meta{
-  font-size:14px;color:var(--win-mid);
-  margin-bottom:12px;
-  border-bottom:1px solid #ddd;
-  padding-bottom:8px;
-}
-.entry-text{
-  font-size:18px;color:#111;
-  line-height:1.75;
-}
-.entry-text p{margin-bottom:12px}
-.entry-text p:last-child{margin-bottom:0}
 
 /* ─── LINKS WINDOW ─── */
 .lsect{font-size:15px;padding:4px 0}
@@ -344,6 +256,74 @@ body{
   border-right:2px solid var(--win-dark);
   border-bottom:2px solid var(--win-dark);
 }
+
+/* ─── WRITING-PAGE SPECIFIC ─── */
+.phile-hdr{
+  display:flex;align-items:center;gap:6px;
+  font-size:18px;color:#000080;
+  border-bottom:1px solid var(--win-mid);
+  padding:8px 10px 6px;background:#f5f5f5;
+  flex-shrink:0;
+}
+.phile-hdr img{width:16px;height:16px;image-rendering:pixelated}
+.phile-list{list-style:none;overflow:auto;flex:1}
+.phile-row{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 10px;border-bottom:1px solid #e8e8e8;
+  cursor:pointer;font-size:17px;user-select:none;
+}
+.phile-row:hover{background:#000080;color:#fff}
+.phile-row:hover .phile-date{color:#adf}
+.phile-row:hover img{filter:brightness(10)}
+.phile-row img{width:16px;height:16px;image-rendering:pixelated;flex-shrink:0}
+.phile-date{
+  color:var(--win-mid);font-size:14px;
+  white-space:nowrap;margin-left:auto;padding-left:12px;
+}
+.phile-desc{
+  font-size:14px;color:var(--win-mid);
+  padding:0 10px 4px 34px;
+  border-bottom:1px solid #eeeeee;
+}
+.no-entries{
+  padding:20px;font-size:17px;
+  color:var(--win-mid);text-align:center;line-height:1.8;
+}
+.reader-toolbar{
+  display:flex;align-items:center;gap:4px;
+  padding:3px 6px;background:var(--win-bg);
+  border-bottom:1px solid var(--win-mid);
+  flex-shrink:0;
+}
+.rtbtn{
+  font-family:var(--font);font-size:15px;
+  background:var(--win-bg);cursor:pointer;
+  border-top:1.5px solid var(--win-light);
+  border-left:1.5px solid var(--win-light);
+  border-right:1.5px solid var(--win-dark);
+  border-bottom:1.5px solid var(--win-dark);
+  padding:1px 8px;
+}
+.rtbtn:active{
+  border-top:1.5px solid var(--win-dark);
+  border-left:1.5px solid var(--win-dark);
+  border-right:1.5px solid var(--win-light);
+  border-bottom:1.5px solid var(--win-light);
+}
+.rtbtn:hover{background:#e0e0e0}
+.entry-body{
+  padding:14px 18px;background:#fff;
+  font-family:var(--font);
+  user-select:text;-webkit-user-select:text;
+}
+.entry-title{font-size:28px;color:#000080;margin-bottom:2px;line-height:1.1}
+.entry-meta{
+  font-size:14px;color:var(--win-mid);
+  margin-bottom:12px;border-bottom:1px solid #ddd;padding-bottom:8px;
+}
+.entry-text{font-size:18px;color:#111;line-height:1.75}
+.entry-text p{margin-bottom:12px}
+.entry-text p:last-child{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -389,7 +369,7 @@ body{
       philes &amp; writings — double-click to open
     </div>
     <ul class="phile-list" id="index-list"></ul>
-    <div class="sbar-strip">
+    <div class="sbar">
       <div class="sp" id="idx-status">Ready</div>
       <div class="sp" style="flex:0;white-space:nowrap" id="idx-count"></div>
     </div>
@@ -415,7 +395,7 @@ body{
       <button class="rtbtn" onclick="closeWin('win-reader')">Close</button>
     </div>
     <div class="wbody inset" id="reader-body" style="background:#fff;"></div>
-    <div class="sbar-strip">
+    <div class="sbar">
       <div class="sp" id="reader-status">—</div>
     </div>
   </div>
@@ -437,8 +417,8 @@ body{
         <div class="lsect-hd">-- navigate --</div>
         <a href="index.html">[-] home</a>
         <a href="writing.html">[-] writings</a>
-        <a href="index.html#gallery">[-] cat gallery</a>
-        <a href="index.html#puzzles">[-] puzzles</a>
+        <a href="index.html">[-] cat gallery</a>
+        <a href="index.html">[-] puzzles</a>
       </div>
       <div class="lsect" style="margin-top:8px">
         <div class="lsect-hd">-- other --</div>
@@ -514,11 +494,10 @@ body{
 //              "certificate-0"    (formal / essay)
 //   desc:    one-line description shown below the title in the list
 //   body:    the full text of your entry as an HTML string.
-//            Use <p> tags for paragraphs. Plain line breaks also work.
+//            Use <p> tags for paragraphs.
 //
-// To add a new entry: copy one of the example objects below,
-// paste it into the array, fill in your content, and save.
-// The list and reader update automatically — no other changes needed.
+// To add a new entry: copy one of the objects below, paste it into
+// the array, fill in your content, save. That's it.
 // ══════════════════════════════════════════════════════════════
 const WRITINGS = [
 
@@ -552,18 +531,22 @@ const WRITINGS = [
   // },
 
 ];
-// ══════════════════════════════════════════════════════════════
 
 // ── INIT ─────────────────────────────────────────────
 let currentIdx = -1;
 
 window.addEventListener('DOMContentLoaded', () => {
+  // Show desktop immediately (inner pages skip the boot screen)
+  document.getElementById('desktop').classList.add('show');
+
   buildIndex();
   updateClock();
   setInterval(updateClock, 1000);
+
   ['index','reader','links','rb'].forEach(id => {
     makeDrag(document.getElementById('win-'+id), document.getElementById('tb-'+id));
   });
+
   tbAdd('win-index','writings','https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png');
   tbAdd('win-links','Links','https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png');
 
@@ -573,7 +556,7 @@ window.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.tbar').forEach(t => t.classList.add('inactive'));
   });
 
-  // Check URL hash for direct entry link
+  // Deep-link: open entry from URL hash
   if (location.hash) {
     const slug = location.hash.slice(1);
     const idx = WRITINGS.findIndex(w => w.id === slug);
@@ -619,14 +602,16 @@ function buildIndex() {
       <span class="phile-date">${w.date}</span>`;
     li.addEventListener('dblclick', () => openEntry(i));
     li.addEventListener('click', () => {
-      document.querySelectorAll('.phile-row').forEach(r => r.style.background = '');
+      document.querySelectorAll('.phile-row').forEach(r => {
+        r.style.background = '';
+        r.style.color = '';
+      });
       li.style.background = '#000080';
       li.style.color = '#fff';
       document.getElementById('idx-status').textContent = w.title;
     });
     ul.appendChild(li);
 
-    // description row
     if (w.desc) {
       const desc = document.createElement('div');
       desc.className = 'phile-desc';
@@ -652,9 +637,7 @@ function openEntry(idx) {
       <div class="entry-text">${w.body}</div>
     </div>`;
 
-  // Update URL hash without navigating
   history.replaceState(null, '', '#' + w.id);
-
   openWin('win-reader');
 }
 
@@ -710,8 +693,8 @@ function bringFront(id) {
 function winMeta(id) {
   return {
     'win-index':  { title:'writings', icon:'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
-    'win-reader': { title:'reader', icon:'https://win98icons.alexmeub.com/icons/png/notepad_file-0.png' },
-    'win-links':  { title:'Links', icon:'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
+    'win-reader': { title:'reader',   icon:'https://win98icons.alexmeub.com/icons/png/notepad_file-0.png' },
+    'win-links':  { title:'Links',    icon:'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
     'win-rb':     { title:'Recycle Bin', icon:'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-0.png' }
   }[id] || { title:id, icon:'' };
 }
