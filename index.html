@@ -49,17 +49,11 @@
 
     /* =============================================
        DESKTOP
-       ─────────────────────────────────────────
-       BACKGROUND IMAGE:
-         1. Upload your image to GitHub
-            (e.g. put it in an "images/" folder)
-         2. Uncomment the background-image line below
-            and update the filename to match yours
     ============================================= */
     #desktop {
       display: none;
       position: fixed; inset: 0;
-      background-color: #008080;
+      background-color: #000;
       /* background-image: url('images/background.jpg'); */
       background-size: cover;
       background-position: center;
@@ -68,7 +62,7 @@
       overflow: hidden;
     }
 
-    /* Star canvas sits behind everything */
+    /* Star canvas behind everything */
     #stars {
       position: absolute; inset: 0;
       z-index: 0;
@@ -256,17 +250,23 @@
     .sm-sep { border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 3px 0; }
 
     /* =============================================
-       GALLERY
+       GALLERY (DYNAMIC)
     ============================================= */
     .gallery-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 columns for 24 items */
+      gap: 8px;
     }
     .cat-thumb {
       border: 2px solid; border-color: #808080 #fff #fff #808080;
       overflow: hidden; cursor: pointer; background: #1a1a1a;
+      position: relative;
     }
     .cat-thumb:hover { border-color: #000080 #8888ff #8888ff #000080; }
-    .cat-thumb img { width: 100%; height: 110px; object-fit: cover; display: block; }
+    .cat-thumb img {
+      width: 100%; height: 110px;
+      object-fit: cover; display: block;
+    }
     .cat-placeholder {
       width: 100%; height: 110px;
       background: #1e1e1e;
@@ -275,7 +275,12 @@
     }
     .cat-filename {
       text-align: center; font-size: 10px; padding: 2px 3px;
-      background: #d4d0c8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      background: #d4d0c8;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .gallery-loading {
+      text-align: center; padding: 20px;
+      font-style: italic; color: #888;
     }
 
     /* =============================================
@@ -350,13 +355,6 @@
       max-width: 100%; max-height: 200px;
       border: 2px solid; border-color: #808080 #fff #fff #808080;
     }
-    /*
-      MYSTERY MAN IMAGE PLACEHOLDER:
-      ──────────────────────────────
-      1. Add your image to your GitHub repo, e.g. images/mystery-man.jpg
-      2. The <img> tag in the puzzle section already points to images/mystery-man.jpg
-         — just upload your file there and it will work.
-    */
     #man-placeholder {
       display: none; width: 160px; height: 200px;
       background: #1e1e1e; margin: 0 auto;
@@ -428,9 +426,9 @@
   </div>
 
   <!-- ============================================================
-       WINDOW: CAT GALLERY
+       WINDOW: CAT GALLERY (DYNAMIC)
   ============================================================ -->
-  <div class="win-window" id="win-gallery" style="top:44px; left:130px; width:620px; height:480px; z-index:20;">
+  <div class="win-window" id="win-gallery" style="top:44px; left:130px; width:720px; height:520px; z-index:20;">
     <div class="title-bar" id="win-gallery-tb">
       <div class="tb-left">
         <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="">
@@ -449,52 +447,14 @@
     </div>
     <div class="win-body">
       <div class="sunken">
-        <!--
-          CAT GALLERY — HOW TO ADD YOUR PHOTOS:
-          1. Create an "images/" folder in your GitHub repo
-          2. Upload your cat photos there (e.g. cat1.jpg, cat2.jpg …)
-          3. Replace each <div class="cat-placeholder"> block with:
-               <img src="images/your-photo.jpg" alt="cat">
-             inside the .cat-thumb div, above the .cat-filename div.
-          4. Update the filename label to match.
-        -->
-        <div class="gallery-grid">
-
-          <div class="cat-thumb">
-            <div class="cat-placeholder">🐱</div>
-            <div class="cat-filename">cat_001.jpg</div>
-          </div>
-
-          <div class="cat-thumb">
-            <div class="cat-placeholder">🐈</div>
-            <div class="cat-filename">cat_002.jpg</div>
-          </div>
-
-          <div class="cat-thumb">
-            <div class="cat-placeholder">😺</div>
-            <div class="cat-filename">cat_003.jpg</div>
-          </div>
-
-          <div class="cat-thumb">
-            <div class="cat-placeholder">🐾</div>
-            <div class="cat-filename">cat_004.jpg</div>
-          </div>
-
-          <div class="cat-thumb">
-            <div class="cat-placeholder">🐱</div>
-            <div class="cat-filename">cat_005.jpg</div>
-          </div>
-
-          <div class="cat-thumb">
-            <div class="cat-placeholder">😸</div>
-            <div class="cat-filename">cat_006.jpg</div>
-          </div>
-
+        <div class="gallery-grid" id="gallery-grid">
+          <!-- Populated dynamically with 24 random cats -->
         </div>
       </div>
     </div>
     <div class="win-statusbar">
-      <div class="status-cell">6 objects</div>
+      <div class="status-cell" id="gallery-status">0 objects</div>
+      <div class="status-cell" style="flex:1; text-align:right; font-style:italic;" id="gallery-refresh-hint"></div>
     </div>
   </div>
 
@@ -520,33 +480,21 @@
     </div>
     <div class="win-body">
       <div class="sunken">
-        <!--
-          WRITING ENTRIES:
-          Each .writing-entry opens a full article window when clicked.
-          Edit the ARTICLES object in the <script> section below
-          to change article titles, dates, and body text.
-          Add more entries by copying a .writing-entry block here
-          AND adding a matching entry in the ARTICLES array.
-        -->
-
         <div class="writing-entry" onclick="openArticle(0)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
           <span class="entry-title">your first entry — give it a title</span>
           <span class="entry-date">2026</span>
         </div>
-
         <div class="writing-entry" onclick="openArticle(1)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
           <span class="entry-title">another piece of writing goes here</span>
           <span class="entry-date">2026</span>
         </div>
-
         <div class="writing-entry" onclick="openArticle(2)">
           <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
           <span class="entry-title">a longer essay about something or other</span>
           <span class="entry-date">2025</span>
         </div>
-
         <div style="margin-top:14px; font-size:10px; color:#999; font-style:italic;">
           [ click any entry to read the full piece ]
         </div>
@@ -579,7 +527,6 @@
     </div>
     <div class="win-body">
       <div class="sunken">
-
         <div class="puzzle-entry">
           <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
           <span>puzzle name here</span>
@@ -601,18 +548,7 @@
             <input type="text" id="name-input" placeholder="...">
             <button id="name-arrow-btn" onclick="revealMan()">&#x2192;</button>
           </div>
-
           <div id="man-reveal">
-            <!--
-              MYSTERY MAN IMAGE:
-              ──────────────────
-              1. Upload your image to your GitHub repo.
-                 Suggested path: images/mystery-man.jpg
-              2. That path is already set in the src below — just
-                 upload the file and it will appear automatically.
-              3. The image shows up when someone types a name and
-                 presses Enter or clicks the arrow.
-            -->
             <img src="images/mystery-man.jpg" alt="a man"
                  onerror="this.style.display='none'; document.getElementById('man-placeholder').style.display='flex';">
             <div id="man-placeholder">
@@ -646,9 +582,6 @@
       <div class="about-body">
         <div class="about-icon">🐱</div>
         <div class="about-name">michaels cat inquiry</div>
-        <!--
-          ABOUT TEXT: Edit the lines below to describe yourself or your site.
-        -->
         <div class="about-tagline">
           a small corner of the internet.<br>
           cats. writing. puzzles. whatever else.<br>
@@ -717,40 +650,27 @@
 
 <script>
 /* ================================================================
-   ARTICLES
-   ────────────────────────────────────────────────────────────────
-   Edit title, date, and content here.
-   content can contain basic HTML: <p>, <em>, <strong>, <br> etc.
-   Add more entries by:
-     1. Adding an object to this array
-     2. Adding a matching .writing-entry div in the Writing window above
-        with onclick="openArticle(N)" where N is its index in this array
+   ARTICLES (unchanged)
 ================================================================ */
 const ARTICLES = [
   {
     title: 'your first entry — give it a title',
     date: '2026',
-    content: `
-      <p>This is where your full article goes. Replace this placeholder text with your actual writing.</p>
+    content: `<p>This is where your full article goes. Replace this placeholder text with your actual writing.</p>
       <p>You can use basic HTML here: wrap paragraphs in &lt;p&gt; tags, use &lt;em&gt; for <em>italics</em> and &lt;strong&gt; for <strong>bold</strong>.</p>
-      <p>Each paragraph gets its own &lt;p&gt; tag.</p>
-    `
+      <p>Each paragraph gets its own &lt;p&gt; tag.</p>`
   },
   {
     title: 'another piece of writing goes here',
     date: '2026',
-    content: `
-      <p>Replace this with your second article.</p>
-      <p>As many paragraphs as you like.</p>
-    `
+    content: `<p>Replace this with your second article.</p>
+      <p>As many paragraphs as you like.</p>`
   },
   {
     title: 'a longer essay about something or other',
     date: '2025',
-    content: `
-      <p>Replace this with your third article.</p>
-      <p>More text can go here. The window is scrollable for long pieces.</p>
-    `
+    content: `<p>Replace this with your third article.</p>
+      <p>More text can go here. The window is scrollable for long pieces.</p>`
   }
 ];
 
@@ -864,7 +784,7 @@ function initStars() {
    WINDOW MANAGEMENT
 ================================================================ */
 let zTop = 100;
-const winState  = {};  // id -> { open, minimized, maximized, prev }
+const winState  = {};
 const WIN_META  = {
   'win-gallery': { label: 'Cat Gallery', icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
   'win-writing': { label: 'Writing',     icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
@@ -882,6 +802,8 @@ function setActive(id) {
   });
 }
 
+let galleryLoaded = false;
+
 function openWin(id) {
   if (!winState[id]) winState[id] = {};
   winState[id].open = true;
@@ -891,6 +813,12 @@ function openWin(id) {
   el.style.zIndex = ++zTop;
   setActive(id);
   rebuildTaskbar();
+
+  // Lazy-load cats when gallery opens the first time
+  if (id === 'win-gallery' && !galleryLoaded) {
+    loadCatGallery();
+    galleryLoaded = true;
+  }
 }
 
 function closeWin(id) {
@@ -936,7 +864,6 @@ function focusWin(id) {
   rebuildTaskbar();
 }
 
-/* dynamic window: destroyable article windows */
 function destroyWin(id) {
   const el = getEl(id);
   if (el) el.remove();
@@ -960,7 +887,7 @@ function rebuildTaskbar() {
 }
 
 /* ================================================================
-   DRAG — works for both static and dynamic windows
+   DRAG
 ================================================================ */
 function makeDraggable(win) {
   const tb = win.querySelector('.title-bar');
@@ -986,8 +913,58 @@ function makeDraggable(win) {
   win.addEventListener('mousedown', () => { win.style.zIndex = ++zTop; setActive(win.id); });
 }
 
-/* attach drag to all static windows */
 document.querySelectorAll('.win-window').forEach(makeDraggable);
+
+/* ================================================================
+   CAT GALLERY LOADER
+================================================================ */
+async function loadCatGallery() {
+  const grid = getEl('gallery-grid');
+  const statusEl = getEl('gallery-status');
+  const hintEl = getEl('gallery-refresh-hint');
+
+  grid.innerHTML = '<div class="gallery-loading">🐾 fetching cats...</div>';
+  statusEl.textContent = 'loading...';
+
+  try {
+    const resp = await fetch('https://cataas.com/api/cats?limit=24&skip=0');
+    if (!resp.ok) throw new Error('API down');
+    const cats = await resp.json();
+
+    grid.innerHTML = '';
+    cats.forEach(cat => {
+      const thumb = document.createElement('div');
+      thumb.className = 'cat-thumb';
+      thumb.innerHTML = `
+        <img src="https://cataas.com/cat/${cat.id}" alt="random cat" loading="lazy">
+        <div class="cat-filename">cat_${cat.id}.jpg</div>
+      `;
+      thumb.onclick = () => {
+        // Open a larger version in a simple win98 viewer? For now, just a new window
+        window.open(`https://cataas.com/cat/${cat.id}`, '_blank');
+      };
+      grid.appendChild(thumb);
+    });
+
+    statusEl.textContent = '24 objects';
+    hintEl.textContent = 'click a cat to view full size';
+  } catch (e) {
+    // Fallback: 24 placeholder emoji cats
+    grid.innerHTML = '';
+    const emojis = ['🐱','🐈','😺','🐾','😸','🐱‍👤','🐱‍🐉','🐱‍🚀','🐱‍💻','🐱','😼','😻'];
+    for (let i = 0; i < 24; i++) {
+      const thumb = document.createElement('div');
+      thumb.className = 'cat-thumb';
+      thumb.innerHTML = `
+        <div class="cat-placeholder">${emojis[i % emojis.length]}</div>
+        <div class="cat-filename">cat_${i+1}.jpg (offline)</div>
+      `;
+      grid.appendChild(thumb);
+    }
+    statusEl.textContent = '24 objects (offline)';
+    hintEl.textContent = 'couldn\'t fetch fresh cats, showing local stash';
+  }
+}
 
 /* ================================================================
    ARTICLE VIEWER
@@ -997,10 +974,8 @@ function openArticle(idx) {
   if (!art) return;
   const id = 'article-' + idx;
 
-  /* if already open, just bring it forward */
   if (winState[id]?.open) { focusWin(id); return; }
 
-  /* calculate a slight cascade offset */
   const offset = 60 + idx * 24;
   const win = document.createElement('div');
   win.className = 'win-window open';
