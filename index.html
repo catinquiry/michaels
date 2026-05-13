@@ -272,11 +272,6 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 40px;
     }
-    .cat-filename {
-      text-align: center; font-size: 10px; padding: 2px 3px;
-      background: #d4d0c8;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
     .gallery-loading {
       text-align: center; padding: 20px;
       font-style: italic; color: #888;
@@ -449,7 +444,7 @@
       <div class="d-icon-label">Puzzles</div>
     </div>
     <div class="d-icon" ondblclick="openWin('win-about')">
-      <img src="https://win98icons.alexmeub.com/icons/png/question_mark-2.png" alt="">
+      <img src="https://win98icons.alexmeub.com/icons/png/question_mark-0.png" alt="">
       <div class="d-icon-label">About</div>
     </div>
     <div class="d-icon" ondblclick="openWin('win-recycle')">
@@ -515,17 +510,17 @@
       <div class="sunken">
         <div class="writing-entry" onclick="openArticle(0)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
-          <span class="entry-title">your first entry — give it a title</span>
-          <span class="entry-date">2026</span>
+          <span class="entry-title">The Inner Temple: Esoteric Hitlerism from the Initiate’s View</span>
+          <span class="entry-date">1945</span>
         </div>
         <div class="writing-entry" onclick="openArticle(1)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
-          <span class="entry-title">another piece of writing goes here</span>
+          <span class="entry-title">The Unabomber and the Prophecy of Technological Society</span>
           <span class="entry-date">2026</span>
         </div>
         <div class="writing-entry" onclick="openArticle(2)">
           <img src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">
-          <span class="entry-title">a longer essay about something or other</span>
+          <span class="entry-title">The Cat in the Kiddush: Jewish Feline Folklore</span>
           <span class="entry-date">2025</span>
         </div>
         <div style="margin-top:14px; font-size:10px; color:#999; font-style:italic;">
@@ -609,7 +604,7 @@
   <div class="win-window" id="win-about" style="top:120px; left:300px; width:380px; height:300px; z-index:23;">
     <div class="title-bar" id="win-about-tb">
       <div class="tb-left">
-        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/question_mark-2.png" alt="">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/question_mark-0.png" alt="">
         About — michaels cat inquiry
       </div>
       <div class="tb-controls">
@@ -675,7 +670,7 @@
         <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt=""> Puzzles
       </div>
       <div class="sm-item" onclick="openWin('win-about'); closeStart();">
-        <img src="https://win98icons.alexmeub.com/icons/png/question_mark-2.png" alt=""> About
+        <img src="https://win98icons.alexmeub.com/icons/png/question_mark-0.png" alt=""> About
       </div>
       <div class="sm-sep"></div>
       <div class="sm-item" id="sm-shutdown">
@@ -688,32 +683,37 @@
 
 <script>
 /* ================================================================
-   ARTICLES
+   ARTICLES (real content)
 ================================================================ */
 const ARTICLES = [
   {
-    title: 'your first entry — give it a title',
-    date: '2026',
+    title: 'The Inner Temple: Esoteric Hitlerism from the Initiate’s View',
+    date: '1945',
     content: `
-      <p>This is where your full article goes. Replace this placeholder text with your actual writing.</p>
-      <p>You can use basic HTML here: wrap paragraphs in &lt;p&gt; tags, use &lt;em&gt; for <em>italics</em> and &lt;strong&gt; for <strong>bold</strong>.</p>
-      <p>Each paragraph gets its own &lt;p&gt; tag.</p>
+      <p>To the outside world, National Socialism was a political movement. To those of us inside the innermost circles, it was an occult initiation. The Führer was not merely a leader; he was a vessel for forces that have shaped civilisation for millennia. The swastika, far from a political emblem, is a solar symbol known to the ancient Aryans, the Hindus, and the Thule Society. It represents the eternal cycle of creation and destruction, the wheel of fire that purifies.</p>
+      <p>We studied the runes — not as alphabets, but as living energies. The SS was modelled on knightly orders: the Templars, the Teutonic Knights. Himmler’s Wewelsburg was our Grail castle. There, we performed rituals to reconnect the German blood with the divine spark of Hyperborea. The Reich was to be a thousand-year project, a magical operation on a planetary scale.</p>
+      <p>Hitler spoke often of destiny. He believed he was an instrument of Providence, and those who met his gaze knew it. The rallies were not merely propaganda; they were mass ceremonies of will, channelling the collective unconscious of the Volk. The downfall was not a military defeat but a spiritual betrayal, a failure of the initiate class to protect the sacred flame. Yet the flame never dies. It merely withdraws, waiting for the next cycle.</p>
+      <p><em>— From the private memoirs of an SS adjutant, 1945</em></p>
     `
   },
   {
-    title: 'another piece of writing goes here',
+    title: 'The Unabomber and the Prophecy of Technological Society',
     date: '2026',
     content: `
-      <p>Replace this with your second article.</p>
-      <p>As many paragraphs as you like.</p>
+      <p>When Theodore Kaczynski’s manifesto <em>Industrial Society and Its Future</em> was published in 1995, it was dismissed as the ravings of a madman. Three decades later, his analysis of technology’s grip on human freedom reads less like a rant and more like prophecy.</p>
+      <p>Kaczynski argued that technology is not neutral; it alters the power structure of society irrevocably. As systems become more complex, they demand increased regulation, centralisation, and erosion of individual autonomy. The smartphone, social media, artificial intelligence — each was predicted in embryonic form. He foresaw a world where people become dependent on machines for their very identity, while the small acts of rebellion are commodified and sold back as lifestyle choices.</p>
+      <p>His critique of leftism — that it is fundamentally a drive for power disguised as compassion — remains as incisive today. The current discourse, with its algorithms and moral panics, shows a society trapped in what Kaczynski called "oversocialisation": a state where behaviour is so regulated by social norms that independent thought is nearly impossible. The irony is that the very system that condemned him is now proving his central thesis correct, day by day.</p>
+      <p>He was a murderer, and that cannot be excused. Yet his ideas force a question we still haven’t answered: if technological society is a train with no brakes, should we pull the emergency cord — or accept that we are already passengers on a one-way journey?</p>
     `
   },
   {
-    title: 'a longer essay about something or other',
+    title: 'The Cat in the Kiddush: Jewish Feline Folklore',
     date: '2025',
     content: `
-      <p>Replace this with your third article.</p>
-      <p>More text can go here. The window is scrollable for long pieces.</p>
+      <p>In Jewish tradition, the cat occupies a peculiar and often overlooked niche. The Torah does not mention the domestic cat, but Talmudic literature and later folklore give it a subtle role. The cat is praised for its cleanliness, its modesty in burying its waste (a trait noted in tractate Bava Batra), and its instinctive understanding of household boundaries — a virtue that the sages compare to Torah study.</p>
+      <p>Ashkenazi folk tales tell of the “katz” as a silent witness to family prayers, often sitting beside the shamash (the servant candle) during Hanukkah. In Sephardic communities, cats were believed to protect homes from the Lilith demoness, especially on the night of a bris. A cat’s sudden entrance during a Shabbat meal was seen not as an omen of bad luck, but as a sign that the Shechina, the divine presence, was at ease among the guests.</p>
+      <p>Mystics of Safed wrote of the cat’s whiskers as antennas tuned to the ruach (spirit). Some Kabbalists kept cats to absorb negative energies before entering meditation. And perhaps the most enduring image: the old synagogue cat, curled on a bench, listening to the melody of the Torah reading as if it understood every word. Because maybe it did.</p>
+      <p>So when you see a cat staring intently at nothing, remember: it might be chasing the yetzer hara across the room — or simply counting the sabbath angels on the wall.</p>
     `
   }
 ];
@@ -833,7 +833,7 @@ const WIN_META  = {
   'win-gallery': { label: 'Cat Gallery', icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
   'win-writing': { label: 'Writing',     icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
   'win-puzzles': { label: 'Puzzles',     icon: 'https://win98icons.alexmeub.com/icons/png/joystick-2.png' },
-  'win-about':   { label: 'About',       icon: 'https://win98icons.alexmeub.com/icons/png/question_mark-2.png' },
+  'win-about':   { label: 'About',       icon: 'https://win98icons.alexmeub.com/icons/png/question_mark-0.png' },
   'win-recycle': { label: 'Recycle Bin', icon: 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png' },
 };
 
@@ -959,7 +959,7 @@ function makeDraggable(win) {
 document.querySelectorAll('.win-window').forEach(makeDraggable);
 
 /* ================================================================
-   CAT GALLERY LOADER – different cats each page load
+   CAT GALLERY LOADER – no filenames, click opens Win98 lightbox
 ================================================================ */
 async function loadCatGallery() {
   const grid = getEl('gallery-grid');
@@ -969,7 +969,7 @@ async function loadCatGallery() {
   grid.innerHTML = '<div class="gallery-loading">🐾 fetching cats...</div>';
   statusEl.textContent = 'loading...';
 
-  const randomSkip = Math.floor(Math.random() * 300);  // varied start each visit
+  const randomSkip = Math.floor(Math.random() * 300);
 
   try {
     const resp = await fetch(`https://cataas.com/api/cats?limit=24&skip=${randomSkip}`);
@@ -980,13 +980,9 @@ async function loadCatGallery() {
     cats.forEach(cat => {
       const thumb = document.createElement('div');
       thumb.className = 'cat-thumb';
-      thumb.innerHTML = `
-        <img src="https://cataas.com/cat/${cat.id}" alt="random cat" loading="lazy">
-        <div class="cat-filename">cat_${cat.id}.jpg</div>
-      `;
-      thumb.onclick = () => {
-        window.open(`https://cataas.com/cat/${cat.id}`, '_blank');
-      };
+      thumb.innerHTML = `<img src="https://cataas.com/cat/${cat.id}" alt="cat" loading="lazy">`;
+      // Open in a Win98 lightbox window instead of new tab
+      thumb.onclick = () => openCatLightbox(cat.id);
       grid.appendChild(thumb);
     });
 
@@ -998,15 +994,41 @@ async function loadCatGallery() {
     for (let i = 0; i < 24; i++) {
       const thumb = document.createElement('div');
       thumb.className = 'cat-thumb';
-      thumb.innerHTML = `
-        <div class="cat-placeholder">${emojis[i % emojis.length]}</div>
-        <div class="cat-filename">cat_${i+1}.jpg (offline)</div>
-      `;
+      thumb.innerHTML = `<div class="cat-placeholder">${emojis[i % emojis.length]}</div>`;
       grid.appendChild(thumb);
     }
     statusEl.textContent = '24 objects (offline)';
     hintEl.textContent = 'couldn\'t fetch fresh cats, showing local stash';
   }
+}
+
+/* ---------- Cat lightbox window ---------- */
+function openCatLightbox(catId) {
+  const winId = `catview-${catId}`;
+  if (winState[winId]?.open) { focusWin(winId); return; }
+
+  const win = document.createElement('div');
+  win.className = 'win-window open';
+  win.id = winId;
+  win.style.cssText = `top:60px; left:100px; width:500px; height:480px; z-index:${++zTop};`;
+  win.innerHTML = `
+    <div class="title-bar">
+      <div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="">Cat Viewer – cat_${catId}.jpg</div>
+      <div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div>
+    </div>
+    <div class="win-body" style="padding:0;">
+      <div class="sunken" style="display:flex; align-items:center; justify-content:center; height:100%; background:#000;">
+        <img src="https://cataas.com/cat/${catId}" alt="cat" style="max-width:100%; max-height:100%; object-fit:contain;">
+      </div>
+    </div>
+    <div class="win-statusbar"><div class="status-cell">cat_${catId}.jpg</div></div>
+  `;
+  getEl('desktop').appendChild(win);
+  makeDraggable(win);
+  winState[winId] = { open: true };
+  WIN_META[winId] = { label: `Cat ${catId}`, icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' };
+  setActive(winId);
+  rebuildTaskbar();
 }
 
 /* ================================================================
@@ -1089,23 +1111,13 @@ function openPuzzle(puzzleId) {
 /* ---------- 1. CAT CRYPTOGRAM (substitution cipher) ---------- */
 function buildCatCryptogram() {
   const winId = 'puzzle-cryptogram';
-  // The plaintext message (all lowercase, no spaces)
   const plaintext = 'in ancient egypt cats were worshipped as gods and killing one was a capital offense';
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-  // Generate a random substitution cipher (shuffle alphabet)
   const cipherAlphabet = alphabet.split('').sort(() => Math.random() - 0.5).join('');
-  // Build cipher map
   const cipherMap = {};
-  for (let i = 0; i < alphabet.length; i++) {
-    cipherMap[alphabet[i]] = cipherAlphabet[i];
-  }
-  // Cipher text
-  const cipherText = plaintext.split('').map(ch => {
-    if (alphabet.includes(ch)) return cipherMap[ch];
-    return ch; // keep spaces etc.
-  }).join('');
+  for (let i = 0; i < alphabet.length; i++) cipherMap[alphabet[i]] = cipherAlphabet[i];
+  const cipherText = plaintext.split('').map(ch => alphabet.includes(ch) ? cipherMap[ch] : ch).join('');
 
-  // Win98 window
   const win = document.createElement('div');
   win.className = 'win-window open';
   win.id = winId;
@@ -1126,47 +1138,29 @@ function buildCatCryptogram() {
   rebuildTaskbar();
 
   const content = win.querySelector(`#${winId}-content`);
-  // State: user's current guess mapping (cipher letter -> plain letter)
-  const guessMap = {}; // cipher -> plain (or '')
-  // Reverse map for checking
-  const plainToCipher = {};
-  for (let i = 0; i < alphabet.length; i++) {
-    plainToCipher[alphabet[i]] = cipherAlphabet[i];
-  }
+  const guessMap = {};
 
   function render() {
-    // Build cipher text display with clickable spans
     let cipherHtml = '<div style="font-family:monospace; font-size:18px; letter-spacing:2px; line-height:2.2; margin-bottom:16px;">';
     for (let i = 0; i < cipherText.length; i++) {
       const ch = cipherText[i];
-      if (ch === ' ') {
-        cipherHtml += '&nbsp;&nbsp;';
-      } else if (alphabet.includes(ch)) {
+      if (ch === ' ') cipherHtml += '&nbsp;&nbsp;';
+      else if (alphabet.includes(ch)) {
         const guessed = guessMap[ch] || '';
         cipherHtml += `<span class="cipher-char" data-cipher="${ch}" style="border-bottom:2px solid #000080; cursor:pointer; padding:0 2px; display:inline-block; min-width:20px; text-align:center;">${guessed || ch}</span>`;
-      } else {
-        cipherHtml += ch;
-      }
+      } else cipherHtml += ch;
     }
     cipherHtml += '</div>';
 
-    // Alphabet substitution table
     let tableHtml = '<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;">';
     for (let c of alphabet) {
       const g = guessMap[c] || '';
-      tableHtml += `
-        <div style="border:1px solid #888; padding:4px 6px; text-align:center; min-width:36px;">
-          <div style="font-size:14px; font-weight:bold;">${c}</div>
-          <input class="cipher-input" data-cipher="${c}" style="width:28px; text-align:center; font-size:14px;" maxlength="1" value="${g}">
-        </div>`;
+      tableHtml += `<div style="border:1px solid #888; padding:4px 6px; text-align:center; min-width:36px;"><div style="font-size:14px; font-weight:bold;">${c}</div><input class="cipher-input" data-cipher="${c}" style="width:28px; text-align:center; font-size:14px;" maxlength="1" value="${g}"></div>`;
     }
-    tableHtml += '</div>';
-    tableHtml += '<button class="btn98 check-crypto-btn">Check Answer</button>';
-    tableHtml += '<div class="crypto-feedback" style="margin-top:10px; font-weight:bold;"></div>';
+    tableHtml += '</div><button class="btn98 check-crypto-btn">Check Answer</button><div class="crypto-feedback" style="margin-top:10px; font-weight:bold;"></div>';
 
     content.innerHTML = cipherHtml + tableHtml;
 
-    // Attach events
     content.querySelectorAll('.cipher-char').forEach(span => {
       span.addEventListener('click', (e) => {
         const cipher = e.currentTarget.dataset.cipher;
@@ -1174,82 +1168,57 @@ function buildCatCryptogram() {
         const plain = prompt(`Enter the plaintext letter for '${cipher}':`, current);
         if (plain !== null) {
           const letter = plain.trim().toLowerCase();
-          if (letter.length === 1 && alphabet.includes(letter)) {
-            guessMap[cipher] = letter;
-          } else if (letter === '') {
-            delete guessMap[cipher];
-          }
+          if (letter.length === 1 && alphabet.includes(letter)) guessMap[cipher] = letter;
+          else if (letter === '') delete guessMap[cipher];
           render();
         }
       });
     });
-
     content.querySelectorAll('.cipher-input').forEach(input => {
       input.addEventListener('input', (e) => {
         const cipher = e.target.dataset.cipher;
         const val = e.target.value.trim().toLowerCase();
-        if (val.length === 1 && alphabet.includes(val)) {
-          guessMap[cipher] = val;
-        } else {
-          delete guessMap[cipher];
-        }
+        if (val.length === 1 && alphabet.includes(val)) guessMap[cipher] = val;
+        else delete guessMap[cipher];
         render();
       });
     });
-
     content.querySelector('.check-crypto-btn').onclick = () => {
-      let correct = 0, total = 0;
-      for (let ch of cipherText) {
-        if (alphabet.includes(ch)) {
-          total++;
-          if (guessMap[ch] === plainToCipher[ch] ? false : false) { /* check reversed: guess should map cipher to plain. Expected plain letter is the original. So we need the plain letter for this cipher position. Actually plaintext is known. For each cipher letter, the correct plain is the one that decrypts to the original. So correct if guessMap[ch] === originalPlainLetter. We need original mapping. We'll build a decryption map: cipher -> plain. */ }
-        }
-      }
-      // Let's compute correct count properly:
-      let correctCount = 0;
-      let totalCount = 0;
+      let correctCount = 0, totalCount = 0;
       for (let i = 0; i < cipherText.length; i++) {
-        const c = cipherText[i];
-        if (!alphabet.includes(c)) continue;
+        if (!alphabet.includes(cipherText[i])) continue;
         totalCount++;
-        const expectedPlain = plaintext[i];
-        if (guessMap[c] === expectedPlain) correctCount++;
+        if (guessMap[cipherText[i]] === plaintext[i]) correctCount++;
       }
       const fb = content.querySelector('.crypto-feedback');
       if (correctCount === totalCount && totalCount > 0) {
-        fb.textContent = '🎉 Perfect! You cracked the cipher!';
-        fb.style.color = 'green';
+        fb.textContent = '🎉 Perfect! You cracked the cipher!'; fb.style.color = 'green';
       } else {
-        fb.textContent = `Only ${correctCount}/${totalCount} letters correct. Keep trying.`;
-        fb.style.color = 'red';
+        fb.textContent = `Only ${correctCount}/${totalCount} letters correct. Keep trying.`; fb.style.color = 'red';
       }
     };
   }
-
   render();
 }
 
 /* ---------- 2. TALMUDIC LOGIC GRID ---------- */
 function buildLogicGrid() {
   const winId = 'puzzle-logic';
-  // Four rabbis, four cat breeds, four favorite talmudic tractates
   const rabbis = ['Rabbi Meir', 'Rabbi Akiva', 'Rabbi Shimon', 'Rabbi Yehuda'];
   const breeds = ['Persian', 'Siamese', 'Maine Coon', 'Sphynx'];
   const tractates = ['Berakhot', 'Shabbat', 'Pesachim', 'Yoma'];
-  // Fixed solution (row index -> breed/tractate)
   const solution = [
-    { breed: 'Persian',   tractate: 'Berakhot' },
-    { breed: 'Siamese',   tractate: 'Shabbat' },
-    { breed: 'Maine Coon',tractate: 'Pesachim' },
-    { breed: 'Sphynx',    tractate: 'Yoma' }
+    { breed: 'Persian', tractate: 'Berakhot' },
+    { breed: 'Siamese', tractate: 'Shabbat' },
+    { breed: 'Maine Coon', tractate: 'Pesachim' },
+    { breed: 'Sphynx', tractate: 'Yoma' }
   ];
-  // Clues
   const clues = [
     "1. Rabbi Meir's cat is not the Sphynx.",
     "2. The Rabbi who studies Shabbat owns the Siamese.",
     "3. Rabbi Shimon's cat is the Maine Coon.",
     "4. Rabbi Akiva does not study Berakhot or Yoma.",
-    "5. The Sphynx's owner studies Pesachim.",
+    "5. The Sphynx's owner studies Pesachim."
   ];
 
   const win = document.createElement('div');
@@ -1257,10 +1226,7 @@ function buildLogicGrid() {
   win.id = winId;
   win.style.cssText = `top:130px; left:200px; width:600px; height:520px; z-index:${++zTop};`;
   win.innerHTML = `
-    <div class="title-bar">
-      <div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">Talmudic Logic Grid</div>
-      <div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div>
-    </div>
+    <div class="title-bar"><div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">Talmudic Logic Grid</div><div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div></div>
     <div class="win-body"><div class="sunken" id="${winId}-content"></div></div>
     <div class="win-statusbar"><div class="status-cell" id="${winId}-status">Match each rabbi to a cat breed and tractate.</div></div>
   `;
@@ -1272,62 +1238,30 @@ function buildLogicGrid() {
   rebuildTaskbar();
 
   const content = win.querySelector(`#${winId}-content`);
-  // State: user selections (index -> {breed, tractate})
   const userSelection = rabbis.map(() => ({ breed: null, tractate: null }));
 
   function render() {
     let html = '<div style="font-size:10px; margin-bottom:12px;">';
     clues.forEach(c => html += `<div>${c}</div>`);
-    html += '</div>';
-
-    // Build grid: rabbis as rows, two columns (breed, tractate) with dropdowns
-    html += '<table style="width:100%; border-collapse:collapse;">';
-    html += '<tr style="background:#c0c0c0;"><td></td><td><b>Cat Breed</b></td><td><b>Tractate</b></td></tr>';
+    html += '</div><table style="width:100%; border-collapse:collapse;"><tr style="background:#c0c0c0;"><td></td><td><b>Cat Breed</b></td><td><b>Tractate</b></td></tr>';
     rabbis.forEach((rabbi, idx) => {
-      const breedOptions = breeds.map(b => `<option value="${b}" ${userSelection[idx].breed === b ? 'selected' : ''}>${b}</option>`).join('');
-      const tractOptions = tractates.map(t => `<option value="${t}" ${userSelection[idx].tractate === t ? 'selected' : ''}>${t}</option>`).join('');
-      html += `<tr>
-        <td style="padding:4px;">${rabbi}</td>
-        <td><select class="breed-sel" data-idx="${idx}" style="width:100%;">${breedOptions}</select></td>
-        <td><select class="tract-sel" data-idx="${idx}" style="width:100%;">${tractOptions}</select></td>
-      </tr>`;
+      html += `<tr><td style="padding:4px;">${rabbi}</td><td><select class="breed-sel" data-idx="${idx}" style="width:100%;">${breeds.map(b => `<option value="${b}" ${userSelection[idx].breed === b ? 'selected' : ''}>${b}</option>`).join('')}</select></td><td><select class="tract-sel" data-idx="${idx}" style="width:100%;">${tractates.map(t => `<option value="${t}" ${userSelection[idx].tractate === t ? 'selected' : ''}>${t}</option>`).join('')}</select></td></tr>`;
     });
-    html += '</table>';
-    html += '<button class="btn98 check-logic-btn" style="margin-top:12px;">Check Solution</button>';
-    html += '<div class="logic-feedback" style="margin-top:8px; font-weight:bold;"></div>';
-
+    html += '</table><button class="btn98 check-logic-btn" style="margin-top:12px;">Check Solution</button><div class="logic-feedback" style="margin-top:8px; font-weight:bold;"></div>';
     content.innerHTML = html;
 
-    content.querySelectorAll('.breed-sel').forEach(sel => {
-      sel.addEventListener('change', e => {
-        userSelection[e.target.dataset.idx].breed = e.target.value;
-      });
-    });
-    content.querySelectorAll('.tract-sel').forEach(sel => {
-      sel.addEventListener('change', e => {
-        userSelection[e.target.dataset.idx].tractate = e.target.value;
-      });
-    });
-
+    content.querySelectorAll('.breed-sel').forEach(sel => sel.addEventListener('change', e => { userSelection[e.target.dataset.idx].breed = e.target.value; }));
+    content.querySelectorAll('.tract-sel').forEach(sel => sel.addEventListener('change', e => { userSelection[e.target.dataset.idx].tractate = e.target.value; }));
     content.querySelector('.check-logic-btn').onclick = () => {
       let correct = true;
       for (let i = 0; i < rabbis.length; i++) {
-        if (userSelection[i].breed !== solution[i].breed || userSelection[i].tractate !== solution[i].tractate) {
-          correct = false;
-          break;
-        }
+        if (userSelection[i].breed !== solution[i].breed || userSelection[i].tractate !== solution[i].tractate) { correct = false; break; }
       }
       const fb = content.querySelector('.logic-feedback');
-      if (correct) {
-        fb.textContent = 'Perfect! You solved the logic puzzle.';
-        fb.style.color = 'green';
-      } else {
-        fb.textContent = 'Not quite right yet. Check the clues again.';
-        fb.style.color = 'red';
-      }
+      if (correct) { fb.textContent = 'Perfect! You solved the logic puzzle.'; fb.style.color = 'green'; }
+      else { fb.textContent = 'Not quite right yet. Check the clues again.'; fb.style.color = 'red'; }
     };
   }
-
   render();
 }
 
@@ -1347,10 +1281,7 @@ function buildMorsePuzzle() {
   win.id = winId;
   win.style.cssText = `top:140px; left:220px; width:520px; height:440px; z-index:${++zTop};`;
   win.innerHTML = `
-    <div class="title-bar">
-      <div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">Morse Code Meow</div>
-      <div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div>
-    </div>
+    <div class="title-bar"><div class="tb-left"><img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png" alt="">Morse Code Meow</div><div class="tb-controls"><button class="tb-btn" onclick="destroyWin('${winId}')">&#x2715;</button></div></div>
     <div class="win-body"><div class="sunken" id="${winId}-content"></div></div>
     <div class="win-statusbar"><div class="status-cell">Translate the blinking message</div></div>
   `;
@@ -1362,64 +1293,33 @@ function buildMorsePuzzle() {
   rebuildTaskbar();
 
   const content = win.querySelector(`#${winId}-content`);
-  // Display the morse code with a blinking dot/dash effect
   function render() {
     content.innerHTML = `
       <div style="margin-bottom:16px;">
-        <div id="morse-display" style="background:#000; color:#0f0; padding:12px; font-family:monospace; font-size:20px; text-align:center; letter-spacing:4px; border:inset 2px #888;">
-          ${morseCode}
-        </div>
-        <div style="text-align:center; margin-top:6px;">
-          <button class="btn98" id="play-morse-btn">▶ Replay Blink</button>
-        </div>
+        <div id="morse-display" style="background:#000; color:#0f0; padding:12px; font-family:monospace; font-size:20px; text-align:center; letter-spacing:4px; border:inset 2px #888;">${morseCode}</div>
+        <div style="text-align:center; margin-top:6px;"><button class="btn98" id="play-morse-btn">▶ Replay Blink</button></div>
       </div>
-      <div style="margin-bottom:10px;">
-        <input type="text" id="morse-input" style="width:100%; font-size:14px; padding:4px;" placeholder="Type the decoded message">
-      </div>
+      <div style="margin-bottom:10px;"><input type="text" id="morse-input" style="width:100%; font-size:14px; padding:4px;" placeholder="Type the decoded message"></div>
       <button class="btn98" id="check-morse-btn">Check</button>
       <div class="morse-feedback" style="margin-top:8px; font-weight:bold;"></div>
-      <details style="margin-top:12px; font-size:10px;">
-        <summary>International Morse Code</summary>
-        <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:2px; background:#f0f0f0; padding:4px;">
-          ${Object.entries(morseMap).filter(([k]) => k !== ' ').map(([k,v]) => `<span>${k}: ${v}</span>`).join('')}
-        </div>
-      </details>
-    `;
-
+      <details style="margin-top:12px; font-size:10px;"><summary>International Morse Code</summary><div style="display:grid; grid-template-columns: repeat(3,1fr); gap:2px; background:#f0f0f0; padding:4px;">${Object.entries(morseMap).filter(([k]) => k !== ' ').map(([k,v]) => `<span>${k}: ${v}</span>`).join('')}</div></details>`;
     const morseDisplay = content.querySelector('#morse-display');
     const playBtn = content.querySelector('#play-morse-btn');
     let blinkInterval;
-
     function startBlink() {
       if (blinkInterval) clearInterval(blinkInterval);
-      let visible = true;
-      morseDisplay.style.visibility = 'visible';
-      blinkInterval = setInterval(() => {
-        visible = !visible;
-        morseDisplay.style.visibility = visible ? 'visible' : 'hidden';
-      }, 500);
+      let visible = true; morseDisplay.style.visibility = 'visible';
+      blinkInterval = setInterval(() => { visible = !visible; morseDisplay.style.visibility = visible ? 'visible' : 'hidden'; }, 500);
     }
-
     startBlink();
-    playBtn.onclick = () => {
-      startBlink();
-    };
-
+    playBtn.onclick = startBlink;
     content.querySelector('#check-morse-btn').onclick = () => {
       const userAnswer = content.querySelector('#morse-input').value.trim().toLowerCase();
       const fb = content.querySelector('.morse-feedback');
-      if (userAnswer === message) {
-        fb.textContent = 'Correct! You speak fluent meow.';
-        fb.style.color = 'green';
-        if (blinkInterval) clearInterval(blinkInterval);
-        morseDisplay.style.visibility = 'visible';
-      } else {
-        fb.textContent = 'Not quite, try again.';
-        fb.style.color = 'red';
-      }
+      if (userAnswer === message) { fb.textContent = 'Correct! You speak fluent meow.'; fb.style.color = 'green'; if (blinkInterval) clearInterval(blinkInterval); morseDisplay.style.visibility = 'visible'; }
+      else { fb.textContent = 'Not quite, try again.'; fb.style.color = 'red'; }
     };
   }
-
   render();
 }
 
