@@ -791,15 +791,12 @@ function enterDesktop() {
 ================================================================ */
 function initBackgroundSwap() {
   const bgLayer = document.getElementById('bg-image-layer');
-  let fadeToBlackCount = 0;   // how many times we've reached full black
+  const images = ["images/chudartha.jpg", "images/jeffrey.jpg", "images/uncle.jpg"];
+  let idx = 0;
 
   bgLayer.addEventListener('animationiteration', () => {
-    fadeToBlackCount++;
-    if (fadeToBlackCount % 3 === 0) {
-  bgLayer.style.backgroundImage = "url('images/chudartha.jpg')";
-} else {
-  bgLayer.style.backgroundImage = "url('images/jeffrey.jpg')";
-}
+    idx = (idx + 1) % images.length;
+    bgLayer.style.backgroundImage = `url('${images[idx]}')`;
   });
 }
 
