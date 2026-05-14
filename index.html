@@ -54,18 +54,34 @@
       display: none;
       position: fixed; inset: 0;
       background-color: #000;
-      background-image: url('images/chudartha.jpg');
-      background-size: cover;
-      background-position: center;
       font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
       font-size: 11px;
       overflow: hidden;
     }
 
-    /* Star canvas behind everything */
+    /* Background image layer – fades in/out, smaller & centered */
+    #bg-image-layer {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('images/chudartha.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      opacity: 0;
+      animation: bgFade 12s ease-in-out infinite;
+    }
+    @keyframes bgFade {
+      0%   { opacity: 0; }
+      20%  { opacity: 0.8; }
+      40%  { opacity: 1; }
+      60%  { opacity: 1; }
+      80%  { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    /* Star canvas – above the background image */
     #stars {
       position: absolute; inset: 0;
-      z-index: 0;
+      z-index: 1;
       pointer-events: none;
     }
 
@@ -427,7 +443,10 @@
 ============================================================ -->
 <div id="desktop">
 
-  <!-- Star background canvas (now over the image) -->
+  <!-- Fading background image layer -->
+  <div id="bg-image-layer"></div>
+
+  <!-- Star canvas (now above the background image) -->
   <canvas id="stars"></canvas>
 
   <!-- ── DESKTOP ICONS ── -->
@@ -793,7 +812,6 @@ function initStars() {
 
   function makeStars() {
     stars = [];
-    // 500 falling stars
     for (let i = 0; i < 500; i++) {
       stars.push({
         x:    Math.random() * canvas.width,
@@ -805,9 +823,8 @@ function initStars() {
     }
   }
 
-  // Blue flash particle
   function spawnFlash() {
-    if (flashes.length < 15) { // limit simultaneous flashes
+    if (flashes.length < 15) {
       flashes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -821,13 +838,11 @@ function initStars() {
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw stars
     for (const s of stars) {
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
       ctx.fill();
-      // Move star
       s.y += s.speed;
       if (s.y > canvas.height) {
         s.y = 0;
@@ -835,29 +850,21 @@ function initStars() {
       }
     }
 
-    // Draw blue flashes
     for (let i = flashes.length - 1; i >= 0; i--) {
       const f = flashes[i];
       ctx.beginPath();
       ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(100, 180, 255, ${f.alpha})`;
       ctx.fill();
-      // Add a glow effect
       ctx.beginPath();
       ctx.arc(f.x, f.y, f.r * 2.5, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(100, 180, 255, ${f.alpha * 0.2})`;
       ctx.fill();
-
       f.alpha -= f.decay;
-      if (f.alpha <= 0) {
-        flashes.splice(i, 1);
-      }
+      if (f.alpha <= 0) flashes.splice(i, 1);
     }
 
-    // Spawn flashes periodically (approx every 0.5-1.5 seconds real time)
-    if (Math.random() < 0.02) { // roughly 2% chance per frame
-      spawnFlash();
-    }
+    if (Math.random() < 0.02) spawnFlash();
 
     requestAnimationFrame(draw);
   }
