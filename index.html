@@ -54,6 +54,7 @@
       display: none;
       position: fixed; inset: 0;
       background-color: #000;
+      background-image: url('images/chudartha.jpg');
       background-size: cover;
       background-position: center;
       font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
@@ -426,7 +427,7 @@
 ============================================================ -->
 <div id="desktop">
 
-  <!-- Star background canvas -->
+  <!-- Star background canvas (now over the image) -->
   <canvas id="stars"></canvas>
 
   <!-- ── DESKTOP ICONS ── -->
@@ -777,12 +778,13 @@ function tickClock() {
 }
 
 /* ================================================================
-   STAR BACKGROUND
+   ENHANCED STAR BACKGROUND WITH BLUE FLASHES
 ================================================================ */
 function initStars() {
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let stars = [];
+  let flashes = []; // blue star flashes
 
   function resize() {
     canvas.width  = window.innerWidth;
@@ -791,30 +793,72 @@ function initStars() {
 
   function makeStars() {
     stars = [];
-    for (let i = 0; i < 200; i++) {
+    // 500 falling stars
+    for (let i = 0; i < 500; i++) {
       stars.push({
         x:    Math.random() * canvas.width,
         y:    Math.random() * canvas.height,
-        r:    Math.random() * 1.2 + 0.3,
-        speed: Math.random() * 0.25 + 0.05,
-        alpha: Math.random() * 0.7 + 0.3,
+        r:    Math.random() * 1.5 + 0.3,
+        speed: Math.random() * 0.3 + 0.05,
+        alpha: Math.random() * 0.8 + 0.2,
+      });
+    }
+  }
+
+  // Blue flash particle
+  function spawnFlash() {
+    if (flashes.length < 15) { // limit simultaneous flashes
+      flashes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 3 + 1,
+        alpha: 1,
+        decay: 0.02 + Math.random() * 0.03,
       });
     }
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw stars
     for (const s of stars) {
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
       ctx.fill();
+      // Move star
       s.y += s.speed;
       if (s.y > canvas.height) {
         s.y = 0;
         s.x = Math.random() * canvas.width;
       }
     }
+
+    // Draw blue flashes
+    for (let i = flashes.length - 1; i >= 0; i--) {
+      const f = flashes[i];
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(100, 180, 255, ${f.alpha})`;
+      ctx.fill();
+      // Add a glow effect
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(100, 180, 255, ${f.alpha * 0.2})`;
+      ctx.fill();
+
+      f.alpha -= f.decay;
+      if (f.alpha <= 0) {
+        flashes.splice(i, 1);
+      }
+    }
+
+    // Spawn flashes periodically (approx every 0.5-1.5 seconds real time)
+    if (Math.random() < 0.02) { // roughly 2% chance per frame
+      spawnFlash();
+    }
+
     requestAnimationFrame(draw);
   }
 
@@ -981,7 +1025,6 @@ async function loadCatGallery() {
       const thumb = document.createElement('div');
       thumb.className = 'cat-thumb';
       thumb.innerHTML = `<img src="https://cataas.com/cat/${cat.id}" alt="cat" loading="lazy">`;
-      // Open in a Win98 lightbox window instead of new tab
       thumb.onclick = () => openCatLightbox(cat.id);
       grid.appendChild(thumb);
     });
