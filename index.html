@@ -796,10 +796,10 @@ function initBackgroundSwap() {
   bgLayer.addEventListener('animationiteration', () => {
     fadeToBlackCount++;
     if (fadeToBlackCount % 3 === 0) {
-      bgLayer.style.backgroundImage = "url('images/jeffrey.jpg')";
-    } else {
-      bgLayer.style.backgroundImage = "url('images/chudartha.gif')";
-    }
+  bgLayer.style.backgroundImage = "url('images/chudartha.jpg')";
+} else {
+  bgLayer.style.backgroundImage = "url('images/jeffrey.jpg')";
+}
   });
 }
 
