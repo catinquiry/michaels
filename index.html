@@ -59,7 +59,7 @@
       overflow: hidden;
     }
 
-    /* Background image layer – covers screen, fades in/out */
+    /* Background image layer – fades in/out, image swapped via JS */
     #bg-image-layer {
       position: absolute; inset: 0; z-index: 0;
       background-image: url('images/chudartha.jpg');
@@ -443,7 +443,7 @@
 ============================================================ -->
 <div id="desktop">
 
-  <!-- Fading background image layer, now covering the screen -->
+  <!-- Background image layer (CSS animation, swapped via JS) -->
   <div id="bg-image-layer"></div>
 
   <!-- Star canvas (above the background image) -->
@@ -783,6 +783,24 @@ function enterDesktop() {
   tickClock();
   setInterval(tickClock, 10000);
   initStars();
+  initBackgroundSwap();
+}
+
+/* ================================================================
+   BACKGROUND IMAGE SWAP (every 3rd fade-to-black)
+================================================================ */
+function initBackgroundSwap() {
+  const bgLayer = document.getElementById('bg-image-layer');
+  let fadeToBlackCount = 0;   // how many times we've reached full black
+
+  bgLayer.addEventListener('animationiteration', () => {
+    fadeToBlackCount++;
+    if (fadeToBlackCount % 3 === 0) {
+      bgLayer.style.backgroundImage = "url('images/jeffrey.jpg')";
+    } else {
+      bgLayer.style.backgroundImage = "url('images/chudartha.gif')";
+    }
+  });
 }
 
 /* ================================================================
@@ -803,7 +821,7 @@ function initStars() {
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let stars = [];
-  let flashes = []; // blue star flashes
+  let flashes = [];
 
   function resize() {
     canvas.width  = window.innerWidth;
