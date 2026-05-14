@@ -59,11 +59,11 @@
       overflow: hidden;
     }
 
-    /* Background image layer – fades in/out, smaller & centered */
+    /* Background image layer – covers screen, fades in/out */
     #bg-image-layer {
       position: absolute; inset: 0; z-index: 0;
       background-image: url('images/chudartha.jpg');
-      background-size: contain;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
       opacity: 0;
@@ -443,10 +443,10 @@
 ============================================================ -->
 <div id="desktop">
 
-  <!-- Fading background image layer -->
+  <!-- Fading background image layer, now covering the screen -->
   <div id="bg-image-layer"></div>
 
-  <!-- Star canvas (now above the background image) -->
+  <!-- Star canvas (above the background image) -->
   <canvas id="stars"></canvas>
 
   <!-- ── DESKTOP ICONS ── -->
