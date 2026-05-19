@@ -528,6 +528,7 @@
     </div>
     <div class="win-body">
       <div class="sunken">
+        <!-- Existing articles (0–2) -->
         <div class="writing-entry" onclick="openArticle(0)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
           <span class="entry-title">The Inner Temple: Esoteric Hitlerism from the Initiate’s View</span>
@@ -543,13 +544,29 @@
           <span class="entry-title">Kabbalah: The Telluric Shadow</span>
           <span class="entry-date">2025</span>
         </div>
+        <!-- New articles (3–5) -->
+        <div class="writing-entry" onclick="openArticle(3)">
+          <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
+          <span class="entry-title">Irminism for the Modern Age</span>
+          <span class="entry-date">—</span>
+        </div>
+        <div class="writing-entry" onclick="openArticle(4)">
+          <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
+          <span class="entry-title">The Black Sun and the Inner Pole</span>
+          <span class="entry-date">—</span>
+        </div>
+        <div class="writing-entry" onclick="openArticle(5)">
+          <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
+          <span class="entry-title">Hyperborea: The Lost Homeland</span>
+          <span class="entry-date">—</span>
+        </div>
         <div style="margin-top:14px; font-size:10px; color:#999; font-style:italic;">
           [ click any entry to read the full piece ]
         </div>
       </div>
     </div>
     <div class="win-statusbar">
-      <div class="status-cell">3 documents</div>
+      <div class="status-cell">6 documents</div>
     </div>
   </div>
 
@@ -703,7 +720,7 @@
 
 <script>
 /* ================================================================
-   ARTICLES (real content)
+   ARTICLES (real content) — updated with 3 new entries
 ================================================================ */
 const ARTICLES = [
   {
@@ -755,6 +772,43 @@ This is a telluric path. It draws its strength from below — from the dense, ac
 <p>It teaches the soul to accommodate, to bargain, to remake the world piece by piece according to its own measure rather than to confront and oppose what stands against the Solar Order. It thrives in the heavy atmosphere of this fallen age, gathering influence through patience, complexity, and hidden coordination. Its power is real, but it is the power of roots twisting through dark soil, not the power of lightning descending from above.<p>
 <p>We feel this opposition in our blood. The Aryan path calls us to clarity, to courage, to the straight blade of truth. Kabbalah offers another vision entirely — one of endless adjustment, of spiritual commerce, of reshaping reality from within the shadows of matter. Two currents. Two destinies. One reaches for the eternal pole. The other anchors itself deep in the telluric earth.
 And between them there can be no final reconciliation.</p>
+    `
+  },
+  // ── NEW ARTICLES ──
+  {
+    title: 'Irminism for the Modern Age',
+    date: '—',
+    content: `
+      <p>There was a time when our people lived beneath a straight pillar. The Irminsul stood tall, rising from the blood of the earth into the open sky, holding all things in clear and honest order. That age has passed, yet something of it still moves in the blood of those who can feel it.</p>
+      <p>We live now in a world of noise and sideways pull. Everything tries to bend us, distract us, soften us. But the old axis has not disappeared. It waits inside every man who refuses to kneel. Irminism is not nostalgia. It is the decision to stand upright while the world leans.</p>
+      <p>It starts with small, honest things. A shrine built in the woods. Runes carved with your own hands. The morning ritual that straightens the spine before the day begins. Feeding the crows and listening when they answer. Raising children who know their blood and their duty. These are not hobbies or aesthetics. They are how the pillar is rebuilt in a broken time.</p>
+      <p>The modern world wants us scattered, guilty, and weak. Irminism demands the opposite: clarity, strength, memory, and pride. It tells us to reject the endless maze of compromise and walk the single straight road instead.</p>
+      <p>The Irminsul was broken once by force. It will be raised again, first in the hearts of a few, then in the lives of many. Until the day comes when the outer world once more reflects the inner order we have kept alive.</p>
+      <p>Until then, we keep the fire burning. We keep the blood honest. We keep the axis straight.</p>
+    `
+  },
+  {
+    title: 'The Black Sun and the Inner Pole',
+    date: '—',
+    content: `
+      <p>Behind the sun we all see burns another. The Black Sun does not warm the skin. It lights the blood. It is the hidden source, the eternal center around which real life turns.</p>
+      <p>In this age the visible world spins wildly. Nations forget themselves. Men lose their direction. Yet the Black Sun remains steady. It turns in silence at the inner pole — that place inside the awakened man which no outside force can move.</p>
+      <p>To align yourself with the Black Sun is to become the living Irminsul. To feel the cold, bright clarity that cuts through every lie and comfort. It is the direct opposite of the heavy, sideways pull of this world. The Black Sun does not negotiate. It demands. It purifies. It calls the few back to what they truly are.</p>
+      <p>Every time you stand at your shrine, every mountain climbed, every rune carved, every refusal to bend — these are acts of re-orientation. They turn your inner compass back toward the true North.</p>
+      <p>The outer world may grow darker. The inversion may become more complete. But the Black Sun does not need the approval of the crowd. It shines only for those with eyes to see it and the will to follow its light.</p>
+      <p>Find your inner pole. Stand there without apology. Let the rest of the world spin as it will.</p>
+    `
+  },
+  {
+    title: 'Hyperborea: The Lost Homeland',
+    date: '—',
+    content: `
+      <p>Before the long fall there was a land of pure light. Not the soft warmth of the south, but the bright, merciless clarity of the polar sun. This was Hyperborea, the first home of our people, where the divine spark burned without obstruction or shadow.</p>
+      <p>They say it lay beyond the north wind. A place without true winter, where the year turned gently and the gods walked among men. The soul needed no temple because the whole world was sacred. From this origin the Hyperborean race carried the Solar Fire down into the lower realms.</p>
+      <p>Then came the turning. The pole was displaced. The Golden Age ended. The light became trapped in heavier matter. What was once vertical became twisted and broken. This is the wound we still carry in our blood — the memory of a perfection that was lost.</p>
+      <p>Yet the memory lives. It calls to certain men even now. It calls in the silence of the deep woods, in the bite of cold air, in the runes, in the Black Sun that turns behind our ordinary sun. It calls us to remember who we were before the fall.</p>
+      <p>Hyperborea is not simply a place on a map. It is a state of being. It is the original Solar Order. And though the outer world remains inverted, the path back to that original condition is still open to those with the courage and purity to walk it.</p>
+      <p>We do not wait for return only in death. We seek to manifest it here — in strong bodies, clear minds, proud children, and wills that will not bow. The homeland was lost to the outer world. It can be reborn within us.</p>
     `
   }
 ];
