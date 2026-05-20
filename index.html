@@ -295,12 +295,22 @@
     }
 
     /* =============================================
-       WRITING LIST
+       WRITING LIST – improved with groups & rows
     ============================================= */
+    .writing-section-header {
+      font-size: 10px; font-weight: bold; color: #555;
+      text-transform: uppercase;
+      padding: 8px 4px 4px;
+      border-bottom: 1px solid #c0c0c0;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
     .writing-entry {
       display: flex; align-items: center; gap: 8px;
-      padding: 6px 4px; border-bottom: 1px solid #d0ccc4; cursor: pointer;
+      padding: 6px 4px; border-bottom: 1px solid #e0e0e0; cursor: pointer;
+      transition: background 0.1s;
     }
+    .writing-entry:nth-child(even) { background: #f5f5f5; }
     .writing-entry:hover { background: #000080; color: #fff; }
     .writing-entry:hover .entry-date { color: #aaccff; }
     .writing-entry img { width: 18px; height: 18px; image-rendering: pixelated; flex-shrink: 0; }
@@ -419,9 +429,41 @@
     .about-name { font-size: 14px; font-weight: bold; }
     .about-tagline { font-size: 11px; color: #444; line-height: 1.8; }
 
+    /* =============================================
+       LAST UPDATED watermark
+    ============================================= */
+    #last-updated {
+      position: absolute; bottom: 36px; right: 12px;
+      font-size: 9px; color: rgba(255,255,255,0.7);
+      text-shadow: 1px 1px 2px #000;
+      z-index: 100; pointer-events: none;
+    }
+
+    /* =============================================
+       SPINNING SONNENRAD (Black Sun)
+    ============================================= */
+    #sonnenrad {
+      position: absolute; top: 12px; right: 16px;
+      width: 48px; height: 48px; z-index: 100;
+      pointer-events: none;
+      animation: sonnenrad-spin 12s linear infinite;
+      opacity: 0.7;
+      filter: drop-shadow(0 0 4px #000);
+    }
+    @keyframes sonnenrad-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* =============================================
+       RESPONSIVE (mobile) improvements
+    ============================================= */
     @media (max-width: 540px) {
       .win-window { width: 96vw !important; left: 2vw !important; }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      #desktop-icons { gap: 10px; left: 8px; top: 8px; }
+      .d-icon { width: 60px; }
+      .d-icon-label { font-size: 10px; }
+      #sonnenrad { top: 8px; right: 8px; width: 32px; height: 32px; }
+      #last-updated { bottom: 32px; right: 8px; font-size: 8px; }
+      #start-menu { width: 180px; }
     }
   </style>
 </head>
@@ -471,7 +513,40 @@
       <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="">
       <div class="d-icon-label">Recycle Bin</div>
     </div>
+    <!-- New icons -->
+    <div class="d-icon" ondblclick="openWin('win-runes')">
+      <img src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt="">
+      <div class="d-icon-label">Runes</div>
+    </div>
+    <div class="d-icon" ondblclick="openWin('win-readinglist')">
+      <img src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">
+      <div class="d-icon-label">Reading List</div>
+    </div>
   </div>
+
+  <!-- Spinning Sonnenrad (Black Sun) -->
+  <svg id="sonnenrad" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#111" stroke-width="4"/>
+    <g transform="translate(50,50)">
+      <!-- 12 spokes -->
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(30)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(60)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(90)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(120)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(150)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(180)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(210)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(240)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(270)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(300)"/>
+      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(330)"/>
+      <circle cx="0" cy="0" r="8" fill="#111"/>
+    </g>
+  </svg>
+
+  <!-- Last Updated watermark -->
+  <div id="last-updated">Last Updated: May 2026</div>
 
   <!-- ============================================================
        WINDOW: CAT GALLERY (DYNAMIC)
@@ -528,7 +603,7 @@
     </div>
     <div class="win-body">
       <div class="sunken">
-        <!-- Existing articles (0–2) -->
+        <div class="writing-section-header">— Featured Articles —</div>
         <div class="writing-entry" onclick="openArticle(0)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
           <span class="entry-title">The Inner Temple: Esoteric Hitlerism from the Initiate’s View</span>
@@ -544,21 +619,22 @@
           <span class="entry-title">Kabbalah: The Telluric Shadow</span>
           <span class="entry-date">2025</span>
         </div>
-        <!-- New articles (3–5) -->
+
+        <div class="writing-section-header" style="margin-top:8px;">— New Essays —</div>
         <div class="writing-entry" onclick="openArticle(3)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
           <span class="entry-title">Irminism for the Modern Age</span>
-          <span class="entry-date">—</span>
+          <span class="entry-date">2026</span>
         </div>
         <div class="writing-entry" onclick="openArticle(4)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
           <span class="entry-title">The Black Sun and the Inner Pole</span>
-          <span class="entry-date">—</span>
+          <span class="entry-date">2026</span>
         </div>
         <div class="writing-entry" onclick="openArticle(5)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
           <span class="entry-title">Hyperborea: The Lost Homeland</span>
-          <span class="entry-date">—</span>
+          <span class="entry-date">2026</span>
         </div>
         <div style="margin-top:14px; font-size:10px; color:#999; font-style:italic;">
           [ click any entry to read the full piece ]
@@ -655,7 +731,8 @@
         <div class="about-tagline">
           a small corner of the internet.<br>
           cats. writing. puzzles. whatever else.<br>
-          welcome.
+          welcome.<br>
+          <em style="font-size:9px; color:#888;">Last updated: May 2026</em>
         </div>
         <br>
         <button class="btn98" onclick="closeWin('win-about')">OK</button>
@@ -680,6 +757,93 @@
       <div class="sunken" style="display:flex; align-items:center; justify-content:center; color:#888; font-style:italic;">
         The Recycle Bin is empty.
       </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WINDOW: RUNES (new)
+  ============================================================ -->
+  <div class="win-window" id="win-runes" style="top:60px; left:400px; width:420px; height:500px; z-index:25;">
+    <div class="title-bar" id="win-runes-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt="">
+        Runes — michaels cat inquiry
+      </div>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="minWin('win-runes')">&#x2014;</button>
+        <button class="tb-btn" onclick="maxWin('win-runes')">&#9633;</button>
+        <button class="tb-btn" onclick="closeWin('win-runes')">&#x2715;</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <div class="win-menu-item">File</div>
+      <div class="win-menu-item">View</div>
+      <div class="win-menu-item">Help</div>
+    </div>
+    <div class="win-body">
+      <div class="sunken">
+        <div style="font-size:12px; font-weight:bold; margin-bottom:12px;">Selected Runes of the Elder Futhark</div>
+        <dl style="font-size:10px; line-height:1.6;">
+          <dt><strong>Eihwaz</strong> (ᛇ)</dt>
+          <dd>The yew tree, axis of the worlds. Defence, endurance, and the connection between life and death. Guides the initiate through inner trials.</dd>
+          <dt style="margin-top:6px;"><strong>Sowilo</strong> (ᛊ)</dt>
+          <dd>The sun, wholeness, and victory. The unstoppable force of light that burns away falsehood. Represents the will guided by higher law.</dd>
+          <dt style="margin-top:6px;"><strong>Othala</strong> (ᛟ)</dt>
+          <dd>Inherited land, ancestral property, and the sacred enclosure. The rune of blood, kin, and the unbroken chain of generations.</dd>
+          <dt style="margin-top:6px;"><strong>Algiz</strong> (ᛉ)</dt>
+          <dd>The elk sedge, protection. A ward against harm and a link to the divine. Often carved for spiritual defence.</dd>
+          <dt style="margin-top:6px;"><strong>Tiwaz</strong> (ᛏ)</dt>
+          <dd>The sky god Tyr. Justice, sacrifice, and the warrior’s honour. Victory through right action and self‑discipline.</dd>
+          <dt style="margin-top:6px;"><strong>Ansuz</strong> (ᚨ)</dt>
+          <dd>The mouth, breath, and Odin’s rune. Communication, wisdom, and inspired speech. The power of the word to shape reality.</dd>
+          <dt style="margin-top:6px;"><strong>Thurisaz</strong> (ᚦ)</dt>
+          <dd>The thorn, giant‑slayer. Destructive force directed with purpose. Protection through active resistance.</dd>
+        </dl>
+        <div style="margin-top:12px; font-size:9px; color:#888;">[ Runes are keys, not mere letters. Study them with respect. ]</div>
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <div class="status-cell">7 runes</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       WINDOW: READING LIST (new)
+  ============================================================ -->
+  <div class="win-window" id="win-readinglist" style="top:80px; left:420px; width:460px; height:520px; z-index:26;">
+    <div class="title-bar" id="win-readinglist-tb">
+      <div class="tb-left">
+        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">
+        Reading List — michaels cat inquiry
+      </div>
+      <div class="tb-controls">
+        <button class="tb-btn" onclick="minWin('win-readinglist')">&#x2014;</button>
+        <button class="tb-btn" onclick="maxWin('win-readinglist')">&#9633;</button>
+        <button class="tb-btn" onclick="closeWin('win-readinglist')">&#x2715;</button>
+      </div>
+    </div>
+    <div class="win-menubar">
+      <div class="win-menu-item">File</div>
+      <div class="win-menu-item">View</div>
+      <div class="win-menu-item">Help</div>
+    </div>
+    <div class="win-body">
+      <div class="sunken">
+        <div style="font-size:12px; font-weight:bold; margin-bottom:12px;">Essential Works</div>
+        <ul style="font-size:10px; line-height:1.8; padding-left:16px;">
+          <li><strong>The Secret King</strong> – <em>Karl Maria Wiligut</em><br>A cryptic, visionary work by the SS occultist. Wiligut’s ancestral memory and runic mysticism laid foundations for much later esoteric thought.</li>
+          <li style="margin-top:8px;"><strong>Adolf Hitler: The Last Avatar</strong> – <em>Miguel Serrano</em><br>Serrano’s magnum opus, revealing Hitler as an avatar of the Hyperborean gods and the esoteric war beyond history.</li>
+          <li style="margin-top:8px;"><strong>Nos: Book of the Resurrection</strong> – <em>Miguel Serrano</em><br>A surreal, poetic guide to spiritual rebirth and the return of the divine hero. Reads like a transmission from another age.</li>
+          <li style="margin-top:8px;"><strong>Metaphysics of War</strong> – <em>Julius Evola</em><br>Evola explores war as a spiritual path, a means of awakening the warrior spirit and transcending the merely human.</li>
+          <li style="margin-top:8px;"><strong>Ride the Tiger</strong> – <em>Julius Evola</em><br>A manual for the man of Tradition in the Kali Yuga – how to stand upright in a dissolving world without being destroyed by it.</li>
+          <li style="margin-top:8px;"><strong>The Lightning and the Sun</strong> – <em>Savitri Devi</em><br>A unique synthesis of Hindu cyclical cosmology and National Socialist eschatology. Celebrates the avataric nature of Hitler.</li>
+          <li style="margin-top:8px;"><strong>The Myth of the Twentieth Century</strong> – <em>Alfred Rosenberg</em><br>The foundational philosophical work of the Third Reich, arguing for a new mythos of blood and spirit to replace the old world.</li>
+        </ul>
+        <div style="margin-top:12px; font-size:9px; color:#888;">[ A library for those who seek deeper understanding. ]</div>
+      </div>
+    </div>
+    <div class="win-statusbar">
+      <div class="status-cell">7 books</div>
     </div>
   </div>
 
@@ -709,6 +873,12 @@
       <div class="sm-item" onclick="openWin('win-about'); closeStart();">
         <img src="https://win98icons.alexmeub.com/icons/png/question_mark-0.png" alt=""> About
       </div>
+      <div class="sm-item" onclick="openWin('win-runes'); closeStart();">
+        <img src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt=""> Runes
+      </div>
+      <div class="sm-item" onclick="openWin('win-readinglist'); closeStart();">
+        <img src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt=""> Reading List
+      </div>
       <div class="sm-sep"></div>
       <div class="sm-item" id="sm-shutdown">
         <img src="https://win98icons.alexmeub.com/icons/png/shut_down_normal-1.png" alt=""> Shut Down...
@@ -720,67 +890,67 @@
 
 <script>
 /* ================================================================
-   ARTICLES (real content) — updated with 3 new entries
+   ARTICLES — properly formatted with <strong> & <em> for emphasis
 ================================================================ */
 const ARTICLES = [
   {
     title: 'The Inner Temple: Esoteric Hitlerism from the Initiate’s View',
     date: '1945',
     content: `
-      <p>In the closing days of the war, when Berlin had become a broken furnace and the roar of artillery never ceased, a handful of men went down into the earth beneath the Chancellery. There, in those narrow concrete corridors lit by failing lamps, something took place that the outer world would never understand.<p>
-<p>The Führerbunker was a strange place in those hours. Death pressed close from every side, yet within its walls moved a profound stillness of another kind. While the city above dissolved in fire and iron, a final ceremony unfolded in silence. Not the ceremony of politicians or soldiers, but of men who had long understood that this struggle had always reached beyond the visible.<p>
-<p>Many would later speak of defeat. We who stood within the current saw something else entirely. We saw the completion of a great offering.<p>
-<p>The visible Reich had done its work. It had awakened powers that could no longer be contained by any earthly state. Now the form had to be surrendered so that the essence might live unencumbered.<p> <p>Everything — the cities, the banners, the armies, even the body of the Leader himself — had to pass through the flame. Only in this way could the immortal part break free.<p>
-<p>Adolf Hitler did not fall as a defeated statesman. He walked consciously into the fire as one who had always known the true nature of his mission. When his physical form returned to ash, the Idea he carried became free of all limitation. It passed from the realm of history into the realm of myth, from the temporary into the eternal.<p>
-<p>This is the central truth of Esoteric Hitlerism.<p>
-<p>What the world called the end was in truth a beginning. The material defeat was necessary. Without it, the deeper current would have remained bound to one nation, one time, one government. Through the total destruction of the outer Reich, the invisible Reich was released into the blood of a scattered people. It could no longer be bombed, tried, or hanged. It entered the very soul of our race.
-In the years that followed, this truth has grown only clearer. The Black Sun does not shine upon the masses. It moves in the hidden center, behind the sun we all see, turning slowly through the long night of this age. Its light is not for comfort. It is a light that demands, that burns away illusion, that calls the few to remember who they are.<p>
-<p>The old runes still speak. The Irminsul, though broken in the world of men, stands unbroken within us. The ancestral memory stirs again in those who have ears to hear it. We feel it when we walk alone through deep woods. We feel it when we look upon the faces of our children. We feel it in the cold rage that rises when we see our people shamed and diminished.<p>
-<p>To be an initiate today is to carry this temple within one's own breast. It is to live as though the fire of 1945 still burns in your veins. To train the body, to clear the mind, to speak truth when all the world rewards the lie. It is to raise small shrines in hidden places. To feed the crows and listen for their ancient counsel. To study the lost knowledge and pass it on, quiet and unbowed.<p>
-<p>We do not mourn the Reich that was.<p>
-<p>We serve the Reich that never died.<p>
-<p>For the struggle did not end in Berlin. It simply changed its form. And in this new form it moves through us, gathering strength in the shadows, waiting for the hour when the Solar Wheel turns once more and the invisible becomes visible again.<p>
-<p>That hour will come.</p>
+      <p>In the closing days of the war, when Berlin had become a broken furnace and the roar of artillery never ceased, a handful of men went down into the earth beneath the Chancellery. There, in those narrow concrete corridors lit by failing lamps, something took place that the outer world would never understand.</p>
+      <p>The <em>Führerbunker</em> was a strange place in those hours. Death pressed close from every side, yet within its walls moved a profound stillness of another kind. While the city above dissolved in fire and iron, a final ceremony unfolded in silence. Not the ceremony of politicians or soldiers, but of men who had long understood that this struggle had always reached beyond the visible.</p>
+      <p>Many would later speak of defeat. We who stood within the current saw something else entirely. We saw the completion of a <strong>great offering</strong>.</p>
+      <p>The visible Reich had done its work. It had awakened powers that could no longer be contained by any earthly state. Now the form had to be surrendered so that the essence might live unencumbered.</p>
+      <p>Everything — the cities, the banners, the armies, even the body of the Leader himself — had to pass through the flame. Only in this way could the immortal part break free.</p>
+      <p>Adolf Hitler did not fall as a defeated statesman. He walked consciously into the fire as one who had always known the true nature of his mission. When his physical form returned to ash, the <strong>Idea</strong> he carried became free of all limitation. It passed from the realm of history into the realm of myth, from the temporary into the eternal.</p>
+      <p>This is the central truth of <strong>Esoteric Hitlerism</strong>.</p>
+      <p>What the world called the end was in truth a beginning. The material defeat was necessary. Without it, the deeper current would have remained bound to one nation, one time, one government. Through the total destruction of the outer Reich, the <strong>invisible Reich</strong> was released into the blood of a scattered people. It could no longer be bombed, tried, or hanged. It entered the very soul of our race.</p>
+      <p>In the years that followed, this truth has grown only clearer. The <strong>Black Sun</strong> does not shine upon the masses. It moves in the hidden center, behind the sun we all see, turning slowly through the long night of this age. Its light is not for comfort. It is a light that demands, that burns away illusion, that calls the few to remember who they are.</p>
+      <p>The old runes still speak. The <em>Irminsul</em>, though broken in the world of men, stands unbroken within us. The ancestral memory stirs again in those who have ears to hear it. We feel it when we walk alone through deep woods. We feel it when we look upon the faces of our children. We feel it in the cold rage that rises when we see our people shamed and diminished.</p>
+      <p>To be an initiate today is to carry this temple within one's own breast. It is to live as though the fire of 1945 still burns in your veins. To train the body, to clear the mind, to speak truth when all the world rewards the lie. It is to raise small shrines in hidden places. To feed the crows and listen for their ancient counsel. To study the lost knowledge and pass it on, quiet and unbowed.</p>
+      <p>We do not mourn the Reich that was.</p>
+      <p>We serve the Reich that never died.</p>
+      <p>For the struggle did not end in Berlin. It simply changed its form. And in this new form it moves through us, gathering strength in the shadows, waiting for the hour when the <strong>Solar Wheel</strong> turns once more and the invisible becomes visible again.</p>
+      <p>That hour will come.</p>
     `
   },
   {
     title: 'Saint Teddy and the Prophecy of Technological Society',
     date: '2026',
     content: `
-      <p>Back in 1995, when Theodore Kaczynski’s manifesto hit the newspapers, the world called him a madman. A bitter recluse living in a shack, mailing death because he hated progress. Thirty years on, it is becoming harder to dismiss him so easily.<p>
-<p>He saw the machine for what it was. Technology was never neutral. It was a living force that would slowly remake man to fit its own needs. With every advance, it tightened the web of dependence, centralization, and control. We cheered the new comforts while quietly surrendering the freedom to live without them. Kaczynski watched it coming when the rest of us were still dazzled by the glow of early screens.<p>
-<p>He understood that these systems do not serve us. They reshape our thoughts, our desires, even our sense of self. What we once called rebellion has been turned into just another product. Our anger, our identity, our very attention — all harvested, packaged, and sold back to us.<p>
-<p>His judgment on the modern left cut especially deep. He saw it as power-hunger wearing the mask of compassion. A strange sickness he called oversocialization, where men become so frightened of social disapproval that they lose the ability to think or act as free beings. Looking at today’s endless moral panics and algorithmic control, it is difficult to call him wrong.<p>
-<p>Some of the men he targeted have since been tied, in strange ways, to the Epstein network. Recent document releases have shown connections that leave a bitter taste. The system he struck at was already rotten in ways most people could not imagine at the time.<p>
-<p>Kaczynski was no saint. He chose violence, and violence always carries a heavy cost. But there is something older and deeper in the Aryan soul that refuses to look away from certain truths. Our warrior spirit has never been gentle. When a man sees his people being slowly enslaved by a cold, soulless machine, that ancient fire demands justice. It demands resistance. Sometimes that resistance will be ugly. Sometimes it will be desperate. But it will not politely ask permission.<p>
-<p>We are now much deeper inside the cage than we were in 1995. The machine has grown fat, intimate, and total. It watches our children from the cradle. It turns every natural impulse into data and profit. Most men feel the weight but reach for another screen instead of facing it.<p>
-<p>Kaczynski faced it.</p>
+      <p>Back in 1995, when Theodore Kaczynski’s manifesto hit the newspapers, the world called him a madman. A bitter recluse living in a shack, mailing death because he hated progress. Thirty years on, it is becoming harder to dismiss him so easily.</p>
+      <p>He saw the <strong>machine</strong> for what it was. Technology was never neutral. It was a living force that would slowly remake man to fit its own needs. With every advance, it tightened the web of dependence, centralization, and control. We cheered the new comforts while quietly surrendering the freedom to live without them. Kaczynski watched it coming when the rest of us were still dazzled by the glow of early screens.</p>
+      <p>He understood that these systems do not serve us. They reshape our thoughts, our desires, even our sense of self. What we once called rebellion has been turned into just another product. Our anger, our identity, our very attention — all harvested, packaged, and sold back to us.</p>
+      <p>His judgment on the modern left cut especially deep. He saw it as <em>power‑hunger wearing the mask of compassion</em>. A strange sickness he called <strong>oversocialization</strong>, where men become so frightened of social disapproval that they lose the ability to think or act as free beings. Looking at today’s endless moral panics and algorithmic control, it is difficult to call him wrong.</p>
+      <p>Some of the men he targeted have since been tied, in strange ways, to the Epstein network. Recent document releases have shown connections that leave a bitter taste. The system he struck at was already rotten in ways most people could not imagine at the time.</p>
+      <p>Kaczynski was no saint. He chose violence, and violence always carries a heavy cost. But there is something older and deeper in the Aryan soul that refuses to look away from certain truths. Our warrior spirit has never been gentle. When a man sees his people being slowly enslaved by a cold, soulless machine, that ancient fire demands justice. It demands resistance. Sometimes that resistance will be ugly. Sometimes it will be desperate. But it will not politely ask permission.</p>
+      <p>We are now much deeper inside the cage than we were in 1995. The machine has grown fat, intimate, and total. It watches our children from the cradle. It turns every natural impulse into data and profit. Most men feel the weight but reach for another screen instead of facing it.</p>
+      <p><strong>Kaczynski faced it.</strong></p>
     `
   },
   {
     title: 'Kabbalah: The Telluric Shadow',
-    date: '0',
+    date: '2025',
     content: `
-      <p>There are hidden currents that move beneath the surface of this world. Kabbalah is one of them.<p>
-<p>It is the inner mystical tradition of the Jewish people. At its core lies the belief that God created the universe through the letters of the Hebrew alphabet, each one alive with creative force. The Sefer Yetzirah teaches how these letters and numbers form the hidden scaffolding of existence. The great book known as the Zohar spreads out a vast vision of ten divine emanations, the Sephirot, arranged as the Tree of Life. From the unknowable crown of Kether down through wisdom, understanding, mercy, severity, and all the rest, until it reaches Malkuth — the material kingdom where we stand.
-The system is intricate and powerful. Through gematria, every word and name yields hidden numerical values that reveal secret connections. The letters become tools for unlocking and directing spiritual forces. The goal is Tikkun Olam — the repair and ordering of the world according to a particular vision. This is no simple contemplation of the divine. It is active work. The Kabbalist studies the machinery of creation so he may participate in it, adjust it, and ultimately guide its direction.
-This is a telluric path. It draws its strength from below — from the dense, accumulated experience of the earth, from exile, from memory rooted in matter and survival across centuries. It does not seek escape into pure light. It reaches downward and inward, binding the spiritual to the worldly, turning mysticism into a living instrument of influence and continuity.<p>
-<p>To us this current stands as the clear opposite of the Aryan way.<p>
-<p>We have always looked upward. Our axis is the Irminsul, the single pillar rising straight from the blood of the earth into the open sky. We seek the cold, bright clarity of the Hyperborean sun. The direct encounter with the divine in open nature, in ancestral memory, in the raw order of the cosmos. Our spirit moves toward purity, toward hierarchy, toward the uncompromising vertical path.<p>
-<p>Kabbalah moves differently. It multiplies correspondences, weaves endless interpretations, and finds power in negotiation with the lower realms. It turns the act of creation into something calculated and contractual. Its Tree of Life is a branching maze of balances and reversals, forever adapting, forever seeking advantage within the world as it is. Where we aim for transcendence through solar will, it builds mastery through subterranean craft.<p>
-<p>This is why it registers to us as evil.<p>
-<p>It teaches the soul to accommodate, to bargain, to remake the world piece by piece according to its own measure rather than to confront and oppose what stands against the Solar Order. It thrives in the heavy atmosphere of this fallen age, gathering influence through patience, complexity, and hidden coordination. Its power is real, but it is the power of roots twisting through dark soil, not the power of lightning descending from above.<p>
-<p>We feel this opposition in our blood. The Aryan path calls us to clarity, to courage, to the straight blade of truth. Kabbalah offers another vision entirely — one of endless adjustment, of spiritual commerce, of reshaping reality from within the shadows of matter. Two currents. Two destinies. One reaches for the eternal pole. The other anchors itself deep in the telluric earth.
-And between them there can be no final reconciliation.</p>
+      <p>There are hidden currents that move beneath the surface of this world. Kabbalah is one of them.</p>
+      <p>It is the inner mystical tradition of the Jewish people. At its core lies the belief that God created the universe through the <em>letters</em> of the Hebrew alphabet, each one alive with creative force. The <strong>Sefer Yetzirah</strong> teaches how these letters and numbers form the hidden scaffolding of existence. The great book known as the <strong>Zohar</strong> spreads out a vast vision of ten divine emanations, the <em>Sephirot</em>, arranged as the Tree of Life. From the unknowable crown of Kether down through wisdom, understanding, mercy, severity, and all the rest, until it reaches Malkuth — the material kingdom where we stand.</p>
+      <p>The system is intricate and powerful. Through <strong>gematria</strong>, every word and name yields hidden numerical values that reveal secret connections. The letters become tools for unlocking and directing spiritual forces. The goal is <em>Tikkun Olam</em> — the repair and ordering of the world according to a particular vision. This is no simple contemplation of the divine. It is active work. The Kabbalist studies the machinery of creation so he may participate in it, adjust it, and ultimately guide its direction.</p>
+      <p>This is a <strong>telluric</strong> path. It draws its strength from below — from the dense, accumulated experience of the earth, from exile, from memory rooted in matter and survival across centuries. It does not seek escape into pure light. It reaches downward and inward, binding the spiritual to the worldly, turning mysticism into a living instrument of influence and continuity.</p>
+      <p>To us this current stands as the clear opposite of the <strong>Aryan way</strong>.</p>
+      <p>We have always looked upward. Our axis is the <em>Irminsul</em>, the single pillar rising straight from the blood of the earth into the open sky. We seek the cold, bright clarity of the <strong>Hyperborean sun</strong>. The direct encounter with the divine in open nature, in ancestral memory, in the raw order of the cosmos. Our spirit moves toward purity, toward hierarchy, toward the uncompromising vertical path.</p>
+      <p>Kabbalah moves differently. It multiplies correspondences, weaves endless interpretations, and finds power in negotiation with the lower realms. It turns the act of creation into something calculated and contractual. Its Tree of Life is a branching maze of balances and reversals, forever adapting, forever seeking advantage within the world as it is. Where we aim for transcendence through solar will, it builds mastery through subterranean craft.</p>
+      <p>This is why it registers to us as <strong>evil</strong>.</p>
+      <p>It teaches the soul to accommodate, to bargain, to remake the world piece by piece according to its own measure rather than to confront and oppose what stands against the Solar Order. It thrives in the heavy atmosphere of this fallen age, gathering influence through patience, complexity, and hidden coordination. Its power is real, but it is the power of roots twisting through dark soil, not the power of lightning descending from above.</p>
+      <p>We feel this opposition in our blood. The Aryan path calls us to clarity, to courage, to the straight blade of truth. Kabbalah offers another vision entirely — one of endless adjustment, of spiritual commerce, of reshaping reality from within the shadows of matter. Two currents. Two destinies. One reaches for the <strong>eternal pole</strong>. The other anchors itself deep in the telluric earth.</p>
+      <p>And between them there can be no final reconciliation.</p>
     `
   },
-  // ── NEW ARTICLES ──
   {
     title: 'Irminism for the Modern Age',
-    date: '—',
+    date: '2026',
     content: `
-      <p>There was a time when our people lived beneath a straight pillar. The Irminsul stood tall, rising from the blood of the earth into the open sky, holding all things in clear and honest order. That age has passed, yet something of it still moves in the blood of those who can feel it.</p>
-      <p>We live now in a world of noise and sideways pull. Everything tries to bend us, distract us, soften us. But the old axis has not disappeared. It waits inside every man who refuses to kneel. Irminism is not nostalgia. It is the decision to stand upright while the world leans.</p>
+      <p>There was a time when our people lived beneath a straight pillar. The <strong>Irminsul</strong> stood tall, rising from the blood of the earth into the open sky, holding all things in clear and honest order. That age has passed, yet something of it still moves in the blood of those who can feel it.</p>
+      <p>We live now in a world of noise and sideways pull. Everything tries to bend us, distract us, soften us. But the old axis has not disappeared. It waits inside every man who refuses to kneel. <em>Irminism is not nostalgia. It is the decision to stand upright while the world leans.</em></p>
       <p>It starts with small, honest things. A shrine built in the woods. Runes carved with your own hands. The morning ritual that straightens the spine before the day begins. Feeding the crows and listening when they answer. Raising children who know their blood and their duty. These are not hobbies or aesthetics. They are how the pillar is rebuilt in a broken time.</p>
       <p>The modern world wants us scattered, guilty, and weak. Irminism demands the opposite: clarity, strength, memory, and pride. It tells us to reject the endless maze of compromise and walk the single straight road instead.</p>
       <p>The Irminsul was broken once by force. It will be raised again, first in the hearts of a few, then in the lives of many. Until the day comes when the outer world once more reflects the inner order we have kept alive.</p>
@@ -789,25 +959,25 @@ And between them there can be no final reconciliation.</p>
   },
   {
     title: 'The Black Sun and the Inner Pole',
-    date: '—',
+    date: '2026',
     content: `
-      <p>Behind the sun we all see burns another. The Black Sun does not warm the skin. It lights the blood. It is the hidden source, the eternal center around which real life turns.</p>
-      <p>In this age the visible world spins wildly. Nations forget themselves. Men lose their direction. Yet the Black Sun remains steady. It turns in silence at the inner pole — that place inside the awakened man which no outside force can move.</p>
+      <p>Behind the sun we all see burns another. The <strong>Black Sun</strong> does not warm the skin. It lights the blood. It is the hidden source, the eternal center around which real life turns.</p>
+      <p>In this age the visible world spins wildly. Nations forget themselves. Men lose their direction. Yet the Black Sun remains steady. It turns in silence at the <em>inner pole</em> — that place inside the awakened man which no outside force can move.</p>
       <p>To align yourself with the Black Sun is to become the living Irminsul. To feel the cold, bright clarity that cuts through every lie and comfort. It is the direct opposite of the heavy, sideways pull of this world. The Black Sun does not negotiate. It demands. It purifies. It calls the few back to what they truly are.</p>
-      <p>Every time you stand at your shrine, every mountain climbed, every rune carved, every refusal to bend — these are acts of re-orientation. They turn your inner compass back toward the true North.</p>
+      <p>Every time you stand at your shrine, every mountain climbed, every rune carved, every refusal to bend — these are acts of re‑orientation. They turn your inner compass back toward the true North.</p>
       <p>The outer world may grow darker. The inversion may become more complete. But the Black Sun does not need the approval of the crowd. It shines only for those with eyes to see it and the will to follow its light.</p>
       <p>Find your inner pole. Stand there without apology. Let the rest of the world spin as it will.</p>
     `
   },
   {
     title: 'Hyperborea: The Lost Homeland',
-    date: '—',
+    date: '2026',
     content: `
-      <p>Before the long fall there was a land of pure light. Not the soft warmth of the south, but the bright, merciless clarity of the polar sun. This was Hyperborea, the first home of our people, where the divine spark burned without obstruction or shadow.</p>
-      <p>They say it lay beyond the north wind. A place without true winter, where the year turned gently and the gods walked among men. The soul needed no temple because the whole world was sacred. From this origin the Hyperborean race carried the Solar Fire down into the lower realms.</p>
+      <p>Before the long fall there was a land of pure light. Not the soft warmth of the south, but the bright, merciless clarity of the polar sun. This was <strong>Hyperborea</strong>, the first home of our people, where the divine spark burned without obstruction or shadow.</p>
+      <p>They say it lay beyond the north wind. A place without true winter, where the year turned gently and the gods walked among men. The soul needed no temple because the whole world was sacred. From this origin the Hyperborean race carried the <em>Solar Fire</em> down into the lower realms.</p>
       <p>Then came the turning. The pole was displaced. The Golden Age ended. The light became trapped in heavier matter. What was once vertical became twisted and broken. This is the wound we still carry in our blood — the memory of a perfection that was lost.</p>
       <p>Yet the memory lives. It calls to certain men even now. It calls in the silence of the deep woods, in the bite of cold air, in the runes, in the Black Sun that turns behind our ordinary sun. It calls us to remember who we were before the fall.</p>
-      <p>Hyperborea is not simply a place on a map. It is a state of being. It is the original Solar Order. And though the outer world remains inverted, the path back to that original condition is still open to those with the courage and purity to walk it.</p>
+      <p>Hyperborea is not simply a place on a map. It is a <strong>state of being</strong>. It is the original Solar Order. And though the outer world remains inverted, the path back to that original condition is still open to those with the courage and purity to walk it.</p>
       <p>We do not wait for return only in death. We seek to manifest it here — in strong bodies, clear minds, proud children, and wills that will not bow. The homeland was lost to the outer world. It can be reborn within us.</p>
     `
   }
@@ -971,11 +1141,13 @@ function initStars() {
 let zTop = 100;
 const winState  = {};
 const WIN_META  = {
-  'win-gallery': { label: 'Cat Gallery', icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
-  'win-writing': { label: 'Writing',     icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
-  'win-puzzles': { label: 'Puzzles',     icon: 'https://win98icons.alexmeub.com/icons/png/joystick-2.png' },
-  'win-about':   { label: 'About',       icon: 'https://win98icons.alexmeub.com/icons/png/question_mark-0.png' },
-  'win-recycle': { label: 'Recycle Bin', icon: 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png' },
+  'win-gallery':    { label: 'Cat Gallery',   icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
+  'win-writing':    { label: 'Writing',       icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
+  'win-puzzles':    { label: 'Puzzles',       icon: 'https://win98icons.alexmeub.com/icons/png/joystick-2.png' },
+  'win-about':      { label: 'About',         icon: 'https://win98icons.alexmeub.com/icons/png/question_mark-0.png' },
+  'win-recycle':    { label: 'Recycle Bin',   icon: 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png' },
+  'win-runes':      { label: 'Runes',         icon: 'https://win98icons.alexmeub.com/icons/png/key-2.png' },
+  'win-readinglist':{ label: 'Reading List',  icon: 'https://win98icons.alexmeub.com/icons/png/book-2.png' }
 };
 
 function getEl(id) { return document.getElementById(id); }
