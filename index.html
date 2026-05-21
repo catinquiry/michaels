@@ -440,17 +440,24 @@
     }
 
     /* =============================================
-       SPINNING SONNENRAD (Black Sun)
+       SPINNING SONNENRAD (Black Sun) – white on dark bg
     ============================================= */
     #sonnenrad {
-      position: absolute; top: 12px; right: 16px;
-      width: 48px; height: 48px; z-index: 100;
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      width: 58px;
+      height: 58px;
+      z-index: 100;
       pointer-events: none;
-      animation: sonnenrad-spin 12s linear infinite;
-      opacity: 0.7;
-      filter: drop-shadow(0 0 4px #000);
+      animation: sonnenrad-spin 16s linear infinite;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 8px #000);
     }
-    @keyframes sonnenrad-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes sonnenrad-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
 
     /* =============================================
        RESPONSIVE (mobile) improvements
@@ -461,7 +468,7 @@
       #desktop-icons { gap: 10px; left: 8px; top: 8px; }
       .d-icon { width: 60px; }
       .d-icon-label { font-size: 10px; }
-      #sonnenrad { top: 8px; right: 8px; width: 32px; height: 32px; }
+      #sonnenrad { top: 8px; right: 8px; width: 36px; height: 36px; }
       #last-updated { bottom: 32px; right: 8px; font-size: 8px; }
       #start-menu { width: 180px; }
     }
@@ -493,6 +500,7 @@
 
   <!-- ── DESKTOP ICONS ── -->
   <div id="desktop-icons">
+    <!-- Icons using CDN (proven working) -->
     <div class="d-icon" ondblclick="openWin('win-gallery')">
       <img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png" alt="">
       <div class="d-icon-label">Cat Gallery</div>
@@ -505,43 +513,55 @@
       <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt="">
       <div class="d-icon-label">Puzzles</div>
     </div>
+
+    <!-- About – inline SVG data URI (question mark) -->
     <div class="d-icon" ondblclick="openWin('win-about')">
-      <img src="https://win98icons.alexmeub.com/icons/png/question_mark-0.png" alt="">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%23d4d0c8'/%3E%3Ccircle cx='16' cy='15' r='10' fill='%23000080'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='16' font-weight='bold' fill='%23fff' font-family='Tahoma'%3E?%3C/text%3E%3C/svg%3E" alt="">
       <div class="d-icon-label">About</div>
     </div>
+
+    <!-- Recycle Bin – CDN -->
     <div class="d-icon" ondblclick="openWin('win-recycle')">
       <img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png" alt="">
       <div class="d-icon-label">Recycle Bin</div>
     </div>
-    <!-- New icons -->
+
+    <!-- Runes – inline SVG data URI (angular rune symbol) -->
     <div class="d-icon" ondblclick="openWin('win-runes')">
-      <img src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt="">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%23d4d0c8'/%3E%3Cpath d='M16 4L16 28M16 10L8 20M16 10L24 20' stroke='%23000080' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="">
       <div class="d-icon-label">Runes</div>
     </div>
+
+    <!-- Reading List – inline SVG data URI (book) -->
     <div class="d-icon" ondblclick="openWin('win-readinglist')">
-      <img src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%23d4d0c8'/%3E%3Crect x='6' y='4' width='20' height='24' rx='1' fill='%23000080'/%3E%3Cline x1='16' y1='4' x2='16' y2='28' stroke='%23fff' stroke-width='1.5'/%3E%3Cline x1='9' y1='10' x2='14' y2='10' stroke='%23fff' stroke-width='1'/%3E%3Cline x1='9' y1='14' x2='14' y2='14' stroke='%23fff' stroke-width='1'/%3E%3Cline x1='9' y1='18' x2='14' y2='18' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E" alt="">
       <div class="d-icon-label">Reading List</div>
     </div>
   </div>
 
-  <!-- Spinning Sonnenrad (Black Sun) -->
-  <svg id="sonnenrad" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#111" stroke-width="4"/>
+  <!-- Spinning Sonnenrad (Black Sun) – twelve Sig runes, white on black -->
+  <svg id="sonnenrad" width="58" height="58" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer ring -->
+    <circle cx="50" cy="50" r="47" fill="none" stroke="#fff" stroke-width="7"/>
+    <!-- Inner ring -->
+    <circle cx="50" cy="50" r="24" fill="none" stroke="#fff" stroke-width="4"/>
+    <!-- Center -->
+    <circle cx="50" cy="50" r="8" fill="#fff"/>
+
+    <!-- 12 Sig Runes (Lightning Bolts) -->
     <g transform="translate(50,50)">
-      <!-- 12 spokes -->
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(30)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(60)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(90)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(120)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(150)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(180)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(210)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(240)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(270)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(300)"/>
-      <line x1="0" y1="-46" x2="0" y2="-14" stroke="#111" stroke-width="3" transform="rotate(330)"/>
-      <circle cx="0" cy="0" r="8" fill="#111"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(0)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(30)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(60)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(90)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(120)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(150)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(210)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(240)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(270)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(300)"/>
+      <path d="M 0,-44 L 0,-18 L 7,-18 L -5,-6 L 7,-6 L 0,18" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" transform="rotate(330)"/>
     </g>
   </svg>
 
@@ -606,7 +626,7 @@
         <div class="writing-section-header">— Featured Articles —</div>
         <div class="writing-entry" onclick="openArticle(0)">
           <img src="https://win98icons.alexmeub.com/icons/png/notepad_file-0.png" alt="">
-          <span class="entry-title">The Inner Temple: Esoteric Hitlerism from the Initiate’s View</span>
+          <span class="entry-title">The Inner Temple: Esoteric Hitlerism from the Initiate's View</span>
           <span class="entry-date">1945</span>
         </div>
         <div class="writing-entry" onclick="openArticle(1)">
@@ -717,7 +737,7 @@
   <div class="win-window" id="win-about" style="top:120px; left:300px; width:380px; height:300px; z-index:23;">
     <div class="title-bar" id="win-about-tb">
       <div class="tb-left">
-        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/question_mark-0.png" alt="">
+        <img class="tb-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='15' r='10' fill='%23000080'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='16' font-weight='bold' fill='%23fff' font-family='Tahoma'%3E?%3C/text%3E%3C/svg%3E" alt="">
         About — michaels cat inquiry
       </div>
       <div class="tb-controls">
@@ -761,12 +781,12 @@
   </div>
 
   <!-- ============================================================
-       WINDOW: RUNES (new)
+       WINDOW: RUNES
   ============================================================ -->
   <div class="win-window" id="win-runes" style="top:60px; left:400px; width:420px; height:500px; z-index:25;">
     <div class="title-bar" id="win-runes-tb">
       <div class="tb-left">
-        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt="">
+        <img class="tb-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 32 32'%3E%3Cpath d='M16 4L16 28M16 10L8 20M16 10L24 20' stroke='%23fff' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="">
         Runes — michaels cat inquiry
       </div>
       <div class="tb-controls">
@@ -793,9 +813,9 @@
           <dt style="margin-top:6px;"><strong>Algiz</strong> (ᛉ)</dt>
           <dd>The elk sedge, protection. A ward against harm and a link to the divine. Often carved for spiritual defence.</dd>
           <dt style="margin-top:6px;"><strong>Tiwaz</strong> (ᛏ)</dt>
-          <dd>The sky god Tyr. Justice, sacrifice, and the warrior’s honour. Victory through right action and self‑discipline.</dd>
+          <dd>The sky god Tyr. Justice, sacrifice, and the warrior's honour. Victory through right action and self‑discipline.</dd>
           <dt style="margin-top:6px;"><strong>Ansuz</strong> (ᚨ)</dt>
-          <dd>The mouth, breath, and Odin’s rune. Communication, wisdom, and inspired speech. The power of the word to shape reality.</dd>
+          <dd>The mouth, breath, and Odin's rune. Communication, wisdom, and inspired speech. The power of the word to shape reality.</dd>
           <dt style="margin-top:6px;"><strong>Thurisaz</strong> (ᚦ)</dt>
           <dd>The thorn, giant‑slayer. Destructive force directed with purpose. Protection through active resistance.</dd>
         </dl>
@@ -808,12 +828,12 @@
   </div>
 
   <!-- ============================================================
-       WINDOW: READING LIST (new)
+       WINDOW: READING LIST
   ============================================================ -->
   <div class="win-window" id="win-readinglist" style="top:80px; left:420px; width:460px; height:520px; z-index:26;">
     <div class="title-bar" id="win-readinglist-tb">
       <div class="tb-left">
-        <img class="tb-icon" src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt="">
+        <img class="tb-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='20' height='24' rx='1' fill='%23000080'/%3E%3Cline x1='16' y1='4' x2='16' y2='28' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E" alt="">
         Reading List — michaels cat inquiry
       </div>
       <div class="tb-controls">
@@ -831,8 +851,8 @@
       <div class="sunken">
         <div style="font-size:12px; font-weight:bold; margin-bottom:12px;">Essential Works</div>
         <ul style="font-size:10px; line-height:1.8; padding-left:16px;">
-          <li><strong>The Secret King</strong> – <em>Karl Maria Wiligut</em><br>A cryptic, visionary work by the SS occultist. Wiligut’s ancestral memory and runic mysticism laid foundations for much later esoteric thought.</li>
-          <li style="margin-top:8px;"><strong>Adolf Hitler: The Last Avatar</strong> – <em>Miguel Serrano</em><br>Serrano’s magnum opus, revealing Hitler as an avatar of the Hyperborean gods and the esoteric war beyond history.</li>
+          <li><strong>The Secret King</strong> – <em>Karl Maria Wiligut</em><br>A cryptic, visionary work by the SS occultist. Wiligut's ancestral memory and runic mysticism laid foundations for much later esoteric thought.</li>
+          <li style="margin-top:8px;"><strong>Adolf Hitler: The Last Avatar</strong> – <em>Miguel Serrano</em><br>Serrano's magnum opus, revealing Hitler as an avatar of the Hyperborean gods and the esoteric war beyond history.</li>
           <li style="margin-top:8px;"><strong>Nos: Book of the Resurrection</strong> – <em>Miguel Serrano</em><br>A surreal, poetic guide to spiritual rebirth and the return of the divine hero. Reads like a transmission from another age.</li>
           <li style="margin-top:8px;"><strong>Metaphysics of War</strong> – <em>Julius Evola</em><br>Evola explores war as a spiritual path, a means of awakening the warrior spirit and transcending the merely human.</li>
           <li style="margin-top:8px;"><strong>Ride the Tiger</strong> – <em>Julius Evola</em><br>A manual for the man of Tradition in the Kali Yuga – how to stand upright in a dissolving world without being destroyed by it.</li>
@@ -871,13 +891,13 @@
         <img src="https://win98icons.alexmeub.com/icons/png/joystick-2.png" alt=""> Puzzles
       </div>
       <div class="sm-item" onclick="openWin('win-about'); closeStart();">
-        <img src="https://win98icons.alexmeub.com/icons/png/question_mark-0.png" alt=""> About
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='15' r='10' fill='%23000080'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='16' font-weight='bold' fill='%23fff' font-family='Tahoma'%3E?%3C/text%3E%3C/svg%3E" alt=""> About
       </div>
       <div class="sm-item" onclick="openWin('win-runes'); closeStart();">
-        <img src="https://win98icons.alexmeub.com/icons/png/key-2.png" alt=""> Runes
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 32 32'%3E%3Cpath d='M16 4L16 28M16 10L8 20M16 10L24 20' stroke='%23000080' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt=""> Runes
       </div>
       <div class="sm-item" onclick="openWin('win-readinglist'); closeStart();">
-        <img src="https://win98icons.alexmeub.com/icons/png/book-2.png" alt=""> Reading List
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='20' height='24' rx='1' fill='%23000080'/%3E%3Cline x1='16' y1='4' x2='16' y2='28' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E" alt=""> Reading List
       </div>
       <div class="sm-sep"></div>
       <div class="sm-item" id="sm-shutdown">
@@ -894,7 +914,7 @@
 ================================================================ */
 const ARTICLES = [
   {
-    title: 'The Inner Temple: Esoteric Hitlerism from the Initiate’s View',
+    title: 'The Inner Temple: Esoteric Hitlerism from the Initiate\'s View',
     date: '1945',
     content: `
       <p>In the closing days of the war, when Berlin had become a broken furnace and the roar of artillery never ceased, a handful of men went down into the earth beneath the Chancellery. There, in those narrow concrete corridors lit by failing lamps, something took place that the outer world would never understand.</p>
@@ -918,10 +938,10 @@ const ARTICLES = [
     title: 'Saint Teddy and the Prophecy of Technological Society',
     date: '2026',
     content: `
-      <p>Back in 1995, when Theodore Kaczynski’s manifesto hit the newspapers, the world called him a madman. A bitter recluse living in a shack, mailing death because he hated progress. Thirty years on, it is becoming harder to dismiss him so easily.</p>
+      <p>Back in 1995, when Theodore Kaczynski's manifesto hit the newspapers, the world called him a madman. A bitter recluse living in a shack, mailing death because he hated progress. Thirty years on, it is becoming harder to dismiss him so easily.</p>
       <p>He saw the <strong>machine</strong> for what it was. Technology was never neutral. It was a living force that would slowly remake man to fit its own needs. With every advance, it tightened the web of dependence, centralization, and control. We cheered the new comforts while quietly surrendering the freedom to live without them. Kaczynski watched it coming when the rest of us were still dazzled by the glow of early screens.</p>
       <p>He understood that these systems do not serve us. They reshape our thoughts, our desires, even our sense of self. What we once called rebellion has been turned into just another product. Our anger, our identity, our very attention — all harvested, packaged, and sold back to us.</p>
-      <p>His judgment on the modern left cut especially deep. He saw it as <em>power‑hunger wearing the mask of compassion</em>. A strange sickness he called <strong>oversocialization</strong>, where men become so frightened of social disapproval that they lose the ability to think or act as free beings. Looking at today’s endless moral panics and algorithmic control, it is difficult to call him wrong.</p>
+      <p>His judgment on the modern left cut especially deep. He saw it as <em>power‑hunger wearing the mask of compassion</em>. A strange sickness he called <strong>oversocialization</strong>, where men become so frightened of social disapproval that they lose the ability to think or act as free beings. Looking at today's endless moral panics and algorithmic control, it is difficult to call him wrong.</p>
       <p>Some of the men he targeted have since been tied, in strange ways, to the Epstein network. Recent document releases have shown connections that leave a bitter taste. The system he struck at was already rotten in ways most people could not imagine at the time.</p>
       <p>Kaczynski was no saint. He chose violence, and violence always carries a heavy cost. But there is something older and deeper in the Aryan soul that refuses to look away from certain truths. Our warrior spirit has never been gentle. When a man sees his people being slowly enslaved by a cold, soulless machine, that ancient fire demands justice. It demands resistance. Sometimes that resistance will be ugly. Sometimes it will be desperate. But it will not politely ask permission.</p>
       <p>We are now much deeper inside the cage than we were in 1995. The machine has grown fat, intimate, and total. It watches our children from the cradle. It turns every natural impulse into data and profit. Most men feel the weight but reach for another screen instead of facing it.</p>
@@ -1141,13 +1161,13 @@ function initStars() {
 let zTop = 100;
 const winState  = {};
 const WIN_META  = {
-  'win-gallery':    { label: 'Cat Gallery',   icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
-  'win-writing':    { label: 'Writing',       icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
-  'win-puzzles':    { label: 'Puzzles',       icon: 'https://win98icons.alexmeub.com/icons/png/joystick-2.png' },
-  'win-about':      { label: 'About',         icon: 'https://win98icons.alexmeub.com/icons/png/question_mark-0.png' },
-  'win-recycle':    { label: 'Recycle Bin',   icon: 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png' },
-  'win-runes':      { label: 'Runes',         icon: 'https://win98icons.alexmeub.com/icons/png/key-2.png' },
-  'win-readinglist':{ label: 'Reading List',  icon: 'https://win98icons.alexmeub.com/icons/png/book-2.png' }
+  'win-gallery':     { label: 'Cat Gallery',   icon: 'https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png' },
+  'win-writing':     { label: 'Writing',       icon: 'https://win98icons.alexmeub.com/icons/png/write_wordpad-0.png' },
+  'win-puzzles':     { label: 'Puzzles',       icon: 'https://win98icons.alexmeub.com/icons/png/joystick-2.png' },
+  'win-about':       { label: 'About',         icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='15' r='10' fill='%23000080'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='16' font-weight='bold' fill='%23fff' font-family='Tahoma'%3E?%3C/text%3E%3C/svg%3E" },
+  'win-recycle':     { label: 'Recycle Bin',   icon: 'https://win98icons.alexmeub.com/icons/png/recycle_bin_empty-4.png' },
+  'win-runes':       { label: 'Runes',         icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 32 32'%3E%3Cpath d='M16 4L16 28M16 10L8 20M16 10L24 20' stroke='%23000080' stroke-width='3' fill='none'/%3E%3C/svg%3E" },
+  'win-readinglist': { label: 'Reading List',  icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='20' height='24' rx='1' fill='%23000080'/%3E%3Cline x1='16' y1='4' x2='16' y2='28' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E" }
 };
 
 function getEl(id) { return document.getElementById(id); }
